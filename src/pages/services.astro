@@ -1,0 +1,66 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CTAButton from '../components/CTAButton.astro';
+import { SERVICES } from '../data/services';
+---
+
+<BaseLayout
+  title="Services"
+  description="Automated stock trackers, invoice organizers, and hands-free weekly reporting — custom business tools built for independent retailers and grocers."
+>
+  <section class="bg-navy text-white">
+    <div class="max-w-4xl mx-auto px-6 py-20 text-center">
+      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl mb-4">Our Services</h1>
+      <p class="fade-in-up text-lg text-white/80 max-w-2xl mx-auto">
+        Four ways we take manual, error-prone paperwork off your plate — each one built around
+        the way your store already runs.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="max-w-4xl mx-auto px-6 py-20 space-y-20">
+      {SERVICES.map((service, i) => (
+        <div id={service.slug} class="fade-in-up scroll-mt-24">
+          <p class="text-sm font-semibold uppercase tracking-wide text-forest mb-2">
+            Service {i + 1}
+          </p>
+          <h2 class="text-3xl font-serif font-bold text-navy mb-6">{service.name}</h2>
+
+          <div class="grid md:grid-cols-3 gap-6 mb-6">
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-6">
+              <p class="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">The Problem</p>
+              <p class="text-slate-600 text-sm leading-relaxed">{service.problem}</p>
+            </div>
+            <div class="bg-slate-50 border border-slate-200 rounded-lg p-6">
+              <p class="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">Why It Hurts</p>
+              <p class="text-slate-600 text-sm leading-relaxed">{service.agitate}</p>
+            </div>
+            <div class="bg-navy rounded-lg p-6 text-white">
+              <p class="text-xs font-bold uppercase tracking-wide text-forest-light mb-2">Our Solution</p>
+              <p class="text-white/90 text-sm leading-relaxed">{service.solve}</p>
+            </div>
+          </div>
+
+          <p class="inline-block bg-forest/10 text-forest-dark font-semibold text-sm px-4 py-2 rounded-md">
+            {service.valueStat}
+          </p>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-slate-50">
+    <div class="max-w-3xl mx-auto px-6 py-20 text-center">
+      <h2 class="fade-in-up text-3xl font-bold text-navy mb-4">Not Sure Which One You Need?</h2>
+      <p class="fade-in-up text-lg text-slate-600 mb-8">
+        That's exactly what the free process audit is for. We'll look at how you work today and
+        tell you plainly what's worth automating first.
+      </p>
+      <div class="fade-in-up">
+        <CTAButton href="/contact/">Request a Free 15-Minute Process Audit</CTAButton>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

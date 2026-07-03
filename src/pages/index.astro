@@ -1,0 +1,131 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CTAButton from '../components/CTAButton.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import TrustBadge from '../components/TrustBadge.astro';
+import { SERVICES } from '../data/services';
+import { SITE } from '../data/site';
+---
+
+<BaseLayout
+  title="Custom Business Software for Independent Stores"
+  description="Logicmanse Solutions builds safe, custom business tools that manage your inventory, track sales, and eliminate spreadsheet errors — no tech background required."
+>
+  <!-- ============ HERO ============ -->
+  <section class="bg-navy text-white">
+    <div class="max-w-5xl mx-auto px-6 py-24 md:py-32 text-center">
+      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-6xl leading-tight mb-6">
+        {SITE.tagline}
+      </h1>
+      <p class="fade-in-up text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
+        {SITE.subTagline}
+      </p>
+      <div class="fade-in-up">
+        <CTAButton href="/contact/">Request a Free 15-Minute Process Audit</CTAButton>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ PAIN POINTS: THE EXCEL KILLER ============ -->
+  <section class="bg-white">
+    <div class="max-w-6xl mx-auto px-6 py-20">
+      <SectionHeading
+        eyebrow="The Problem"
+        title="You Didn't Start a Business to Become a Spreadsheet Expert"
+        subtitle="Most store owners we talk to are running their entire operation out of Excel — and losing weekends to it."
+      />
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="fade-in-up bg-slate-50 border border-slate-200 rounded-xl p-8">
+          <p class="text-sm font-semibold uppercase tracking-wide text-slate-400 mb-4">The Old Way</p>
+          <ul class="space-y-4 text-slate-600">
+            <li class="flex gap-3">
+              <span class="text-slate-400 font-bold">&times;</span>
+              Spending Sundays typing receipts into Excel by hand
+            </li>
+            <li class="flex gap-3">
+              <span class="text-slate-400 font-bold">&times;</span>
+              Counting inventory aisle-by-aisle with a clipboard
+            </li>
+            <li class="flex gap-3">
+              <span class="text-slate-400 font-bold">&times;</span>
+              Guessing at profit margins because the numbers take too long to pull together
+            </li>
+          </ul>
+        </div>
+
+        <div class="fade-in-up bg-navy rounded-xl p-8 text-white">
+          <p class="text-sm font-semibold uppercase tracking-wide text-forest-light mb-4">The Logicmanse Way</p>
+          <ul class="space-y-4">
+            <li class="flex gap-3">
+              <span class="text-forest-light font-bold">&#10003;</span>
+              One-click digital summaries, ready when you are
+            </li>
+            <li class="flex gap-3">
+              <span class="text-forest-light font-bold">&#10003;</span>
+              Automated low-stock phone notifications before you run out
+            </li>
+            <li class="flex gap-3">
+              <span class="text-forest-light font-bold">&#10003;</span>
+              Absolute data accuracy — no more mistyped formulas
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SERVICES SUMMARY ============ -->
+  <section class="bg-slate-50">
+    <div class="max-w-6xl mx-auto px-6 py-20">
+      <SectionHeading
+        eyebrow="Our Services"
+        title="Built for Retail and Grocery — Not Silicon Valley"
+        subtitle="Every tool we build is designed around how your store already works, translated into something that runs itself."
+      />
+
+      <div class="grid md:grid-cols-2 gap-6">
+        {SERVICES.map((service) => <ServiceCard service={service} />)}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TRUST & SECURITY BANNER ============ -->
+  <section class="bg-navy-dark">
+    <div class="max-w-5xl mx-auto px-6 py-20 text-center">
+      <SectionHeading
+        eyebrow="Data Privacy"
+        title="Your Data Stays in Canada"
+        subtitle="Private, secure, and fully owned by your business. We don't sell or share your store operations data — ever."
+        light
+      />
+      <div class="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto mt-8">
+        <TrustBadge label="Canadian-based, Canadian-hosted" />
+        <TrustBadge label="Your data is never sold or shared" />
+        <TrustBadge label="No access to your banking or payments" />
+      </div>
+      <div class="fade-in-up mt-10">
+        <a href="/trust-security/" class="text-forest-light font-semibold hover:text-white transition-colors">
+          Read our full Trust & Security commitment &rarr;
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FINAL CTA ============ -->
+  <section class="bg-white">
+    <div class="max-w-3xl mx-auto px-6 py-20 text-center">
+      <h2 class="fade-in-up text-3xl md:text-4xl font-bold text-navy mb-4">
+        Ready to Get Your Weekends Back?
+      </h2>
+      <p class="fade-in-up text-lg text-slate-600 mb-8">
+        Book a free, no-obligation 15-minute call. We'll walk through your current process and
+        tell you plainly what can be automated — no jargon, no pressure.
+      </p>
+      <div class="fade-in-up">
+        <CTAButton href="/contact/">Request a Free 15-Minute Process Audit</CTAButton>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

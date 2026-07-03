@@ -1,0 +1,86 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CTAButton from '../components/CTAButton.astro';
+import TrustBadge from '../components/TrustBadge.astro';
+
+const commitments = [
+  {
+    title: 'Your Data Stays in Canada',
+    body: 'Every tool we build stores your business data on Canadian-based infrastructure. Your numbers do not leave the country.',
+  },
+  {
+    title: 'You Own Your Data — Fully',
+    body: 'Your store operations data belongs to your business, full stop. We never sell it, share it, or use it for any purpose beyond building and running your tool.',
+  },
+  {
+    title: 'No Access to Your Banking or Payments',
+    body: 'We never ask for, store, or log in to your online banking, payment processing, or financial institution accounts. Any tool we build works alongside your existing systems without needing that access.',
+  },
+  {
+    title: 'Plain-English Contracts',
+    body: 'What we build, what it costs, and what happens to your data is spelled out in plain English before any work begins — no fine print designed to confuse.',
+  },
+  {
+    title: 'You Approve Before It Goes Live',
+    body: 'Every tool is tested with your real data and reviewed with you before it touches your day-to-day operations.',
+  },
+];
+---
+
+<BaseLayout
+  title="Trust & Security"
+  description="How Logicmanse Solutions protects your business data: Canadian data residency, no banking access, and plain-English commitments."
+>
+  <section class="bg-navy text-white">
+    <div class="max-w-4xl mx-auto px-6 py-20 text-center">
+      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl mb-4">Trust & Security</h1>
+      <p class="fade-in-up text-lg text-white/80 max-w-2xl mx-auto">
+        Your data stays in Canada. Private, secure, and fully owned by your business. We don't
+        sell or share your store operations data.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="max-w-4xl mx-auto px-6 py-20">
+      <div class="grid gap-6">
+        {commitments.map((c) => (
+          <div class="fade-in-up flex gap-4 bg-slate-50 border border-slate-200 rounded-xl p-6">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="w-6 h-6 text-forest shrink-0 mt-1">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+            </svg>
+            <div>
+              <h2 class="text-lg font-serif font-bold text-navy mb-1">{c.title}</h2>
+              <p class="text-slate-600 text-sm leading-relaxed">{c.body}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-navy-dark">
+    <div class="max-w-4xl mx-auto px-6 py-20 text-center">
+      <SectionHeading eyebrow="At a Glance" title="Our Security Commitment" light />
+      <div class="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto">
+        <TrustBadge label="Canadian data residency" />
+        <TrustBadge label="No data sold, ever" />
+        <TrustBadge label="No financial account access" />
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="max-w-3xl mx-auto px-6 py-20 text-center">
+      <h2 class="fade-in-up text-3xl font-bold text-navy mb-4">Questions About Security?</h2>
+      <p class="fade-in-up text-lg text-slate-600 mb-8">
+        Ask us anything before you commit to anything — that's what the free 15-minute audit is
+        for.
+      </p>
+      <div class="fade-in-up">
+        <CTAButton href="/contact/">Request a Free 15-Minute Process Audit</CTAButton>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
