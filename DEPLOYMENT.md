@@ -1,134 +1,126 @@
-# Deployment Guide — logicmanse.ca
+# Deployment Guide — logicmanse.ca (GitHub Pages)
 
-Every step below is something **you** do yourself, in your own browser, logged
-into your own accounts. I don't hold logins, tokens, or payment details for
-any of these services — that's intentional, both for your security and
-because Anthropic access rules don't let me sign into third-party accounts on
-your behalf.
+Everything runs on GitHub — no Netlify, no Vercel, no separate hosting
+account. Total cost: **$0/month** (you already own the domain via GoDaddy).
 
-Total cost to run this: **$0/month** (Netlify's free tier covers a site like
-this; you already own the domain through GoDaddy).
+Every step below happens in **your own** GitHub/GoDaddy logins. I don't hold
+credentials for either — that's both a security rule I follow and simply how
+account access works.
 
 ---
 
-## Step 1 — Create a GitHub repository
+## Step 1 — Create the GitHub repository
 
 1. Go to [github.com/new](https://github.com/new).
 2. Repository name: `logicmanse-site` (or anything you like).
-3. Keep it **Private** if you don't want the code public, or **Public** if
-   you'd like it visible as an Upwork portfolio proof point — either works.
-4. Don't check "Add a README" (this project already has one).
-5. Click **Create repository**. GitHub will show you commands — ignore them,
-   use the commands below instead since the project is already built.
+3. This one needs to be **Public** — GitHub Pages' free tier only serves
+   public repositories. (The code has no secrets in it, so this is safe —
+   just don't add any API keys or passwords to it later without checking
+   `.gitignore` first.)
+4. Don't check "Add a README" — this project already has one.
+5. Click **Create repository**.
 
-From a terminal on your own computer, inside this project folder:
+From a terminal on your own computer, inside this project folder
+(`logicmanse-site`, already git-initialized with your commits):
 
 ```bash
-git init
-git add .
-git commit -m "Initial site build"
-git branch -M main
 git remote add origin https://github.com/<your-username>/logicmanse-site.git
 git push -u origin main
 ```
 
-GitHub will prompt you to sign in the first time — use your own GitHub
-credentials (or a personal access token if prompted). Never paste GitHub
-tokens into a chat with me; enter them only directly into GitHub's own
-prompts.
+GitHub will prompt you to sign in the first time. Use your own GitHub login;
+never paste a GitHub token into chat with me — enter it only into GitHub's
+own prompt.
 
 ---
 
-## Step 2 — Connect Netlify to that repository
+## Step 2 — Turn on GitHub Pages, powered by the included workflow
 
-1. Go to [app.netlify.com](https://app.netlify.com) and sign up / log in
-   (GitHub sign-in is the fastest option).
-2. Click **Add new site → Import an existing project**.
-3. Choose **GitHub**, authorize Netlify's GitHub app (this is Netlify asking
-   GitHub for permission — a normal, expected OAuth step for this workflow),
-   and select the `logicmanse-site` repository.
-4. Build settings — Netlify should auto-detect Astro, but confirm:
-   - **Build command:** `npm run build`
-   - **Publish directory:** `dist`
-5. Click **Deploy site**. In 1-2 minutes you'll get a live URL like
-   `random-name-123.netlify.app` — that's your site, live on the internet,
-   before you've touched GoDaddy at all.
+This repo already includes `.github/workflows/deploy.yml`, which builds the
+Astro site and publishes it every time you push to `main` — no manual build
+step, no dashboard clicking after this one-time setup.
 
-From now on, every time you `git push` to GitHub, Netlify automatically
-rebuilds and redeploys the site.
+1. On your repo, go to **Settings → Pages**.
+2. Under **Build and deployment → Source**, choose **GitHub Actions**
+   (not "Deploy from a branch").
+3. That's it for this step — the next push (or re-running the workflow from
+   the **Actions** tab) will build and deploy automatically.
+4. Watch it run under the **Actions** tab. When it finishes, GitHub shows a
+   live URL like `https://<your-username>.github.io/logicmanse-site/` —
+   confirm the site loads there before moving to the domain step.
 
 ---
 
-## Step 3 — Point your GoDaddy domain at Netlify
+## Step 3 — Point logicmanse.ca at GitHub Pages
 
-**In Netlify:**
+**In GitHub:**
 
-1. On your site, go to **Site configuration → Domain management → Add a
-   domain**.
-2. Enter `logicmanse.ca` (and/or `www.logicmanse.ca`) and confirm ownership.
-3. Netlify will show you **four nameserver values** (something like
-   `dns1.p0X.nsone.net`) under DNS settings. Keep this page open.
+1. Still in **Settings → Pages**, under **Custom domain**, enter
+   `www.logicmanse.ca` and save. (A `public/CNAME` file already sets this
+   automatically too — this UI step is what makes GitHub verify and issue
+   the HTTPS certificate.)
 
 **In GoDaddy:**
 
-4. Log into [godaddy.com](https://godaddy.com) → **My Products** → find
+2. Log into [godaddy.com](https://godaddy.com) → **My Products** → find
    `logicmanse.ca` → **DNS** (or **Manage Domain**).
-5. Check that **Domain Lock** is **off** (GoDaddy blocks nameserver changes
-   while it's on).
-6. Find **Nameservers** → **Change** → **Enter my own nameservers (advanced)**.
-7. Enter the four values Netlify gave you, replacing GoDaddy's defaults.
-   **Save.**
+3. Add/edit these records (current GitHub Pages values as of this writing —
+   see [GitHub's docs](https://docs.github.com/en/pages/configuring-a-custom-domain-for-your-github-pages-site/about-custom-domains-and-github-pages) if you want to double-check before applying):
 
-**Back in Netlify:**
+   | Type  | Name | Value                  |
+   |-------|------|------------------------|
+   | A     | @    | 185.199.108.153        |
+   | A     | @    | 185.199.109.153        |
+   | A     | @    | 185.199.110.153        |
+   | A     | @    | 185.199.111.153        |
+   | CNAME | www  | `<your-username>.github.io` |
 
-8. Click **Verify DNS configuration**. Netlify will also automatically
-   provision a free HTTPS certificate once DNS propagates.
+   Four `A` records on the bare `@` (apex) domain point `logicmanse.ca`
+   itself at GitHub Pages; the `CNAME` on `www` points `www.logicmanse.ca`
+   at your GitHub Pages default address. Remove/replace any existing `A` or
+   `CNAME` records for `@`/`www` that point elsewhere (e.g. GoDaddy's
+   default parking page records) — leaving old ones in place is the most
+   common cause of "it's not working."
+4. Leave **Domain Lock** as-is; unlike a nameserver change, individual DNS
+   records don't require unlocking.
+
+**Back in GitHub:**
+
+5. Return to **Settings → Pages** and check **Enforce HTTPS** once it
+   becomes available (can take a few minutes to a few hours after DNS
+   propagates) — this forces visitors onto the secure `https://` version.
 
 DNS changes can take anywhere from a few minutes to 24-48 hours to fully
-propagate worldwide. Don't panic if it's not instant.
-
-> Alternative (if you'd rather not hand over full nameserver control to
-> Netlify): keep GoDaddy as your DNS manager and instead add individual
-> **A** and **CNAME** records pointing to Netlify's load balancer, per
-> [Netlify's DNS docs](https://docs.netlify.com/manage/domains/get-started-with-domains/).
-> Handing over nameservers (the steps above) is simpler and is what most
-> small sites do.
+propagate. If `www.logicmanse.ca` doesn't load right away, that's expected —
+check back later before assuming something's wrong.
 
 ---
 
 ## Step 4 — Set up your branded email (info@logicmanse.ca)
 
-Since you're keeping GoDaddy as your registrar, the easiest path is GoDaddy's
-own email hosting:
+GitHub Pages only serves files — it has nothing to do with email. Use
+GoDaddy's own email hosting (or Google Workspace, your choice):
 
-1. In your GoDaddy account, go to **Email & Office** (or search "Professional
-   Email").
-2. Choose a plan and create the mailbox `info@logicmanse.ca`.
-3. Once created, open `src/data/site.ts` in this project and update:
-   ```ts
-   contactEmail: 'info@logicmanse.ca',
-   ```
-   (It's already set to this value — just confirm the mailbox itself is live
-   before telling people to use it.)
-4. Commit and push the change; Netlify redeploys automatically.
-
-If you'd rather use Google Workspace or another provider for mail instead of
-GoDaddy's, that's fine too — the only thing that matters for this site is
-that `info@logicmanse.ca` actually receives mail somewhere.
+1. In GoDaddy, go to **Email & Office** → create the mailbox
+   `info@logicmanse.ca`.
+2. `src/data/site.ts` already has `contactEmail: 'info@logicmanse.ca'` — no
+   code change needed once the mailbox is live.
 
 ---
 
 ## Step 5 — Confirm the contact form works
 
-The Contact page (`src/pages/contact.astro`) uses **Netlify Forms** — no
-extra sign-up needed, it activates automatically the first time Netlify
-builds a page containing `data-netlify="true"`.
+The Contact page builds a pre-filled email in the visitor's own email app
+when they click submit (see the comment in `src/pages/contact.astro`) — no
+server, no third-party form service, works on any static host including
+GitHub Pages. Test it yourself once live: fill out the form, confirm your
+own email client opens with the right subject/body, and that it's addressed
+to `info@logicmanse.ca`.
 
-After your first deploy: go to **Netlify → your site → Forms**. You should
-see a form named `contact` listed. Submit a real test through the live
-Contact page and confirm it shows up there. You can turn on **email
-notifications** for new submissions under **Forms → Settings →
-Notifications**, pointed at your new `info@logicmanse.ca` inbox.
+If you'd later prefer a proper backend inbox instead of relying on the
+visitor's email client (e.g. to track leads in one place), a service like
+[Formspree](https://formspree.io) can be dropped in without leaving GitHub
+Pages — that's a small, optional follow-up, not required to launch.
 
 ---
 
@@ -137,6 +129,5 @@ Notifications**, pointed at your new `info@logicmanse.ca` inbox.
 1. Edit files (usually just `src/data/site.ts`, `src/data/services.ts`, or a
    page in `src/pages/`).
 2. `git add . && git commit -m "describe your change" && git push`
-3. Netlify rebuilds automatically in ~1 minute. Done.
-
-No FTP, no manual uploads, no GoDaddy hosting plan required.
+3. The GitHub Actions workflow rebuilds and redeploys automatically in
+   roughly a minute. Done — no
