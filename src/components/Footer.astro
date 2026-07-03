@@ -1,0 +1,43 @@
+---
+// Institutional footer — deliberately plain and serious, per brand brief.
+import { SITE, NAV_LINKS } from '../data/site';
+---
+
+<footer class="bg-navy-dark text-white/80 mt-24">
+  <div class="max-w-6xl mx-auto px-6 py-12 grid gap-10 md:grid-cols-3">
+    <div>
+      <p class="font-serif text-lg text-white font-bold mb-2">{SITE.businessName}</p>
+      <p class="text-sm leading-relaxed">
+        Custom business tools for independent retailers, grocers, and distributors across
+        Ontario, Canada.
+      </p>
+    </div>
+
+    <div>
+      <p class="text-white font-semibold mb-2 text-sm uppercase tracking-wide">Site</p>
+      <ul class="space-y-1 text-sm">
+        {NAV_LINKS.map((link) => (
+          <li><a href={link.href} class="hover:text-forest-light transition-colors">{link.label}</a></li>
+        ))}
+      </ul>
+    </div>
+
+    <div>
+      <p class="text-white font-semibold mb-2 text-sm uppercase tracking-wide">Contact</p>
+      <ul class="space-y-1 text-sm">
+        <li>
+          <a href={`mailto:${SITE.contactEmail}`} class="hover:text-forest-light transition-colors">
+            {SITE.contactEmail}
+          </a>
+        </li>
+        <li>{SITE.location}</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="border-t border-white/10">
+    <div class="max-w-6xl mx-auto px-6 py-6 text-xs text-white/60">
+      {SITE.businessName} &copy; {SITE.copyrightYear}. {SITE.registrationLine}.
+    </div>
+  </div>
+</footer>
