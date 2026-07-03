@@ -1,0 +1,17 @@
+# build output
+dist/
+
+# dependencies
+node_modules/
+
+# astro generated types
+.astro/
+
+# editor/OS
+.DS_Store
+.vscode/
+
+# env files — never commit secrets
+.env
+.env.*
+!.env.example
