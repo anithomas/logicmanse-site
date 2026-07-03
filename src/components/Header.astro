@@ -1,0 +1,61 @@
+---
+// Site header / navigation bar.
+// Highlights the current page automatically by comparing the URL.
+import { SITE, NAV_LINKS } from '../data/site';
+
+const currentPath = Astro.url.pathname;
+---
+
+<header class="bg-navy text-white sticky top-0 z-50 shadow-md">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="font-serif text-xl md:text-2xl font-bold tracking-tight">
+      Logicmanse <span class="text-forest-light">Solutions</span>
+    </a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden lg:flex items-center gap-6 text-sm font-medium">
+      {NAV_LINKS.map((link) => (
+        <a
+          href={link.href}
+          class={`hover:text-forest-light transition-colors ${
+            currentPath === link.href ? 'text-forest-light' : 'text-white/90'
+          }`}
+        >
+          {link.label}
+        </a>
+      ))}
+      <a
+        href="/contact/"
+        class="bg-forest hover:bg-forest-light text-white font-semibold px-4 py-2 rounded-md transition-colors"
+      >
+        Free Process Audit
+      </a>
+    </nav>
+
+    <!-- Mobile menu toggle (pure CSS/HTML checkbox trick — zero JS needed) -->
+    <input type="checkbox" id="nav-toggle" class="peer hidden" />
+    <label
+      for="nav-toggle"
+      class="lg:hidden cursor-pointer select-none text-2xl leading-none px-2"
+      aria-label="Open menu"
+    >
+      &#9776;
+    </label>
+
+    <nav
+      class="hidden peer-checked:flex lg:hidden flex-col gap-4 absolute top-full left-0 w-full bg-navy px-6 py-6 border-t border-white/10 text-sm font-medium"
+    >
+      {NAV_LINKS.map((link) => (
+        <a href={link.href} class="hover:text-forest-light transition-colors">
+          {link.label}
+        </a>
+      ))}
+      <a
+        href="/contact/"
+        class="bg-forest hover:bg-forest-light text-white font-semibold px-4 py-2 rounded-md text-center transition-colors"
+      >
+        Free Process Audit
+      </a>
+    </nav>
+  </div>
+</header>

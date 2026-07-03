@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../data/site';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Request a free 15-minute process audit from Logicmanse Solutions. No obligation, no jargon."
+>
+  <section class="bg-navy text-white">
+    <div class="max-w-4xl mx-auto px-6 py-20 text-center">
+      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl mb-4">Request Your Free Process Audit</h1>
+      <p class="fade-in-up text-lg text-white/80 max-w-2xl mx-auto">
+        Tell us a little about your store and how you currently handle inventory, invoices, or
+        reporting. We'll reply within one business day to schedule your free 15-minute call.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="max-w-2xl mx-auto px-6 py-20">
+      <!--
+        This form uses Netlify's built-in form handling — no server code,
+        no third-party form service, and no JavaScript required.
+        It only works once the site is deployed on Netlify:
+        Netlify auto-detects any form with data-netlify="true" at build
+        time and creates a submissions inbox for it automatically.
+        (If deploying to Vercel or GitHub Pages instead, swap this for
+        a service like Formspree — see the deployment guide.)
+      -->
+      <form
+        name="contact"
+        method="POST"
+        data-netlify="true"
+        netlify-honeypot="bot-field"
+        class="fade-in-up space-y-6 bg-slate-50 border border-slate-200 rounded-xl p-8"
+      >
+        <input type="hidden" name="form-name" value="contact" />
+        <p class="hidden">
+          <label>Don't fill this out if you're human: <input name="bot-field" /></label>
+        </p>
+
+        <div>
+          <label for="name" class="block text-sm font-semibold text-navy mb-1">Your Name</label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            required
+            class="w-full border border-slate-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
+          />
+        </div>
+
+        <div>
+          <label for="business" class="block text-sm font-semibold text-navy mb-1">Business Name</label>
+          <input
+            type="text"
+            id="business"
+            name="business"
+            class="w-full border border-slate-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
+          />
+        </div>
+
+        <div>
+          <label for="email" class="block text-sm font-semibold text-navy mb-1">Email Address</label>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            required
+            class="w-full border border-slate-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
+          />
+        </div>
+
+        <div>
+          <label for="message" class="block text-sm font-semibold text-navy mb-1">
+            What's your biggest paperwork headache right now?
+          </label>
+          <textarea
+            id="message"
+            name="message"
+            rows="5"
+            required
+            class="w-full border border-slate-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
+          ></textarea>
+        </div>
+
+        <button
+          type="submit"
+          class="w-full bg-forest hover:bg-forest-light text-white font-semibold px-8 py-4 rounded-md transition-colors"
+        >
+          Request My Free 15-Minute Process Audit
+        </button>
+
+        <p class="text-xs text-slate-400 text-center">
+          We reply within one business day. Your information is never sold or shared.
+        </p>
+      </form>
+
+      <p class="fade-in-up text-center text-slate-500 text-sm mt-8">
+        Prefer email? Reach us directly at{' '}
+        <a href={`mailto:${SITE.contactEmail}`} class="text-forest font-semibold hover:underline">
+          {SITE.contactEmail}
+        </a>
+      </p>
+    </div>
+  </section>
+</BaseLayout>

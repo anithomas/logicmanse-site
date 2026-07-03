@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CTAButton from '../components/CTAButton.astro';
+
+// IMPORTANT (Ani): these are illustrative capability demonstrations, not
+// real client engagements — each one is clearly labeled "Sample Project"
+// in the UI below. Replace with real case studies as you complete real
+// client work; do not remove the "Sample Project" labeling for anything
+// that isn't a verified, permission-cleared real client story.
+const samples = [
+  {
+    title: 'Independent Grocery Store — Inventory Tracker',
+    scenario:
+      'A single-location grocer was counting stock by hand every Sunday, a process that took most of the afternoon and regularly produced mismatched counts.',
+    result:
+      'A phone-based counting tool with automatic low-stock alerts. Estimated time saved: roughly 4 hours per week, with same-day visibility into what needs reordering.',
+  },
+  {
+    title: 'Regional Distributor — Invoice Organizer',
+    scenario:
+      'A small distributor was storing supplier invoices across email and paper folders, making tax season a multi-day search-and-sort exercise.',
+    result:
+      'A secure digital filing system that files and indexes every invoice automatically. Estimated result: any invoice found in seconds instead of hours.',
+  },
+  {
+    title: 'Retail Shop — Weekly Profit Report',
+    scenario:
+      'A boutique retailer manually rebuilt a profit spreadsheet every Friday night, with formula errors occasionally throwing off the following week\'s ordering.',
+    result:
+      'A hands-free weekly report emailed automatically every Friday morning, in plain language, with formulas that cannot be accidentally broken.',
+  },
+];
+---
+
+<BaseLayout
+  title="Sample Projects"
+  description="Illustrative examples of the kind of custom business tools Logicmanse Solutions builds for independent retailers, grocers, and distributors."
+>
+  <section class="bg-navy text-white">
+    <div class="max-w-4xl mx-auto px-6 py-20 text-center">
+      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl mb-4">Sample Projects</h1>
+      <p class="fade-in-up text-lg text-white/80 max-w-2xl mx-auto">
+        We're a young firm, so we'll say this plainly: the examples below are illustrative
+        capability demonstrations, not real client engagements. They show exactly the kind of
+        problem we solve and how we'd approach it.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="max-w-5xl mx-auto px-6 py-20 grid gap-8">
+      {samples.map((sample) => (
+        <div class="fade-in-up bg-slate-50 border border-slate-200 rounded-xl p-8">
+          <span class="inline-block bg-forest/10 text-forest-dark text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-4">
+            Sample Project — Illustrative
+          </span>
+          <h2 class="text-2xl font-serif font-bold text-navy mb-4">{sample.title}</h2>
+          <div class="grid md:grid-cols-2 gap-6">
+            <div>
+              <p class="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">The Situation</p>
+              <p class="text-slate-600 text-sm leading-relaxed">{sample.scenario}</p>
+            </div>
+            <div>
+              <p class="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">What We'd Build</p>
+              <p class="text-slate-600 text-sm leading-relaxed">{sample.result}</p>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </section>
+
+  <section class="bg-slate-50">
+    <div class="max-w-3xl mx-auto px-6 py-20 text-center">
+      <SectionHeading
+        title="Have a Similar Problem?"
+        subtitle="Tell us how you're handling it today and we'll tell you plainly whether — and how — it can be automated."
+      />
+      <div class="fade-in-up">
+        <CTAButton href="/contact/">Request a Free 15-Minute Process Audit</CTAButton>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

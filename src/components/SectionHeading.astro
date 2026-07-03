@@ -1,0 +1,28 @@
+---
+// Consistent section heading used across every page: an optional small
+// eyebrow label, a big serif headline, and an optional supporting line.
+interface Props {
+  eyebrow?: string;
+  title: string;
+  subtitle?: string;
+  light?: boolean; // true = white text, for use on navy backgrounds
+  center?: boolean;
+}
+const { eyebrow, title, subtitle, light = false, center = true } = Astro.props;
+---
+
+<div class={`fade-in-up ${center ? 'text-center mx-auto' : ''} max-w-3xl mb-12`}>
+  {eyebrow && (
+    <p class={`uppercase tracking-widest text-sm font-semibold mb-3 ${light ? 'text-forest-light' : 'text-forest'}`}>
+      {eyebrow}
+    </p>
+  )}
+  <h2 class={`text-3xl md:text-4xl font-bold mb-4 ${light ? 'text-white' : 'text-navy'}`}>
+    {title}
+  </h2>
+  {subtitle && (
+    <p class={`text-lg leading-relaxed ${light ? 'text-white/80' : 'text-slate-600'}`}>
+      {subtitle}
+    </p>
+  )}
+</div>

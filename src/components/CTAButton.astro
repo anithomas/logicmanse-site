@@ -1,0 +1,22 @@
+---
+// Reusable call-to-action button. Two visual styles: "solid" (forest
+// green, for primary actions) and "outline" (for secondary actions on
+// dark navy backgrounds).
+interface Props {
+  href: string;
+  variant?: 'solid' | 'outline';
+  class?: string;
+}
+const { href, variant = 'solid', class: className = '' } = Astro.props;
+
+const base =
+  'inline-block font-semibold px-8 py-4 rounded-md text-center transition-colors duration-200';
+const styles = {
+  solid: 'bg-forest hover:bg-forest-light text-white shadow-lg',
+  outline: 'border-2 border-white text-white hover:bg-white hover:text-navy',
+};
+---
+
+<a href={href} class={`${base} ${styles[variant]} ${className}`}>
+  <slot />
+</a>
