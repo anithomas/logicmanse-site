@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>logicmanse Books — Snap a Photo. We Do Your Books.</title>
+<style>
+  :root {
+    --ink: #16273B;        /* blueprint navy */
+    --paper: #F2F4F1;      /* worksite grey-white */
+    --grid: #DFE5E9;
+    --safety: #E8630A;     /* safety orange — used sparingly */
+    --steel: #5E6E7E;
+    --receipt: #FFFDF5;
+    --stamp: #2E6B4F;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Segoe UI", system-ui, -apple-system, sans-serif;
+    background: var(--paper);
+    background-image: linear-gradient(var(--grid) 1px, transparent 1px),
+                      linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+    background-size: 28px 28px;
+    color: var(--ink);
+    line-height: 1.55;
+  }
+  .wrap { max-width: 880px; margin: 0 auto; padding: 0 20px; }
+
+  /* HERO */
+  header { padding: 64px 0 48px; }
+  .kicker {
+    font-family: ui-monospace, "Courier New", monospace;
+    font-size: 12px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--steel); margin-bottom: 18px;
+  }
+  h1 {
+    font-size: clamp(34px, 6vw, 58px);
+    line-height: 1.05; font-weight: 800; letter-spacing: -1px;
+    max-width: 15ch;
+  }
+  h1 .snap { color: var(--safety); }
+  .sub {
+    margin-top: 20px; font-size: 18px; color: var(--steel); max-width: 52ch;
+  }
+  .hero-cta {
+    display: inline-block; margin-top: 28px;
+    background: var(--ink); color: #fff; text-decoration: none;
+    padding: 14px 26px; font-weight: 700; font-size: 15px;
+    border-radius: 4px;
+  }
+  .hero-cta:focus-visible { outline: 3px solid var(--safety); outline-offset: 2px; }
+
+  /* PAIN STRIP */
+  .pain {
+    background: var(--ink); color: #E8EDF2;
+    padding: 40px 0; margin-top: 24px;
+  }
+  .pain .wrap { display: grid; gap: 10px; }
+  .pain p { font-size: 17px; }
+  .pain strong { color: #fff; }
+  .pain .tag {
+    font-family: ui-monospace, monospace; font-size: 12px; letter-spacing: 2px;
+    text-transform: uppercase; color: var(--safety); margin-bottom: 8px;
+  }
+
+  /* HOW IT WORKS */
+  section { padding: 56px 0; }
+  h2 { font-size: 26px; font-weight: 800; margin-bottom: 8px; }
+  .lede { color: var(--steel); margin-bottom: 32px; max-width: 56ch; }
+  .steps { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .step {
+    background: #fff; border: 1px solid var(--grid); border-radius: 6px;
+    padding: 22px; border-top: 4px solid var(--safety);
+  }
+  .step h3 { font-size: 17px; margin-bottom: 6px; }
+  .step p { font-size: 14.5px; color: var(--steel); }
+  .step .n {
+    font-family: ui-monospace, monospace; font-size: 12px;
+    color: var(--safety); letter-spacing: 2px; margin-bottom: 10px; display: block;
+  }
+
+  /* RECEIPT PRICING — signature element */
+  .pricing { background: transparent; }
+  .receipts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; align-items: start; }
+  .receipt {
+    background: var(--receipt);
+    box-shadow: 0 3px 14px rgba(22,39,59,.12);
+    font-family: ui-monospace, "Courier New", monospace;
+    padding: 26px 20px 30px;
+    position: relative;
+    /* torn receipt bottom edge */
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px),
+      95% 100%, 90% calc(100% - 8px), 85% 100%, 80% calc(100% - 8px),
+      75% 100%, 70% calc(100% - 8px), 65% 100%, 60% calc(100% - 8px),
+      55% 100%, 50% calc(100% - 8px), 45% 100%, 40% calc(100% - 8px),
+      35% 100%, 30% calc(100% - 8px), 25% 100%, 20% calc(100% - 8px),
+      15% 100%, 10% calc(100% - 8px), 5% 100%, 0 calc(100% - 8px));
+  }
+  .receipt.featured { border-top: 5px solid var(--safety); transform: translateY(-8px); }
+  .receipt .shop { text-align: center; font-size: 12px; letter-spacing: 2px; text-transform: uppercase; color: var(--steel); }
+  .receipt .plan { text-align: center; font-size: 19px; font-weight: 700; margin: 6px 0 2px; }
+  .receipt .tagline { text-align: center; font-size: 12px; color: var(--steel); margin-bottom: 14px; }
+  .receipt hr { border: none; border-top: 1px dashed #C9C4B4; margin: 12px 0; }
+  .receipt ul { list-style: none; font-size: 12.5px; }
+  .receipt li { display: flex; justify-content: space-between; padding: 3px 0; gap: 8px; }
+  .receipt li span:last-child { white-space: nowrap; }
+  .receipt .total { display: flex; justify-content: space-between; font-size: 22px; font-weight: 800; margin-top: 6px; }
+  .receipt .hst { font-size: 11px; color: var(--steel); text-align: right; }
+  .receipt .badge {
+    position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: var(--safety); color: #fff; font-size: 11px; letter-spacing: 1.5px;
+    padding: 4px 12px; border-radius: 3px; font-family: "Segoe UI", sans-serif; font-weight: 700;
+  }
+  .receipt .stamp {
+    margin-top: 14px; text-align: center; color: var(--stamp);
+    border: 2px solid var(--stamp); border-radius: 4px; padding: 5px;
+    font-size: 11px; letter-spacing: 2px; transform: rotate(-2deg);
+  }
+
+  /* GUARANTEE + WHY US */
+  .guarantee {
+    background: #fff; border: 1px solid var(--grid); border-left: 6px solid var(--stamp);
+    border-radius: 6px; padding: 26px; margin-top: 44px;
+  }
+  .guarantee h3 { font-size: 19px; margin-bottom: 6px; }
+  .guarantee p { color: var(--steel); font-size: 15px; }
+
+  .why { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .why div {
+    background: #fff; border: 1px solid var(--grid); border-radius: 6px; padding: 20px;
+  }
+  .why h3 { font-size: 16px; margin-bottom: 6px; }
+  .why p { font-size: 14px; color: var(--steel); }
+
+  /* FOOTER CTA */
+  .final {
+    background: var(--ink); color: #fff; text-align: center;
+    padding: 56px 20px; margin-top: 40px;
+  }
+  .final h2 { color: #fff; }
+  .final p { color: #B9C6D2; margin: 10px auto 24px; max-width: 46ch; }
+  .final a {
+    background: var(--safety); color: #fff; text-decoration: none;
+    padding: 14px 30px; font-weight: 700; border-radius: 4px; display: inline-block;
+  }
+  .final .fine { font-size: 12px; color: #7E8FA0; margin-top: 22px; }
+
+  @media (max-width: 720px) {
+    .steps, .receipts, .why { grid-template-columns: 1fr; }
+    .receipt.featured { transform: none; }
+  }
+  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="kicker">logicmanse books · Durham Region &amp; the GTA</div>
+    <h1><span class="snap">Snap a photo.</span><br>We do your books.</h1>
+    <p class="sub">Bookkeeping built for trades and small shops in Ontario. You take a picture of the receipt — a real person at a local firm handles the rest. From $100/month.</p>
+    <a class="hero-cta" href="#pricing">See what it costs →</a>
+  </div>
+</header>
+
+<div class="pain">
+  <div class="wrap">
+    <div class="tag">Sound familiar?</div>
+    <p>There's a <strong>shoebox of receipts</strong> in your truck. HST is due <strong>sometime soon, probably</strong>. Your accountant charges you extra every April to <strong>untangle the mess</strong> — and you still don't know which jobs actually made money.</p>
+  </div>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>Your part takes 10 seconds</h2>
+    <p class="lede">No accounting software to learn. No categories to figure out. No data entry. Three things — that's the whole job.</p>
+    <div class="steps">
+      <div class="step"><span class="n">STEP 01</span><h3>Snap the receipt</h3><p>Home Depot, gas station, supplier — take a photo the moment you get it. Done. It's in your books.</p></div>
+      <div class="step"><span class="n">STEP 02</span><h3>Log what you earned</h3><p>Quick tap when a job pays or the till closes. Takes less time than a coffee order.</p></div>
+      <div class="step"><span class="n">STEP 03</span><h3>Glance at your month</h3><p>One clean screen: what came in, what went out, and how much to set aside for HST. No surprises.</p></div>
+    </div>
+    <div class="guarantee">
+      <h3>✔ The 10th-of-the-Month Guarantee</h3>
+      <p>Your monthly summary lands by the 10th, every month — or that month is free. Your books are reviewed by a person at a Durham Region firm, not left to software guessing at your categories.</p>
+    </div>
+  </div>
+</section>
+
+<section class="pricing" id="pricing">
+  <div class="wrap">
+    <h2>Pricing that reads like a receipt</h2>
+    <p class="lede">Flat monthly price. No hourly billing, no surprise invoices, no charge spikes in your busy season. All plans include a real human reviewing your books.</p>
+    <div class="receipts">
+
+      <div class="receipt">
+        <div class="shop">logicmanse books</div>
+        <div class="plan">SHOEBOX</div>
+        <div class="tagline">Your receipt mess, handled</div>
+        <hr>
+        <ul>
+          <li><span>Receipt photo capture</span><span>✔</span></li>
+          <li><span>Human review &amp; sorting</span><span>✔</span></li>
+          <li><span>Monthly summary</span><span>✔</span></li>
+          <li><span>HST set-aside estimate</span><span>✔</span></li>
+          <li><span>Receipts included</span><span>50/mo</span></li>
+        </ul>
+        <hr>
+        <div class="total"><span>TOTAL</span><span>$100/mo</span></div>
+        <div class="hst">+ HST</div>
+        <div class="stamp">PAID · SORTED · DONE</div>
+      </div>
+
+      <div class="receipt featured">
+        <div class="badge">MOST POPULAR</div>
+        <div class="shop">logicmanse books</div>
+        <div class="plan">NEVER MISS A DEADLINE</div>
+        <div class="tagline">HST handled, every period</div>
+        <hr>
+        <ul>
+          <li><span>Everything in Shoebox</span><span>✔</span></li>
+          <li><span>Unlimited receipts</span><span>✔</span></li>
+          <li><span>HST filing prep, every period</span><span>✔</span></li>
+          <li><span>Job costing <em>or</em> daily sales</span><span>✔</span></li>
+          <li><span>Quarterly check-in call</span><span>✔</span></li>
+        </ul>
+        <hr>
+        <div class="total"><span>TOTAL</span><span>$200/mo</span></div>
+        <div class="hst">+ HST</div>
+        <div class="stamp">DEADLINES · COVERED</div>
+      </div>
+
+      <div class="receipt">
+        <div class="shop">logicmanse books</div>
+        <div class="plan">CRA-PROOF</div>
+        <div class="tagline">Subs, trucks &amp; year-end — covered</div>
+        <hr>
+        <ul>
+          <li><span>Everything in Deadline</span><span>✔</span></li>
+          <li><span>T5018 subcontractor tracking</span><span>✔</span></li>
+          <li><span>WSIB clearance alerts</span><span>✔</span></li>
+          <li><span>Vehicle &amp; equipment (CCA)</span><span>✔</span></li>
+          <li><span>Year-end accountant package</span><span>✔</span></li>
+          <li><span>Priority support</span><span>✔</span></li>
+        </ul>
+        <hr>
+        <div class="total"><span>TOTAL</span><span>$350/mo</span></div>
+        <div class="hst">+ HST</div>
+        <div class="stamp">AUDIT-READY</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="wrap">
+    <h2>Why a local firm beats an app</h2>
+    <p class="lede">Software guesses. We know Ontario.</p>
+    <div class="why">
+      <div><h3>Built for Ontario, not exported from the US</h3><p>13% HST, WSIB clearances, T5018 slips, Construction Act realities — the things generic apps get wrong are the things we do daily.</p></div>
+      <div><h3>A person catches what software can't</h3><p>Every plan includes human review. Blurry receipt? Weird vendor? Big purchase that should be equipment, not expense? A person notices — before the CRA does.</p></div>
+      <div><h3>Your bank stays yours</h3><p>We never connect to your bank account — ever. You snap photos; that's the only way data gets in. Your money and logins are never touched.</p></div>
+      <div><h3>Know which jobs make money</h3><p>Tag a receipt to a job in one tap. See what each project actually earned after materials and subs — before you quote the next one.</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="final">
+  <h2>Tax season shouldn't feel like an emergency</h2>
+  <p>One-time setup of $250 gets your backlog cleaned up and your account ready. Refer another trade and get a month free when they stick around.</p>
+  <a href="#">Book a free 15-minute call</a>
+  <div class="fine">logicmanse books · bookkeeping.logicmanse.ca · Serving Ajax, Durham Region &amp; the GTA · All prices in CAD + HST</div>
+</div>
+
+</body>
+</html>
