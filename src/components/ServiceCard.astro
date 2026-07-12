@@ -7,12 +7,31 @@ interface Props {
   service: Service;
 }
 const { service } = Astro.props;
+
+// Simple line-art icons, one per service slug, matching the thin-stroke
+// style of the shield+checkmark brand mark. Kept as plain path data (no
+// icon library dependency) so every card in the grid stays visually
+// consistent even as services are added or reordered.
+const ICON_PATHS: Record<string, string[]> = {
+  'inventory-trackers': ['M12 3 L20 7.5 V16.5 L12 21 L4 16.5 V7.5 Z', 'M12 12 V21 M12 12 L4 7.5 M12 12 L20 7.5'],
+  'invoice-organizers': ['M6 3h9l3 3v15H6z', 'M9 9h6 M9 13h6 M9 17h3'],
+  'weekly-reporting': ['M3 20h18', 'M6 20v-6 M12 20v-9 M18 20v-4'],
+  'custom-business-tools': ['M7 7a3 3 0 106 0 3 3 0 00-6 0z', 'M17 17a3 3 0 106 0 3 3 0 00-6 0z', 'M9.1 9.1l5.8 5.8'],
+};
+const iconPaths = ICON_PATHS[service.slug] ?? [];
 ---
 
 <a
   href={`/services/#${service.slug}`}
   class="fade-in-up block bg-white border border-slate-200 rounded-xl p-8 shadow-sm hover:shadow-lg hover:border-forest/40 transition-all duration-200"
 >
+  {iconPaths.length > 0 && (
+    <div class="w-11 h-11 rounded-lg bg-forest/10 flex items-center justify-center mb-4">
+      <svg viewBox="0 0 24 24" class="w-6 h-6 text-forest" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        {iconPaths.map((d) => <path d={d} />)}
+      </svg>
+    </div>
+  )}
   <h3 class="text-xl font-serif font-bold text-navy mb-2">{service.name}</h3>
   <p class="text-forest font-semibold text-sm mb-4">{service.shortDescription}</p>
   <p class="text-xs font-bold uppercase tracking-wide text-slate-500 mb-4">{service.valueStat}</p>
