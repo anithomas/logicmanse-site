@@ -50,19 +50,34 @@ const { title, description } = Astro.props;
       // view. Plain IntersectionObserver — no animation library, no
       // layout shift, and it degrades gracefully (content is simply
       // visible immediately) if JS fails to load.
-      const observer = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            if (entry.isIntersecting) {
-              entry.target.classList.add('is-visible');
-              observer.unobserve(entry.target);
-            }
-          }
-        },
-        { threshold: 0.15 }
-      );
+      const items = document.querySelectorAll('.fade-in-up');
 
-      document.querySelectorAll('.fade-in-up').forEach((el) => observer.observe(el));
+      if ('IntersectionObserver' in window) {
+        const observer = new IntersectionObserver(
+          (entries) => {
+            for (const entry of entries) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add('is-visible');
+                observer.unobserve(entry.target);
+              }
+            }
+          },
+          { threshold: 0.15 }
+        );
+
+        items.forEach((el) => observer.observe(el));
+
+        // Safety net: if something above the fold never crosses the
+        // 0.15 threshold (very tall element, fast page load before
+        // layout settles, etc.), force it visible after a beat so
+        // content is never stuck invisible.
+        setTimeout(() => {
+          items.forEach((el) => el.classList.add('is-visible'));
+        }, 1200);
+      } else {
+        // No IntersectionObserver support — just show everything.
+        items.forEach((el) => el.classList.add('is-visible'));
+      }
     </script>
   </body>
 </html>

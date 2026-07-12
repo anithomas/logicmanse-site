@@ -14,9 +14,9 @@ const { service } = Astro.props;
   class="fade-in-up block bg-white border border-slate-200 rounded-xl p-8 shadow-sm hover:shadow-lg hover:border-forest/40 transition-all duration-200"
 >
   <h3 class="text-xl font-serif font-bold text-navy mb-2">{service.name}</h3>
-  <p class="text-forest font-semibold text-sm mb-3">{service.shortDescription}</p>
-  <p class="text-slate-600 text-sm leading-relaxed">{service.solve}</p>
-  <span class="inline-block mt-4 text-sm font-semibold text-navy hover:text-forest transition-colors">
+  <p class="text-forest font-semibold text-sm mb-4">{service.shortDescription}</p>
+  <p class="text-xs font-bold uppercase tracking-wide text-slate-500 mb-4">{service.valueStat}</p>
+  <span class="inline-block text-sm font-semibold text-navy hover:text-forest transition-colors">
     Learn more &rarr;
   </span>
 </a>

@@ -28,8 +28,8 @@ export const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Services', href: '/services/' },
   { label: 'How It Works', href: '/how-it-works/' },
-  { label: 'Sample Projects', href: '/portfolio/' },
+  { label: 'Portfolio', href: '/portfolio/' },
   { label: 'About', href: '/about/' },
-  { label: 'Trust & Security', href: '/trust-security/' },
+  { label: 'Security', href: '/trust-security/' },
   { label: 'Contact', href: '/contact/' },
 ];
