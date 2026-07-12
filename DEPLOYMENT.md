@@ -107,19 +107,26 @@ GoDaddy's own email hosting (or Google Workspace, your choice):
 
 ---
 
-## Step 5 — Confirm the contact form works
+## Step 5 — Set up Formspree so the contact form actually works
 
-The Contact page builds a pre-filled email in the visitor's own email app
-when they click submit (see the comment in `src/pages/contact.astro`) — no
-server, no third-party form service, works on any static host including
-GitHub Pages. Test it yourself once live: fill out the form, confirm your
-own email client opens with the right subject/body, and that it's addressed
-to `info@logicmanse.ca`.
+The Contact page posts to [Formspree](https://formspree.io) (a third-party
+form-delivery service) rather than building a mailto link — this is already
+wired up in the code, but it will **not work until you complete this step**:
 
-If you'd later prefer a proper backend inbox instead of relying on the
-visitor's email client (e.g. to track leads in one place), a service like
-[Formspree](https://formspree.io) can be dropped in without leaving GitHub
-Pages — that's a small, optional follow-up, not required to launch.
+1. Go to [formspree.io](https://formspree.io) and sign up free with your
+   `info@logicmanse.ca` address.
+2. Create a new form, and verify the confirmation email Formspree sends you.
+3. Copy the form endpoint it gives you (looks like
+   `https://formspree.io/f/abcdwxyz`).
+4. Open `src/pages/contact.astro` and replace the placeholder
+   `FORMSPREE_ENDPOINT` value (currently `'https://formspree.io/f/YOUR_FORM_ID'`)
+   with your real endpoint, then commit and push.
+
+Until this is done, submitting the form shows a Formspree error page instead
+of reaching you — treat this as a launch blocker, not an optional
+follow-up. Test it yourself once the real endpoint is in place: fill out the
+form and confirm you receive the submission (check your inbox and the
+Formspree dashboard).
 
 ---
 

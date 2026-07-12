@@ -27,7 +27,10 @@ export const SITE = {
 export const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Services', href: '/services/' },
-  { label: 'How It Works', href: '/how-it-works/' },
+  // Points straight at the Services page's "How It Works" section rather
+  // than /how-it-works/ — that page is just a redirect stub kept alive for
+  // old bookmarks/search results, no reason to bounce through it internally.
+  { label: 'How It Works', href: '/services/' },
   { label: 'Portfolio', href: '/portfolio/' },
   { label: 'About', href: '/about/' },
   { label: 'Security', href: '/trust-security/' },
