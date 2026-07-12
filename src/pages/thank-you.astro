@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
+---
+
+<BaseLayout
+  title="Thank You"
+  description="Thanks for reaching out to Logicmanse Solutions — we'll be in touch within one business day."
+>
+  <section class="bg-navy text-white">
+    <div class="max-w-3xl mx-auto px-6 py-24 text-center">
+      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl mb-4">Thanks — We Got It</h1>
+      <p class="fade-in-up text-lg text-white/80 max-w-xl mx-auto">
+        Your request is in. We'll reply within one business day to schedule your free 15-minute
+        process audit.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="max-w-xl mx-auto px-6 py-16 text-center">
+      <CTAButton href="/">Back to Home</CTAButton>
+    </div>
+  </section>
+</BaseLayout>

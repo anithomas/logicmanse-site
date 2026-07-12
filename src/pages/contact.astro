@@ -1,6 +1,24 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE } from '../data/site';
+
+// ----------------------------------------------------------------
+// REAL FORM SUBMISSIONS (Ani — read this before going live):
+// This form posts to Formspree, a free form-backend service — no
+// server or code needed on your end, and no third-party JS library
+// either. Submissions land in your inbox and in a dashboard at
+// formspree.io.
+//
+// 1. Go to https://formspree.io and sign up free with your
+//    info@logicmanse.ca address.
+// 2. Create a new form, verify the email Formspree sends you.
+// 3. Copy the form endpoint it gives you (looks like
+//    https://formspree.io/f/abcdwxyz) and paste it below, replacing
+//    FORMSPREE_ENDPOINT.
+// Until you do that, this form will not actually deliver anywhere —
+// it will show a Formspree error page saying the endpoint isn't real.
+// ----------------------------------------------------------------
+const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
 ---
 
 <BaseLayout
@@ -19,18 +37,14 @@ import { SITE } from '../data/site';
 
   <section class="bg-white">
     <div class="max-w-2xl mx-auto px-6 py-20">
-      <!--
-        GitHub Pages serves plain static files only — there's no server to
-        receive a form submission. Rather than depending on a third-party
-        form service, this form builds a pre-filled email (subject + body
-        from what the visitor typed) and opens it in their own email app
-        when they click submit. Zero external accounts, zero server code,
-        works on any static host.
-      -->
       <form
-        id="contact-form"
+        action={FORMSPREE_ENDPOINT}
+        method="POST"
         class="fade-in-up space-y-6 bg-slate-50 border border-slate-200 rounded-xl p-8"
       >
+        <input type="hidden" name="_subject" value="Free Process Audit Request" />
+        <input type="hidden" name="_next" value="/thank-you/" />
+
         <div>
           <label for="name" class="block text-sm font-semibold text-navy mb-1">Your Name</label>
           <input
@@ -84,8 +98,8 @@ import { SITE } from '../data/site';
         </button>
 
         <p class="text-xs text-slate-400 text-center">
-          Clicking submit opens a pre-filled email in your own email app, addressed to us — nothing
-          is sent to a third-party server. Your information is never sold or shared.
+          Submitted directly and securely — nothing opens in a separate app. Your information is
+          never sold or shared.
         </p>
       </form>
 
@@ -97,29 +111,4 @@ import { SITE } from '../data/site';
       </p>
     </div>
   </section>
-
-  <script define:vars={{ contactEmail: SITE.contactEmail }}>
-    // Builds a mailto: link from the form fields and opens it — this is the
-    // entire "backend" for this form. No server, no third-party service.
-    // If a visitor's device has no default email app configured, the
-    // fallback "Prefer to email directly?" link above still works.
-    const form = document.getElementById('contact-form');
-    form.addEventListener('submit', (event) => {
-      event.preventDefault();
-      const name = form.querySelector('#name').value.trim();
-      const business = form.querySelector('#business').value.trim();
-      const email = form.querySelector('#email').value.trim();
-      const message = form.querySelector('#message').value.trim();
-
-      const subject = `Free Process Audit Request — ${business || name}`;
-      const body =
-        `Name: ${name}\n` +
-        `Business: ${business || '(not provided)'}\n` +
-        `Email: ${email}\n\n` +
-        `Paperwork headache:\n${message}`;
-
-      window.location.href =
-        `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
-    });
-  </script>
 </BaseLayout>

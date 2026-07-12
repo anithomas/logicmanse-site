@@ -1,7 +1,7 @@
 ---
 // Site header / navigation bar.
 // Highlights the current page automatically by comparing the URL.
-import { SITE, NAV_LINKS } from '../data/site';
+import { SITE, HEADER_NAV_LINKS } from '../data/site';
 
 const currentPath = Astro.url.pathname;
 ---
@@ -14,7 +14,7 @@ const currentPath = Astro.url.pathname;
 
     <!-- Desktop nav -->
     <nav class="hidden lg:flex items-center gap-6 text-sm font-medium">
-      {NAV_LINKS.map((link) => (
+      {HEADER_NAV_LINKS.map((link) => (
         <a
           href={link.href}
           class={`hover:text-forest-light transition-colors ${
@@ -45,7 +45,7 @@ const currentPath = Astro.url.pathname;
     <nav
       class="hidden peer-checked:flex lg:hidden flex-col gap-4 absolute top-full left-0 w-full bg-navy px-6 py-6 border-t border-white/10 text-sm font-medium"
     >
-      {NAV_LINKS.map((link) => (
+      {HEADER_NAV_LINKS.map((link) => (
         <a href={link.href} class="hover:text-forest-light transition-colors">
           {link.label}
         </a>

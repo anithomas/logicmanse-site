@@ -1,70 +1,23 @@
 ---
+// This page's content now lives on the Services page (merged so the
+// header nav has one fewer item). Kept as a redirect so old links,
+// bookmarks, and search results still land somewhere useful instead of
+// a 404.
 import BaseLayout from '../layouts/BaseLayout.astro';
-import SectionHeading from '../components/SectionHeading.astro';
-import CTAButton from '../components/CTAButton.astro';
-
-const steps = [
-  {
-    title: 'Free 15-Minute Process Audit',
-    description:
-      'A no-obligation call, by phone or video. Walk us through how you currently handle inventory, invoices, or reporting — we listen and ask questions, nothing else.',
-  },
-  {
-    title: 'A One-Page Plan, in Plain English',
-    description:
-      'We send back a short, jargon-free proposal: exactly what we would build, how it would work day-to-day, the timeline, and a fixed price. No surprises, no technical terms you have to look up.',
-  },
-  {
-    title: 'We Build It — You Approve Every Step',
-    description:
-      'We build and test the tool using your real store data before anything goes live. You see it working and approve it before it ever touches your day-to-day operations.',
-  },
-  {
-    title: 'Training and Ongoing Support',
-    description:
-      'We walk you and your staff through using it, in person or by video call. After launch, support is a phone call or email away — not a ticket into a void.',
-  },
-];
 ---
 
 <BaseLayout
   title="How It Works"
-  description="A simple, four-step process for getting custom business tools built — starting with a free 15-minute process audit. No tech background required."
+  description="See our four-step process on the Services page."
 >
-  <section class="bg-navy text-white">
-    <div class="max-w-4xl mx-auto px-6 py-20 text-center">
-      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl mb-4">How It Works</h1>
-      <p class="fade-in-up text-lg text-white/80 max-w-2xl mx-auto">
-        No technical meetings, no confusing contracts. Four simple steps from first call to your
-        new tool running every day.
-      </p>
-    </div>
-  </section>
-
+  <meta http-equiv="refresh" content="0; url=/services/" />
   <section class="bg-white">
-    <div class="max-w-4xl mx-auto px-6 py-20">
-      <div class="space-y-12">
-        {steps.map((step, i) => (
-          <div class="fade-in-up flex gap-6 items-start">
-            <div class="shrink-0 w-12 h-12 rounded-full bg-forest text-white font-serif font-bold flex items-center justify-center text-lg">
-              {i + 1}
-            </div>
-            <div>
-              <h2 class="text-2xl font-serif font-bold text-navy mb-2">{step.title}</h2>
-              <p class="text-slate-600 leading-relaxed">{step.description}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </section>
-
-  <section class="bg-slate-50">
-    <div class="max-w-3xl mx-auto px-6 py-20 text-center">
-      <SectionHeading title="Ready for Step One?" subtitle="It starts with a 15-minute conversation — no commitment required." />
-      <div class="fade-in-up">
-        <CTAButton href="/contact/">Request a Free 15-Minute Process Audit</CTAButton>
-      </div>
+    <div class="max-w-2xl mx-auto px-6 py-24 text-center">
+      <p class="text-slate-600">
+        This page has moved — redirecting you to
+        <a href="/services/" class="text-forest font-semibold hover:underline">our Services page</a>,
+        where "How It Works" now lives.
+      </p>
     </div>
   </section>
 </BaseLayout>

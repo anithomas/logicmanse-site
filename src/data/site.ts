@@ -33,3 +33,18 @@ export const NAV_LINKS = [
   { label: 'Security', href: '/trust-security/' },
   { label: 'Contact', href: '/contact/' },
 ];
+
+// Condensed set for the header bar only (footer still lists everything
+// above). Merges "How It Works" into the Services page, so it isn't a
+// separate nav item up top.
+export const HEADER_NAV_LINKS = [
+  { label: 'Home', href: '/' },
+  { label: 'Services', href: '/services/' },
+  { label: 'Portfolio', href: '/portfolio/' },
+  { label: 'About', href: '/about/' },
+  { label: 'Contact', href: '/contact/' },
+];
+
+// TODO (Ani): flip to false once the full site content is finalized.
+// Shows a construction notice bar on every page.
+export const SITE_UNDER_CONSTRUCTION = true;

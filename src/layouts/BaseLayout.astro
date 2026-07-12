@@ -4,7 +4,9 @@
 // this layout so meta tags and nav stay consistent site-wide.
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import { SITE } from '../data/site';
+import ConstructionBanner from '../components/ConstructionBanner.astro';
+import WatermarkOverlay from '../components/WatermarkOverlay.astro';
+import { SITE, SITE_UNDER_CONSTRUCTION } from '../data/site';
 import '../styles/global.css';
 
 interface Props {
@@ -39,6 +41,8 @@ const { title, description } = Astro.props;
     />
   </head>
   <body>
+    {SITE_UNDER_CONSTRUCTION && <ConstructionBanner />}
+    {SITE_UNDER_CONSTRUCTION && <WatermarkOverlay />}
     <Header />
     <main>
       <slot />

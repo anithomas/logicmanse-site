@@ -3,6 +3,29 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import CTAButton from '../components/CTAButton.astro';
 import { SERVICES } from '../data/services';
+
+const HOW_IT_WORKS_STEPS = [
+  {
+    title: 'Free 15-Minute Process Audit',
+    description:
+      'A no-obligation call, by phone or video. Walk us through how you currently handle inventory, invoices, or reporting — we listen and ask questions, nothing else.',
+  },
+  {
+    title: 'A One-Page Plan, in Plain English',
+    description:
+      'We send back a short, jargon-free proposal: exactly what we would build, how it would work day-to-day, the timeline, and a fixed price. No surprises, no technical terms you have to look up.',
+  },
+  {
+    title: 'We Build It — You Approve Every Step',
+    description:
+      'We build and test the tool using your real store data before anything goes live. You see it working and approve it before it ever touches your day-to-day operations.',
+  },
+  {
+    title: 'Training and Ongoing Support',
+    description:
+      'We walk you and your staff through using it, in person or by video call. After launch, support is a phone call or email away — not a ticket into a void.',
+  },
+];
 ---
 
 <BaseLayout
@@ -20,7 +43,35 @@ import { SERVICES } from '../data/services';
   </section>
 
   <section class="bg-white">
+    <div class="max-w-4xl mx-auto px-6 py-20">
+      <SectionHeading
+        eyebrow="How It Works"
+        title="From First Call to a Tool You Actually Use"
+        subtitle="No technical meetings, no confusing contracts. Four simple steps."
+      />
+      <div class="space-y-12">
+        {HOW_IT_WORKS_STEPS.map((step, i) => (
+          <div class="fade-in-up flex gap-6 items-start">
+            <div class="shrink-0 w-12 h-12 rounded-full bg-forest text-white font-serif font-bold flex items-center justify-center text-lg">
+              {i + 1}
+            </div>
+            <div>
+              <h3 class="text-xl font-serif font-bold text-navy mb-2">{step.title}</h3>
+              <p class="text-slate-600 leading-relaxed">{step.description}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-slate-50">
     <div class="max-w-4xl mx-auto px-6 py-20 space-y-20">
+      <SectionHeading
+        eyebrow="What We Build"
+        title="Four Ways We Take Paperwork Off Your Plate"
+        subtitle="Each one built around the way your store already runs."
+      />
       {SERVICES.map((service, i) => (
         <div id={service.slug} class="fade-in-up scroll-mt-24">
           <p class="text-sm font-semibold uppercase tracking-wide text-forest mb-2">
@@ -29,11 +80,11 @@ import { SERVICES } from '../data/services';
           <h2 class="text-3xl font-serif font-bold text-navy mb-6">{service.name}</h2>
 
           <div class="grid md:grid-cols-3 gap-6 mb-6">
-            <div class="bg-slate-50 border border-slate-200 rounded-lg p-6">
+            <div class="bg-white border border-slate-200 rounded-lg p-6">
               <p class="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">The Problem</p>
               <p class="text-slate-600 text-sm leading-relaxed">{service.problem}</p>
             </div>
-            <div class="bg-slate-50 border border-slate-200 rounded-lg p-6">
+            <div class="bg-white border border-slate-200 rounded-lg p-6">
               <p class="text-xs font-bold uppercase tracking-wide text-slate-400 mb-2">Why It Hurts</p>
               <p class="text-slate-600 text-sm leading-relaxed">{service.agitate}</p>
             </div>
@@ -51,7 +102,7 @@ import { SERVICES } from '../data/services';
     </div>
   </section>
 
-  <section class="bg-slate-50">
+  <section class="bg-white">
     <div class="max-w-3xl mx-auto px-6 py-20 text-center">
       <h2 class="fade-in-up text-3xl font-bold text-navy mb-4">Not Sure Which One You Need?</h2>
       <p class="fade-in-up text-lg text-slate-600 mb-8">
