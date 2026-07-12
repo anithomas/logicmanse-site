@@ -18,6 +18,11 @@ export default {
           light: '#2C8A5D',
           dark: '#154A32',
         },
+        // NEW — print/collateral-only additions from the brand exploration.
+        // Never use these as digital UI/CTA colors; forest stays the only
+        // digital accent. Reserved for business cards, letterhead, seals.
+        parchment: '#F4EFE4',
+        brass: '#8A6D3B',
       },
       fontFamily: {
         // Serif headers = "banking/legal firm" gravitas. Sans body = easy everyday reading.
