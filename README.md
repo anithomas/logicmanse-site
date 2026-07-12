@@ -64,4 +64,4 @@ GitHub, turning on GitHub Pages, and pointing your GoDaddy domain at it.
 `src/pages/portfolio.astro` currently shows illustrative example projects,
 clearly labeled as such. Replace them with real case studies as you complete
 real client work — do not remove the "Sample Project" labeling from anything
-that isn't a verified, pe
+that isn't a verified, permission-cleared real engagement.

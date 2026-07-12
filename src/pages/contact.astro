@@ -101,4 +101,25 @@ import { SITE } from '../data/site';
   <script define:vars={{ contactEmail: SITE.contactEmail }}>
     // Builds a mailto: link from the form fields and opens it — this is the
     // entire "backend" for this form. No server, no third-party service.
-    // If a visitor's device has no default
+    // If a visitor's device has no default email app configured, the
+    // fallback "Prefer to email directly?" link above still works.
+    const form = document.getElementById('contact-form');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const name = form.querySelector('#name').value.trim();
+      const business = form.querySelector('#business').value.trim();
+      const email = form.querySelector('#email').value.trim();
+      const message = form.querySelector('#message').value.trim();
+
+      const subject = `Free Process Audit Request — ${business || name}`;
+      const body =
+        `Name: ${name}\n` +
+        `Business: ${business || '(not provided)'}\n` +
+        `Email: ${email}\n\n` +
+        `Paperwork headache:\n${message}`;
+
+      window.location.href =
+        `mailto:${contactEmail}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    });
+  </script>
+</BaseLayout>
