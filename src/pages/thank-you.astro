@@ -5,21 +5,26 @@ import CTAButton from '../components/CTAButton.astro';
 
 <BaseLayout
   title="Thank You"
-  description="Thanks for reaching out to Logicmanse Solutions — we'll be in touch within one business day."
+  description="Thanks for requesting early access to Reelcase — we'll be in touch soon."
 >
-  <section class="bg-navy text-white">
-    <div class="max-w-3xl mx-auto px-6 py-24 text-center">
-      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl mb-4">Thanks — We Got It</h1>
-      <p class="fade-in-up text-lg text-white/80 max-w-xl mx-auto">
-        Your request is in. We'll reply within one business day to schedule your free 15-minute
-        process audit.
-      </p>
-    </div>
-  </section>
+  <div class="reelcase">
+    <section class="grain relative overflow-hidden">
+      <div class="max-w-3xl mx-auto px-6 py-24 text-center relative">
+        <p class="timecode uppercase tracking-widest text-xs md:text-sm mb-4">That's a wrap</p>
+        <h1 class="fade-in-up font-display uppercase text-print text-4xl md:text-5xl tracking-wide mb-4">
+          Thanks — We Got It
+        </h1>
+        <p class="fade-in-up text-lg text-print/70 max-w-xl mx-auto font-body">
+          Your request is in the can. We'll reach out soon to help you cut your first Reelcase
+          portfolio.
+        </p>
+      </div>
+    </section>
 
-  <section class="bg-white">
-    <div class="max-w-xl mx-auto px-6 py-16 text-center">
-      <CTAButton href="/">Back to Home</CTAButton>
-    </div>
-  </section>
+    <section>
+      <div class="max-w-xl mx-auto px-6 pb-24 text-center">
+        <CTAButton href="/">Back to Home</CTAButton>
+      </div>
+    </section>
+  </div>
 </BaseLayout>

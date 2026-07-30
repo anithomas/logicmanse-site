@@ -1,0 +1,228 @@
+---
+// The Reel Strip — Reelcase's signature element. A scrubbable contact-sheet
+// of a creator's takes (vertical 9:16 clips). Sprocket ticks along the top
+// double as a scrub rail; selecting a frame "loads" it into the detail
+// readout below with a scanline sweep standing in for real playback.
+// No video files yet — gradients are placeholders, swap in poster
+// images/video src on the .reel-frame-media element once footage exists.
+import type { Take } from '../data/creator';
+
+interface Props {
+  takes: Take[];
+}
+const { takes } = Astro.props;
+---
+
+<div class="reel-strip" data-reel-strip>
+  <div class="flex items-center justify-between mb-3 px-1">
+    <p class="timecode text-xs md:text-sm">
+      <span class="rec-dot mr-2 align-middle"></span
+      ><span data-reel-active-timecode>{takes[0]?.timecode}</span>
+      <span class="text-ash/60">/ {takes.length} takes</span>
+    </p>
+    <div class="flex items-center gap-2">
+      <button type="button" class="reel-nav" data-reel-prev aria-label="Previous take">&#8249;</button>
+      <button type="button" class="reel-nav" data-reel-next aria-label="Next take">&#8250;</button>
+    </div>
+  </div>
+
+  <div class="sprocket-rail" aria-hidden="true">
+    {Array.from({ length: 40 }).map(() => <span class="sprocket-hole" />)}
+  </div>
+
+  <div class="reel-track" data-reel-track role="list">
+    {takes.map((take, i) => (
+      <button
+        type="button"
+        class="reel-frame"
+        data-reel-frame
+        data-index={i}
+        data-brand={take.brand}
+        data-hook={take.hook}
+        data-timecode={take.timecode}
+        role="listitem"
+        aria-label={`${take.brand} — ${take.hook}`}
+      >
+        <span
+          class="reel-frame-media"
+          style={`background: linear-gradient(160deg, ${take.gradient[0]}, ${take.gradient[1]})`}
+        >
+          <span class="reel-frame-scanline" />
+        </span>
+        <span class="reel-frame-chrome">
+          <span class="reel-frame-tag">{take.category}</span>
+          <span class="timecode text-[0.65rem]">{take.timecode}</span>
+        </span>
+        <span class="reel-frame-caption">
+          <span class="block font-display text-sm tracking-wide uppercase">{take.brand}</span>
+          <span class="block text-xs text-print/70 mt-0.5">{take.hook}</span>
+        </span>
+      </button>
+    ))}
+  </div>
+
+  <p class="reel-detail mt-4 text-sm md:text-base" data-reel-detail>
+    <span class="text-ash">Now viewing —</span>{' '}
+    <span class="font-semibold text-print" data-reel-active-brand>{takes[0]?.brand}</span>:{' '}
+    <span class="italic text-print/80" data-reel-active-hook>&ldquo;{takes[0]?.hook}&rdquo;</span>
+  </p>
+</div>
+
+<style>
+  .reel-track {
+    display: flex;
+    gap: 1rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0.25rem 0.25rem 1rem;
+    scrollbar-width: thin;
+  }
+  .reel-frame {
+    position: relative;
+    flex: 0 0 auto;
+    width: clamp(9.5rem, 22vw, 12rem);
+    aspect-ratio: 9 / 16;
+    scroll-snap-align: center;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    border: 1px solid rgba(244, 239, 230, 0.08);
+    text-align: left;
+    cursor: pointer;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .reel-frame:hover {
+    transform: translateY(-4px);
+  }
+  .reel-frame[aria-current='true'] {
+    border-color: #f2a93b;
+    box-shadow: 0 0 0 2px rgba(242, 169, 59, 0.35), 0 12px 30px -10px rgba(0, 0, 0, 0.6);
+    transform: translateY(-6px) scale(1.02);
+  }
+  .reel-frame-media {
+    position: absolute;
+    inset: 0;
+  }
+  .reel-frame-scanline {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    background: linear-gradient(
+      to bottom,
+      transparent 0%,
+      rgba(244, 239, 230, 0.35) 48%,
+      transparent 55%
+    );
+    transform: translateY(-100%);
+  }
+  .reel-frame[aria-current='true'] .reel-frame-scanline {
+    opacity: 1;
+    animation: scan 2.4s linear infinite;
+  }
+  @keyframes scan {
+    0% { transform: translateY(-100%); }
+    100% { transform: translateY(100%); }
+  }
+  .reel-frame-chrome {
+    position: absolute;
+    top: 0.5rem;
+    left: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .reel-frame-tag {
+    font-family: 'IBM Plex Mono', ui-monospace, monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    background: rgba(28, 24, 21, 0.55);
+    color: #f4efe6;
+    padding: 0.15rem 0.4rem;
+    border-radius: 0.2rem;
+    backdrop-filter: blur(2px);
+  }
+  .reel-frame-caption {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 0.6rem 0.6rem 0.7rem;
+    background: linear-gradient(to top, rgba(17, 14, 12, 0.92), transparent);
+    color: #f4efe6;
+  }
+  .sprocket-rail {
+    display: flex;
+    gap: 0.6rem;
+    padding: 0 0.4rem 0.5rem;
+    overflow: hidden;
+  }
+  .sprocket-hole {
+    flex: 0 0 auto;
+    width: 0.35rem;
+    height: 0.35rem;
+    border-radius: 9999px;
+    background: rgba(244, 239, 230, 0.12);
+  }
+  .reel-nav {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 9999px;
+    border: 1px solid rgba(244, 239, 230, 0.2);
+    color: #f4efe6;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, border-color 0.2s ease;
+  }
+  .reel-nav:hover {
+    background: rgba(244, 239, 230, 0.08);
+    border-color: rgba(242, 169, 59, 0.5);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reel-frame,
+    .reel-frame-scanline {
+      transition: none;
+      animation: none;
+    }
+  }
+</style>
+
+<script>
+  function initReelStrip(strip: HTMLElement) {
+    const track = strip.querySelector<HTMLElement>('[data-reel-track]');
+    const frames = Array.from(strip.querySelectorAll<HTMLButtonElement>('[data-reel-frame]'));
+    const prevBtn = strip.querySelector<HTMLButtonElement>('[data-reel-prev]');
+    const nextBtn = strip.querySelector<HTMLButtonElement>('[data-reel-next]');
+    const activeBrand = strip.querySelector('[data-reel-active-brand]');
+    const activeHook = strip.querySelector('[data-reel-active-hook]');
+    const activeTimecode = strip.querySelector('[data-reel-active-timecode]');
+    if (!track || frames.length === 0) return;
+
+    let activeIndex = 0;
+
+    function setActive(index: number, scrollIntoView = true) {
+      activeIndex = Math.max(0, Math.min(frames.length - 1, index));
+      frames.forEach((frame, i) => {
+        frame.setAttribute('aria-current', i === activeIndex ? 'true' : 'false');
+      });
+      const frame = frames[activeIndex];
+      if (activeBrand) activeBrand.textContent = frame.dataset.brand ?? '';
+      if (activeHook) activeHook.textContent = `“${frame.dataset.hook ?? ''}”`;
+      if (activeTimecode) activeTimecode.textContent = frame.dataset.timecode ?? '';
+      if (scrollIntoView) {
+        frame.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+      }
+    }
+
+    frames.forEach((frame, i) => {
+      frame.addEventListener('click', () => setActive(i));
+    });
+    prevBtn?.addEventListener('click', () => setActive(activeIndex - 1));
+    nextBtn?.addEventListener('click', () => setActive(activeIndex + 1));
+
+    setActive(0, false);
+  }
+
+  document.querySelectorAll<HTMLElement>('[data-reel-strip]').forEach(initReelStrip);
+</script>

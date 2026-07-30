@@ -45,3 +45,47 @@ h1, h2, h3, h4 {
     transition: none;
   }
 }
+
+/* ----------------------------------------------------------------
+   Reelcase brand utilities — film grain, letterbox framing, and
+   timecode chrome. Scoped to .reelcase so legacy pages are unaffected.
+------------------------------------------------------------------ */
+.reelcase {
+  @apply bg-reel text-print font-body;
+}
+
+/* Subtle animated grain overlay — SVG noise, no images, no layout cost. */
+.grain::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.05;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.letterbox-bar {
+  @apply bg-reel-light border-y border-white/5;
+  height: clamp(1.25rem, 4vw, 2.5rem);
+}
+
+.timecode {
+  @apply font-mono text-ash tracking-wide tabular-nums;
+}
+
+.rec-dot {
+  @apply inline-block w-2 h-2 rounded-full bg-safety;
+  animation: rec-pulse 2s ease-in-out infinite;
+}
+
+@keyframes rec-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .rec-dot {
+    animation: none;
+  }
+}

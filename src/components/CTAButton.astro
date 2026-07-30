@@ -1,7 +1,7 @@
 ---
-// Reusable call-to-action button. Two visual styles: "solid" (forest
-// green, for primary actions) and "outline" (for secondary actions on
-// dark navy backgrounds).
+// Reusable call-to-action button. Two visual styles: "solid" (tungsten
+// amber, for primary actions) and "outline" (for secondary actions on
+// dark reel backgrounds).
 interface Props {
   href: string;
   variant?: 'solid' | 'outline';
@@ -10,10 +10,10 @@ interface Props {
 const { href, variant = 'solid', class: className = '' } = Astro.props;
 
 const base =
-  'inline-block font-semibold px-8 py-4 rounded-md text-center transition-colors duration-200';
+  'inline-block font-display uppercase tracking-wide px-8 py-4 rounded-sm text-center transition-colors duration-200';
 const styles = {
-  solid: 'bg-forest hover:bg-forest-light text-white shadow-lg',
-  outline: 'border-2 border-white text-white hover:bg-white hover:text-navy',
+  solid: 'bg-tungsten hover:bg-tungsten-light text-reel shadow-lg shadow-black/30',
+  outline: 'border-2 border-print/40 text-print hover:border-tungsten hover:text-tungsten',
 };
 ---
 

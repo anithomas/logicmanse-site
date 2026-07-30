@@ -1,45 +1,38 @@
 ---
-// Institutional footer — deliberately plain and serious, per brand brief.
+// Reelcase footer.
 import { SITE, NAV_LINKS } from '../data/site';
 ---
 
-<footer class="bg-navy-dark text-white/80 mt-24">
+<footer class="bg-reel-light text-print/70 border-t border-white/5">
   <div class="max-w-6xl mx-auto px-6 py-12 grid gap-10 md:grid-cols-3">
     <div>
-      <p class="flex items-center gap-2 font-serif text-lg text-white font-bold mb-2">
-        <svg viewBox="0 0 96 96" class="w-5 h-5 text-white" aria-hidden="true">
-          <path d="M48 8 L82 20 V46 C82 68 68 84 48 90 C28 84 14 68 14 46 V20 Z" fill="currentColor" />
-          <path
-            d="M32 48 L44 60 L66 36"
-            stroke="#1F6F4A"
-            stroke-width="7"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            fill="none"
-          />
+      <p class="flex items-center gap-2 font-display text-lg text-print uppercase tracking-wide mb-2">
+        <svg viewBox="0 0 40 32" class="w-6 h-5" aria-hidden="true">
+          <path d="M2 12 L2 30 L38 30 L38 12 Z" fill="#2A2521" />
+          <path d="M1 4 L38 2 L38 12 L1 12 Z" fill="#F2A93B" />
+          <path d="M6 4 L11 12 L6 12 Z M15 3.4 L20 12 L15 12 Z M24 3 L29 12 L24 12 Z" fill="#1C1815" />
         </svg>
-        {SITE.businessName}
+        <span>Reel<span class="text-tungsten">case</span></span>
       </p>
       <p class="text-sm leading-relaxed">
-        Custom business tools for independent retailers, grocers, and distributors across
-        Ontario, Canada.
+        Cinematic portfolios for UGC creators — built to get a callback, not a scroll-past.
       </p>
     </div>
 
     <div>
-      <p class="text-white font-semibold mb-2 text-sm uppercase tracking-wide">Site</p>
+      <p class="text-print font-semibold mb-2 text-sm uppercase tracking-wide font-mono">Site</p>
       <ul class="space-y-1 text-sm">
         {NAV_LINKS.map((link) => (
-          <li><a href={link.href} class="hover:text-forest-light transition-colors">{link.label}</a></li>
+          <li><a href={link.href} class="hover:text-tungsten transition-colors">{link.label}</a></li>
         ))}
       </ul>
     </div>
 
     <div>
-      <p class="text-white font-semibold mb-2 text-sm uppercase tracking-wide">Contact</p>
+      <p class="text-print font-semibold mb-2 text-sm uppercase tracking-wide font-mono">Contact</p>
       <ul class="space-y-1 text-sm">
         <li>
-          <a href={`mailto:${SITE.contactEmail}`} class="hover:text-forest-light transition-colors">
+          <a href={`mailto:${SITE.contactEmail}`} class="hover:text-tungsten transition-colors">
             {SITE.contactEmail}
           </a>
         </li>
@@ -49,8 +42,8 @@ import { SITE, NAV_LINKS } from '../data/site';
   </div>
 
   <div class="border-t border-white/10">
-    <div class="max-w-6xl mx-auto px-6 py-6 text-xs text-white/60">
-      {SITE.businessName} &copy; {SITE.copyrightYear}. {SITE.registrationLine}.
+    <div class="max-w-6xl mx-auto px-6 py-6 text-xs text-print/40 font-mono">
+      {SITE.businessName} &copy; {SITE.copyrightYear}. A brand of Logicmanse Solutions Canada Inc.
     </div>
   </div>
 </footer>

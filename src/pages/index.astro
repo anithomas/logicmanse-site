@@ -2,156 +2,169 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import CTAButton from '../components/CTAButton.astro';
-import ServiceCard from '../components/ServiceCard.astro';
-import TrustBadge from '../components/TrustBadge.astro';
-import { SERVICES } from '../data/services';
+import ReelStrip from '../components/ReelStrip.astro';
 import { SITE } from '../data/site';
+import { CREATOR, TAKES } from '../data/creator';
 ---
 
 <BaseLayout
-  title="Custom Business Software for Independent Stores"
-  description="Logicmanse Solutions builds safe, custom business tools that manage your inventory, track sales, and eliminate spreadsheet errors — no tech background required."
+  title="Cinematic Portfolios for UGC Creators"
+  description="Reelcase turns your best takes into a cinematic portfolio — the kind of reel that gets a creator a callback, not a scroll-past."
 >
-  <!-- ============ HERO ============ -->
-  <section class="bg-navy text-white">
-    <div class="max-w-5xl mx-auto px-6 py-24 md:py-32 text-center">
-      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-6xl leading-tight mb-6">
-        {SITE.tagline}
-      </h1>
-      <p class="fade-in-up text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
-        {SITE.subTagline}
-      </p>
-      <div class="fade-in-up">
-        <CTAButton href="/contact/">Book Your Free 15-Minute Audit</CTAButton>
-      </div>
+  <div class="reelcase">
+    <!-- ============ HERO — letterboxed frame ============ -->
+    <section class="relative overflow-hidden grain">
+      <div class="letterbox-bar"></div>
 
-      <!--
-        TODO (Ani): replace this placeholder with a real photo or product
-        screenshot (e.g. a tool's dashboard, or a store owner using a
-        tablet). Drop the file in /public/ and swap the src below.
-        Keeping the hero as plain color blocks with no imagery reads as
-        empty — even one supporting image goes a long way.
-      -->
-      <div class="fade-in-up mt-14 max-w-3xl mx-auto aspect-video rounded-xl border-2 border-dashed border-white/20 flex items-center justify-center text-white/40 text-sm">
-        Add a photo or product screenshot here
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ CREDIBILITY STRIP ============ -->
-  <section class="bg-slate-50 border-y border-slate-200">
-    <div class="max-w-5xl mx-auto px-6 py-8 grid sm:grid-cols-3 gap-6 text-center">
-      <div class="fade-in-up">
-        <p class="font-serif font-bold text-navy text-sm md:text-base">Canadian-Owned &amp; Operated</p>
-      </div>
-      <div class="fade-in-up">
-        <p class="font-serif font-bold text-navy text-sm md:text-base">Free, No-Obligation Process Audit</p>
-      </div>
-      <div class="fade-in-up">
-        <p class="font-serif font-bold text-navy text-sm md:text-base">Plain-English Contracts, No Fine Print</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ PAIN POINTS: THE EXCEL KILLER ============ -->
-  <section class="bg-white">
-    <div class="max-w-6xl mx-auto px-6 py-20">
-      <SectionHeading
-        eyebrow="The Problem"
-        title="You Didn't Start a Business to Become a Spreadsheet Expert"
-        subtitle="Most store owners we talk to are running their entire operation out of Excel — and losing weekends to it."
-      />
-
-      <div class="grid md:grid-cols-2 gap-8">
-        <div class="fade-in-up bg-slate-50 border border-slate-200 rounded-xl p-8">
-          <p class="text-sm font-semibold uppercase tracking-wide text-slate-400 mb-4">The Old Way</p>
-          <ul class="space-y-4 text-slate-600">
-            <li class="flex gap-3">
-              <span class="text-slate-400 font-bold">&times;</span>
-              Spending Sundays typing receipts into Excel by hand
-            </li>
-            <li class="flex gap-3">
-              <span class="text-slate-400 font-bold">&times;</span>
-              Counting inventory aisle-by-aisle with a clipboard
-            </li>
-            <li class="flex gap-3">
-              <span class="text-slate-400 font-bold">&times;</span>
-              Guessing at profit margins because the numbers take too long to pull together
-            </li>
-          </ul>
-        </div>
-
-        <div class="fade-in-up bg-navy rounded-xl p-8 text-white">
-          <p class="text-sm font-semibold uppercase tracking-wide text-forest-light mb-4">The Logicmanse Way</p>
-          <ul class="space-y-4">
-            <li class="flex gap-3">
-              <span class="text-forest-light font-bold">&#10003;</span>
-              One-click digital summaries, ready when you are
-            </li>
-            <li class="flex gap-3">
-              <span class="text-forest-light font-bold">&#10003;</span>
-              Automated low-stock phone notifications before you run out
-            </li>
-            <li class="flex gap-3">
-              <span class="text-forest-light font-bold">&#10003;</span>
-              Absolute data accuracy — no more mistyped formulas
-            </li>
-          </ul>
+      <div class="max-w-5xl mx-auto px-6 py-14 md:py-20 text-center relative">
+        <p class="fade-in-up timecode uppercase tracking-widest text-xs md:text-sm mb-6 flex items-center justify-center gap-2">
+          <span class="rec-dot"></span> Reelcase — Take 01
+        </p>
+        <h1 class="fade-in-up font-display uppercase text-print text-4xl md:text-6xl leading-[1.05] tracking-wide mb-6">
+          {SITE.tagline}
+        </h1>
+        <p class="fade-in-up font-body text-lg md:text-xl text-print/70 max-w-2xl mx-auto mb-10 leading-relaxed">
+          {SITE.subTagline}
+        </p>
+        <div class="fade-in-up flex flex-wrap items-center justify-center gap-4">
+          <CTAButton href="/contact/">Get Early Access</CTAButton>
+          <CTAButton href="#how-it-works" variant="outline">See How It Works</CTAButton>
         </div>
       </div>
-    </div>
-  </section>
 
-  <!-- ============ SERVICES SUMMARY ============ -->
-  <section class="bg-slate-50">
-    <div class="max-w-6xl mx-auto px-6 py-20">
-      <SectionHeading
-        eyebrow="Our Services"
-        title="Built for Retail and Grocery — Not Silicon Valley"
-        subtitle="Every tool we build is designed around how your store already works, translated into something that runs itself."
-      />
+      <!-- ============ FLAGSHIP DEMO — a real Reelcase portfolio ============ -->
+      <div class="max-w-5xl mx-auto px-6 pb-16 relative">
+        <div class="fade-in-up flex flex-wrap items-end justify-between gap-4 mb-6 text-left">
+          <div>
+            <p class="timecode uppercase tracking-widest text-xs mb-1">This is a real Reelcase — Priya's slate</p>
+            <p class="font-display uppercase text-2xl md:text-3xl tracking-wide">{CREATOR.name} <span class="text-tungsten">{CREATOR.handle}</span></p>
+            <p class="font-body text-sm text-print/60 mt-1">{CREATOR.niche} &middot; {CREATOR.location}</p>
+          </div>
+          <div class="flex gap-6">
+            {CREATOR.stats.map((stat) => (
+              <div class="text-right">
+                <p class="font-display text-2xl md:text-3xl text-tungsten leading-none">{stat.value}</p>
+                <p class="timecode text-[0.65rem] uppercase tracking-wide mt-1">{stat.label}</p>
+              </div>
+            ))}
+          </div>
+        </div>
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {SERVICES.map((service) => <ServiceCard service={service} />)}
-      </div>
-    </div>
-  </section>
+        <div class="fade-in-up">
+          <ReelStrip takes={TAKES} />
+        </div>
 
-  <!-- ============ TRUST & SECURITY BANNER ============ -->
-  <section class="bg-navy-dark">
-    <div class="max-w-5xl mx-auto px-6 py-20 text-center">
-      <SectionHeading
-        eyebrow="Data Privacy"
-        title="Data You Control. Security You Can Trust."
-        subtitle="Private, secure, and fully owned by your business. We don't sell or share your store operations data — ever."
-        light
-      />
-      <div class="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto mt-8">
-        <TrustBadge label="Your Tools, Hosted in Canada" />
-        <TrustBadge label="Your data is never sold or shared" />
-        <TrustBadge label="No access to your banking or payments" />
+        <p class="fade-in-up font-body text-sm text-print/50 italic mt-6 max-w-2xl">
+          &ldquo;{CREATOR.bio}&rdquo;
+        </p>
       </div>
-      <div class="fade-in-up mt-10">
-        <a href="/trust-security/" class="text-forest-light font-semibold hover:text-white transition-colors">
-          Read our full Trust & Security commitment &rarr;
-        </a>
-      </div>
-    </div>
-  </section>
 
-  <!-- ============ FINAL CTA ============ -->
-  <section class="bg-white">
-    <div class="max-w-3xl mx-auto px-6 py-20 text-center">
-      <h2 class="fade-in-up text-3xl md:text-4xl font-bold text-navy mb-4">
-        Ready to Get Your Weekends Back?
-      </h2>
-      <p class="fade-in-up text-lg text-slate-600 mb-8">
-        Book a free, no-obligation 15-minute call. We'll walk through your current process and
-        tell you plainly what can be automated — no jargon, no pressure.
-      </p>
-      <div class="fade-in-up">
-        <CTAButton href="/contact/">Request a Free 15-Minute Process Audit</CTAButton>
+      <div class="letterbox-bar"></div>
+    </section>
+
+    <!-- ============ PROBLEM / SOLVE ============ -->
+    <section class="bg-reel">
+      <div class="max-w-6xl mx-auto px-6 py-20">
+        <SectionHeading
+          reelcase
+          eyebrow="The Problem"
+          title="A Linktree Isn't a Portfolio"
+          subtitle="Most creators pitch brands with five shaky clips and no context. Reelcase gives every take a frame, a hook, and a result — so it actually gets watched."
+        />
+
+        <div class="grid md:grid-cols-2 gap-8">
+          <div class="fade-in-up bg-negative border border-white/10 rounded-xl p-8">
+            <p class="timecode text-xs uppercase tracking-wide mb-4">Before — Scroll Past</p>
+            <ul class="space-y-4 text-print/70 font-body">
+              <li class="flex gap-3">
+                <span class="text-ash font-bold">&times;</span>
+                A link-in-bio folder of raw clips with no context for the brand you're pitching
+              </li>
+              <li class="flex gap-3">
+                <span class="text-ash font-bold">&times;</span>
+                Your best take is buried three scrolls deep in a camera roll export
+              </li>
+              <li class="flex gap-3">
+                <span class="text-ash font-bold">&times;</span>
+                Every pitch email starts from zero, re-explaining who you are
+              </li>
+            </ul>
+          </div>
+
+          <div class="fade-in-up bg-reel-light border border-tungsten/30 rounded-xl p-8">
+            <p class="timecode text-xs uppercase tracking-wide mb-4 text-tungsten">After — Callback</p>
+            <ul class="space-y-4 text-print font-body">
+              <li class="flex gap-3">
+                <span class="text-tungsten font-bold">&#10003;</span>
+                A cinematic reel that plays like a show reel, not a random folder
+              </li>
+              <li class="flex gap-3">
+                <span class="text-tungsten font-bold">&#10003;</span>
+                Every take framed with the brand, the hook, and the category — instantly scannable
+              </li>
+              <li class="flex gap-3">
+                <span class="text-tungsten font-bold">&#10003;</span>
+                One link, dropped straight into a pitch email, that actually gets opened
+              </li>
+            </ul>
+          </div>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
+
+    <!-- ============ HOW IT WORKS ============ -->
+    <section id="how-it-works" class="bg-reel-light">
+      <div class="max-w-6xl mx-auto px-6 py-20">
+        <SectionHeading
+          reelcase
+          eyebrow="The Process"
+          title="Three Takes to a Finished Slate"
+          subtitle="No editing software, no timeline to wrangle. You supply the footage — we cut the story."
+        />
+
+        <div class="grid md:grid-cols-3 gap-8">
+          {[
+            {
+              n: '01',
+              title: 'Upload Your Takes',
+              body: 'Drop in the clips you already have — GRWMs, unboxings, testimonials, whatever you’ve shot. No reshoots required.',
+            },
+            {
+              n: '02',
+              title: 'We Cut Your Reel',
+              body: 'Every take gets framed, tagged, and sequenced into a scrubbable portfolio built to be watched, not skimmed.',
+            },
+            {
+              n: '03',
+              title: 'Share Your Slate',
+              body: 'One cinematic link. Drop it in a pitch email, your bio, or a brand’s inbox — and let the reel do the talking.',
+            },
+          ].map((step) => (
+            <div class="fade-in-up bg-negative border border-white/10 rounded-xl p-8">
+              <p class="font-display text-tungsten text-4xl mb-4">{step.n}</p>
+              <p class="font-display uppercase tracking-wide text-xl mb-3">{step.title}</p>
+              <p class="font-body text-print/70 leading-relaxed">{step.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ FINAL CTA ============ -->
+    <section class="bg-reel grain relative overflow-hidden">
+      <div class="max-w-3xl mx-auto px-6 py-20 text-center relative">
+        <p class="fade-in-up timecode uppercase tracking-widest text-xs mb-4">Fade In — Your Slate</p>
+        <h2 class="fade-in-up font-display uppercase text-print text-3xl md:text-5xl tracking-wide mb-4">
+          Ready to Cut Your Reel?
+        </h2>
+        <p class="fade-in-up font-body text-lg text-print/70 mb-8 max-w-xl mx-auto">
+          Get early access and be one of the first creators with a Reelcase portfolio in your pitch
+          deck.
+        </p>
+        <div class="fade-in-up">
+          <CTAButton href="/contact/">Get Early Access</CTAButton>
+        </div>
+      </div>
+    </section>
+  </div>
 </BaseLayout>

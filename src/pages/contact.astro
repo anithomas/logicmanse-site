@@ -22,93 +22,99 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
 ---
 
 <BaseLayout
-  title="Contact"
-  description="Request a free 15-minute process audit from Logicmanse Solutions. No obligation, no jargon."
+  title="Get Early Access"
+  description="Get early access to Reelcase — a cinematic portfolio for your UGC takes. Tell us about your work and we'll be in touch."
 >
-  <section class="bg-navy text-white">
-    <div class="max-w-4xl mx-auto px-6 py-20 text-center">
-      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl mb-4">Request Your Free Process Audit</h1>
-      <p class="fade-in-up text-lg text-white/80 max-w-2xl mx-auto">
-        Tell us a little about your store and how you currently handle inventory, invoices, or
-        reporting. We'll reply within one business day to schedule your free 15-minute call.
-      </p>
-    </div>
-  </section>
-
-  <section class="bg-white">
-    <div class="max-w-2xl mx-auto px-6 py-20">
-      <form
-        action={FORMSPREE_ENDPOINT}
-        method="POST"
-        class="fade-in-up space-y-6 bg-slate-50 border border-slate-200 rounded-xl p-8"
-      >
-        <input type="hidden" name="_subject" value="Free Process Audit Request" />
-        <input type="hidden" name="_next" value="/thank-you/" />
-
-        <div>
-          <label for="name" class="block text-sm font-semibold text-navy mb-1">Your Name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            class="w-full border border-slate-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-          />
-        </div>
-
-        <div>
-          <label for="business" class="block text-sm font-semibold text-navy mb-1">Business Name</label>
-          <input
-            type="text"
-            id="business"
-            name="business"
-            class="w-full border border-slate-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-          />
-        </div>
-
-        <div>
-          <label for="email" class="block text-sm font-semibold text-navy mb-1">Email Address</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            class="w-full border border-slate-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-          />
-        </div>
-
-        <div>
-          <label for="message" class="block text-sm font-semibold text-navy mb-1">
-            What's your biggest paperwork headache right now?
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            rows="5"
-            required
-            class="w-full border border-slate-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-          ></textarea>
-        </div>
-
-        <button
-          type="submit"
-          class="w-full bg-forest hover:bg-forest-light text-white font-semibold px-8 py-4 rounded-md transition-colors"
-        >
-          Request My Free 15-Minute Process Audit
-        </button>
-
-        <p class="text-xs text-slate-400 text-center">
-          Submitted directly and securely via Formspree, our form-delivery provider — nothing
-          opens in a separate app. Your information is never sold or shared.
+  <div class="reelcase">
+    <section class="relative overflow-hidden grain">
+      <div class="max-w-4xl mx-auto px-6 py-20 text-center relative">
+        <p class="timecode uppercase tracking-widest text-xs md:text-sm mb-4">Early Access — Take 01</p>
+        <h1 class="fade-in-up font-display uppercase text-print text-4xl md:text-5xl tracking-wide mb-4">
+          Get Your Slate
+        </h1>
+        <p class="fade-in-up text-lg text-print/70 max-w-2xl mx-auto font-body">
+          Tell us about the takes you've already got and the brands you want to work with. We'll
+          reach out to help you cut your first Reelcase portfolio.
         </p>
-      </form>
+      </div>
+    </section>
 
-      <p class="fade-in-up text-center text-slate-500 text-sm mt-8">
-        Prefer to email directly? Reach us at{' '}
-        <a href={`mailto:${SITE.contactEmail}`} class="text-forest font-semibold hover:underline">
-          {SITE.contactEmail}
-        </a>
-      </p>
-    </div>
-  </section>
+    <section>
+      <div class="max-w-2xl mx-auto px-6 pb-24">
+        <form
+          action={FORMSPREE_ENDPOINT}
+          method="POST"
+          class="fade-in-up space-y-6 bg-negative border border-white/10 rounded-xl p-8"
+        >
+          <input type="hidden" name="_subject" value="Reelcase Early Access Request" />
+          <input type="hidden" name="_next" value="/thank-you/" />
+
+          <div>
+            <label for="name" class="block text-sm font-semibold text-print mb-1 font-mono uppercase tracking-wide">Your Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              required
+              class="w-full bg-reel border border-white/10 rounded-md px-4 py-3 text-print focus:outline-none focus:ring-2 focus:ring-tungsten"
+            />
+          </div>
+
+          <div>
+            <label for="handle" class="block text-sm font-semibold text-print mb-1 font-mono uppercase tracking-wide">TikTok / Instagram Handle</label>
+            <input
+              type="text"
+              id="handle"
+              name="handle"
+              placeholder="@yourhandle"
+              class="w-full bg-reel border border-white/10 rounded-md px-4 py-3 text-print placeholder:text-ash focus:outline-none focus:ring-2 focus:ring-tungsten"
+            />
+          </div>
+
+          <div>
+            <label for="email" class="block text-sm font-semibold text-print mb-1 font-mono uppercase tracking-wide">Email Address</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              required
+              class="w-full bg-reel border border-white/10 rounded-md px-4 py-3 text-print focus:outline-none focus:ring-2 focus:ring-tungsten"
+            />
+          </div>
+
+          <div>
+            <label for="message" class="block text-sm font-semibold text-print mb-1 font-mono uppercase tracking-wide">
+              What kind of takes do you make — and what's holding your portfolio back right now?
+            </label>
+            <textarea
+              id="message"
+              name="message"
+              rows="5"
+              required
+              class="w-full bg-reel border border-white/10 rounded-md px-4 py-3 text-print focus:outline-none focus:ring-2 focus:ring-tungsten"
+            ></textarea>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full bg-tungsten hover:bg-tungsten-light text-reel font-display uppercase tracking-wide px-8 py-4 rounded-sm transition-colors"
+          >
+            Request Early Access
+          </button>
+
+          <p class="text-xs text-ash text-center font-mono">
+            Submitted directly and securely via Formspree, our form-delivery provider — nothing
+            opens in a separate app. Your information is never sold or shared.
+          </p>
+        </form>
+
+        <p class="fade-in-up text-center text-print/60 text-sm mt-8 font-body">
+          Prefer to email directly? Reach us at{' '}
+          <a href={`mailto:${SITE.contactEmail}`} class="text-tungsten font-semibold hover:underline">
+            {SITE.contactEmail}
+          </a>
+        </p>
+      </div>
+    </section>
+  </div>
 </BaseLayout>
