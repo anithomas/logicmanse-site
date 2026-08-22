@@ -32,12 +32,11 @@ const { title, description } = Astro.props;
     <meta property="og:type" content="website" />
     <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />
 
-    <!-- Legacy fonts: Merriweather + Inter (un-migrated inner pages) -->
-    <!-- Reelcase fonts: Big Shoulders Display (marquee headlines), Work Sans (body), IBM Plex Mono (timecodes/labels) -->
+    <!-- Fonts: Merriweather (serif headers) + Inter (sans body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@400;500;600;700&family=Big+Shoulders+Display:wght@600;800;900&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
   </head>
