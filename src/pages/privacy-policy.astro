@@ -1,0 +1,80 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { SITE } from '../data/site';
+
+const LAST_UPDATED = 'August 23, 2026';
+
+// Kept deliberately factual and scoped to what this codebase actually
+// does (Formspree for the contact form, Google Fonts, GitHub Pages
+// hosting — no analytics, no cookies, no accounts). This is NOT a
+// substitute for legal review; have a lawyer check this before treating
+// it as your compliance program, especially for PIPEDA obligations as
+// an Ontario business.
+const sections = [
+  {
+    title: '1. Who We Are',
+    body: `This Privacy Policy applies to www.logicmanse.ca, operated by ${SITE.businessName} (${SITE.registrationLine}). If you have questions about this policy or how your information is handled, contact us at ${SITE.contactEmail}.`,
+  },
+  {
+    title: '2. Information We Collect',
+    body: `We collect information directly from you when you voluntarily submit it — for example, through the contact form on this site (your name, business name, email address, and the message you write). We do not require an account to browse this site, and we do not collect payment or banking information here.`,
+  },
+  {
+    title: '3. How We Use Your Information',
+    body: `We use the information you submit only to respond to your inquiry — for example, to schedule the free process audit you requested. We do not sell your information, and we do not use it for advertising or share it with third parties for their own marketing purposes.`,
+  },
+  {
+    title: '4. Third-Party Services',
+    body: `This site relies on a small number of third-party services to function, each of which processes limited data on our behalf:\n\n• Formspree — the contact form on this site is delivered through Formspree, a third-party form-processing service. When you submit the contact form, your submission passes through Formspree's systems before reaching our inbox. See Formspree's own privacy policy at formspree.io for details on how they handle that data.\n\n• Google Fonts — this site loads typefaces from Google's font service (fonts.googleapis.com / fonts.gstatic.com), which may log standard request data (such as your IP address) as part of delivering those files. See Google's privacy policy for details.\n\n• GitHub Pages — this site is hosted on GitHub Pages, which may log standard server/CDN access data (such as IP address and request timing) as part of serving the site. See GitHub's privacy statement for details.\n\n• Some pages on this site (such as giveaway or promotional landing pages) may link out to external, separately-operated intake forms. Information you submit through those external forms is governed by that provider's own privacy policy, not this one.`,
+  },
+  {
+    title: '5. Cookies and Tracking',
+    body: `This site does not use analytics, advertising, or tracking cookies, and does not run any tracking scripts of its own. We do not build a profile of your browsing activity.`,
+  },
+  {
+    title: '6. Data Retention',
+    body: `We retain contact form submissions only as long as needed to respond to your inquiry and keep a reasonable record of past correspondence. If you'd like us to delete information you've previously submitted, email us at the address above and we will do so.`,
+  },
+  {
+    title: '7. Your Rights',
+    body: `Under Canadian privacy law (PIPEDA), you have the right to know what personal information we hold about you, request a correction, and withdraw consent for us to use it. To exercise any of these rights, contact us at ${SITE.contactEmail}.`,
+  },
+  {
+    title: '8. Children’s Privacy',
+    body: `This site is intended for business owners and other adults. We do not knowingly collect personal information from children. Any giveaway or promotional pages aimed at a broader family audience are designed so the actual form submission (name and email) is completed by an adult.`,
+  },
+  {
+    title: '9. Changes to This Policy',
+    body: `We may update this policy as the site changes. The date at the top of this page reflects the last update. Continued use of the site after a change means you accept the revised policy.`,
+  },
+  {
+    title: '10. Contact Us',
+    body: `Questions about this policy or your information? Email ${SITE.contactEmail}.`,
+  },
+];
+---
+
+<BaseLayout
+  title="Privacy Policy"
+  description="How Logicmanse Solutions collects, uses, and protects your information on www.logicmanse.ca."
+>
+  <section class="bg-navy text-white">
+    <div class="max-w-4xl mx-auto px-6 py-20 text-center">
+      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl mb-4">Privacy Policy</h1>
+      <p class="fade-in-up text-lg text-white/80 max-w-2xl mx-auto">Last updated: {LAST_UPDATED}</p>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="max-w-3xl mx-auto px-6 py-20 space-y-10">
+      {sections.map((section) => (
+        <div class="fade-in-up">
+          <h2 class="text-2xl font-serif font-bold text-navy mb-3">{section.title}</h2>
+          {section.body.split('\n\n').map((paragraph) => (
+            <p class="text-slate-600 leading-relaxed mb-3 whitespace-pre-line">{paragraph}</p>
+          ))}
+        </div>
+      ))}
+    </div>
+  </section>
+</BaseLayout>

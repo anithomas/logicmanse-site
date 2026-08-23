@@ -35,6 +35,7 @@ export const NAV_LINKS = [
   { label: 'About', href: '/about/' },
   { label: 'Security', href: '/trust-security/' },
   { label: 'Contact', href: '/contact/' },
+  { label: 'Privacy Policy', href: '/privacy-policy/' },
 ];
 
 // Condensed set for the header bar only (footer still lists everything
