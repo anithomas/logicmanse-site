@@ -1,0 +1,202 @@
+---
+// Dedicated landing page for the "Super Leia to the Rescue!" coloring &
+// activity book (LogicManse Publishing) — a lead-magnet giveaway page for
+// people who scan the QR code on the book's back cover.
+//
+// This page is intentionally self-contained (its own <head>/<body>, not
+// wrapped in BaseLayout/Header/Footer) rather than using the site's shared
+// Reelcase chrome, since Reelcase and the coloring book are two unrelated
+// ventures aimed at completely different audiences. If you'd rather this
+// page use the site's shared header/nav, that's a quick follow-up change.
+//
+// Route: this file's name controls the URL, so it lives at
+// https://www.logicmanse.ca/LeiaColoringBook/
+// A small static redirect file (public/LeiaColoringBook.html) also exists
+// so the exact printed URL (no trailing slash) on the book's QR code and
+// back cover always resolves here too.
+const PAGE_TITLE = "Free Bonus Download — Leia's Color Pack | LogicManse";
+const PAGE_DESCRIPTION =
+  "Get Leia's free bonus color pack: full-color reference pages, real photos, and the answer key for Super Leia to the Rescue!";
+const CANONICAL_URL = "https://www.logicmanse.ca/LeiaColoringBook/";
+const REACH_FORM_URL = "https://reach-forms.hostingerusercontent.com/form/c3c3a22b-2257-457a-9635-5f2a3a6ab75c";
+---
+
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{PAGE_TITLE}</title>
+  <meta name="description" content={PAGE_DESCRIPTION} />
+  <link rel="canonical" href={CANONICAL_URL} />
+  <meta property="og:title" content={PAGE_TITLE} />
+  <meta property="og:description" content={PAGE_DESCRIPTION} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={CANONICAL_URL} />
+  <meta property="og:image" content="/leia-coloring-book/backyard-illustration.jpg" />
+</head>
+<body>
+  <div class="wrap">
+    <div class="logo-row">
+      <img src="/leia-coloring-book/logo.png" alt="LogicManse">
+    </div>
+
+    <h1>Get Leia's FREE Bonus Color Pack!</h1>
+    <p class="sub">Real photos, full-color reference pages, and puzzle answers — a free companion to Super Leia to the Rescue!</p>
+
+    <div class="video-wrap">
+      <video autoplay muted loop playsinline poster="/leia-coloring-book/backyard-illustration.jpg">
+        <source src="/leia-coloring-book/landing-video.mp4" type="video/mp4">
+      </video>
+    </div>
+
+    <div class="gallery">
+      <figure><img src="/leia-coloring-book/badge-coloring-activity.png" alt="Coloring & Activity Books"></figure>
+      <figure><img src="/leia-coloring-book/poster-leia-coloring-adventure.jpg" alt="Leia's Coloring Adventure poster"></figure>
+      <figure><img src="/leia-coloring-book/backyard-illustration.jpg" alt="Leia's backyard, illustrated"></figure>
+    </div>
+
+    <div class="card">
+      <h2>What's inside:</h2>
+      <ul class="features">
+        <li>Full-color reference images for all 30 coloring pages, matched page-by-page to your book</li>
+        <li>Real bonus photos of Leia — the actual dog who inspired the story</li>
+        <li>The complete answer key for every maze, word search, and puzzle</li>
+        <li>A behind-the-scenes note from the author</li>
+      </ul>
+
+      <a class="cta" href={REACH_FORM_URL}>Get My Free Download →</a>
+      <p class="fineprint">Takes 10 seconds. We'll email you the link right away.</p>
+    </div>
+
+    <footer>
+      Written by @Antz · A LogicManse Publication<br>
+      <a href="/">logicmanse.ca</a>
+    </footer>
+  </div>
+
+  <style>
+    :root {
+      --pink: #e67896;
+      --pink-light: #fae1e8;
+      --green: #1f6f4a;
+      --black: #000000;
+      --text: #333333;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, var(--pink-light) 0%, #ffffff 380px);
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    .logo-row { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 36px; }
+    .logo-row img { height: 44px; }
+    h1 {
+      text-align: center;
+      font-size: 2.2rem;
+      line-height: 1.2;
+      color: #c8325a;
+      margin: 0 0 10px;
+    }
+    .sub {
+      text-align: center;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: #666;
+      margin: 0 0 36px;
+    }
+    .video-wrap {
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 8px 28px rgba(0,0,0,0.14);
+      margin-bottom: 34px;
+    }
+    .video-wrap video { display: block; width: 100%; height: auto; }
+    .gallery {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-bottom: 36px;
+    }
+    .gallery figure {
+      margin: 0;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+      background: #222;
+      aspect-ratio: 3 / 4;
+    }
+    .gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    @media (max-width: 480px) {
+      .gallery { grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    }
+    .card {
+      background: #fff;
+      border: 2px solid var(--pink);
+      border-radius: 22px;
+      padding: 32px 28px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+    }
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.3rem;
+      color: #333;
+    }
+    ul.features {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 30px;
+    }
+    ul.features li {
+      padding: 10px 0 10px 34px;
+      position: relative;
+      font-size: 1.02rem;
+      border-bottom: 1px solid #f2f2f2;
+    }
+    ul.features li:last-child { border-bottom: none; }
+    ul.features li::before {
+      content: "🐾";
+      position: absolute;
+      left: 0;
+      top: 9px;
+    }
+    .cta {
+      display: block;
+      text-align: center;
+      background: var(--pink);
+      color: #fff !important;
+      font-weight: 700;
+      font-size: 1.15rem;
+      text-decoration: none;
+      padding: 18px 24px;
+      border-radius: 14px;
+      margin: 10px 0 8px;
+      transition: transform 0.1s ease, background 0.15s ease;
+    }
+    .cta:hover { background: #d85f80; transform: translateY(-1px); }
+    .fineprint {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #999;
+      margin: 0;
+    }
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 26px;
+      border-top: 1px solid #eee;
+      font-size: 0.9rem;
+      color: #777;
+    }
+    footer a { color: var(--green); text-decoration: none; font-weight: 600; }
+  </style>
+</body>
+</html>
