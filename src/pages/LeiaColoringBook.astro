@@ -39,23 +39,12 @@ const REACH_FORM_URL = "https://reach-forms.hostingerusercontent.com/form/c3c3a2
 <body>
   <div class="wrap">
     <div class="logo-row">
-      <img src="/leia-coloring-book/logo.png" alt="LogicManse">
+      <img class="logo-badge" src="/leia-coloring-book/badge-coloring-activity.png" alt="Coloring & Activity Books">
+      <img class="logo-main" src="/leia-coloring-book/logo.png" alt="LogicManse">
     </div>
 
     <h1>Get Leia's FREE Bonus Color Pack!</h1>
     <p class="sub">Real photos, full-color reference pages, and puzzle answers — a free companion to Super Leia to the Rescue!</p>
-
-    <div class="video-wrap">
-      <video autoplay muted loop playsinline poster="/leia-coloring-book/backyard-illustration.jpg">
-        <source src="/leia-coloring-book/landing-video.mp4" type="video/mp4">
-      </video>
-    </div>
-
-    <div class="gallery">
-      <figure><img src="/leia-coloring-book/badge-coloring-activity.png" alt="Coloring & Activity Books"></figure>
-      <figure><img src="/leia-coloring-book/poster-leia-coloring-adventure.jpg" alt="Leia's Coloring Adventure poster"></figure>
-      <figure><img src="/leia-coloring-book/backyard-illustration.jpg" alt="Leia's backyard, illustrated"></figure>
-    </div>
 
     <div class="card">
       <h2>What's inside:</h2>
@@ -68,6 +57,11 @@ const REACH_FORM_URL = "https://reach-forms.hostingerusercontent.com/form/c3c3a2
 
       <a class="cta" href={REACH_FORM_URL}>Get My Free Download →</a>
       <p class="fineprint">Takes 10 seconds. We'll email you the link right away.</p>
+    </div>
+
+    <div class="gallery">
+      <figure class="ph-portrait"><img src="/leia-coloring-book/poster-leia-coloring-adventure.jpg" alt="Leia's Coloring Adventure poster"></figure>
+      <figure class="ph-landscape"><img src="/leia-coloring-book/backyard-illustration.jpg" alt="Leia's backyard, illustrated"></figure>
     </div>
 
     <footer>
@@ -92,8 +86,10 @@ const REACH_FORM_URL = "https://reach-forms.hostingerusercontent.com/form/c3c3a2
       background: linear-gradient(180deg, var(--pink-light) 0%, #ffffff 380px);
     }
     .wrap { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
-    .logo-row { display: flex; align-items: center; justify-content: center; gap: 14px; margin-bottom: 36px; }
-    .logo-row img { height: 44px; }
+    .logo-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 36px; flex-wrap: wrap; }
+    .logo-row img { display: block; width: auto; }
+    .logo-row .logo-badge { height: 52px; }
+    .logo-row .logo-main { height: 48px; }
     h1 {
       text-align: center;
       font-size: 2.2rem;
@@ -108,42 +104,46 @@ const REACH_FORM_URL = "https://reach-forms.hostingerusercontent.com/form/c3c3a2
       color: #666;
       margin: 0 0 36px;
     }
-    .video-wrap {
-      border-radius: 18px;
-      overflow: hidden;
-      box-shadow: 0 8px 28px rgba(0,0,0,0.14);
-      margin-bottom: 34px;
-    }
-    .video-wrap video { display: block; width: 100%; height: auto; }
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 14px;
-      margin-bottom: 36px;
-    }
-    .gallery figure {
-      margin: 0;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.10);
-      background: #222;
-      aspect-ratio: 3 / 4;
-    }
-    .gallery img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    @media (max-width: 480px) {
-      .gallery { grid-template-columns: repeat(3, 1fr); gap: 8px; }
-    }
     .card {
       background: #fff;
       border: 2px solid var(--pink);
       border-radius: 22px;
       padding: 32px 28px;
       box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+      margin-bottom: 36px;
+    }
+    /* Gallery: the poster (tall/portrait) and the backyard illustration
+       (wide/landscape) have very different native shapes. Rather than
+       forcing both into one aspect-ratio box (which crops the landscape
+       image down to a sliver), each figure keeps its own true aspect
+       ratio and they're aligned by a shared height instead — like two
+       different-shaped photos laid side by side, not a rigid grid. */
+    .gallery {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .gallery figure {
+      margin: 0;
+      height: 240px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+      background: #f2f2f2;
+    }
+    .gallery figure.ph-portrait { aspect-ratio: 700 / 1244; }
+    .gallery figure.ph-landscape { aspect-ratio: 1000 / 563; }
+    .gallery img {
+      height: 100%;
+      width: 100%;
+      object-fit: cover;
+      display: block;
+    }
+    @media (max-width: 480px) {
+      .gallery { gap: 10px; }
+      .gallery figure { height: 150px; }
     }
     .card h2 {
       margin-top: 0;
