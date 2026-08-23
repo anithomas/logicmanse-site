@@ -1,0 +1,17 @@
+# Force binary handling for asset types — without this, Git falls back to
+# per-file content-sniffing on every touch, which can misfire (as it did
+# on leias-color-pack.pdf) and risk CRLF-mangling a binary file.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.svg binary
+*.ico binary
+*.mp4 binary
+*.mov binary
+*.webm binary
+*.pdf binary
+*.woff binary
+*.woff2 binary
+*.ttf binary
+*.otf binary
