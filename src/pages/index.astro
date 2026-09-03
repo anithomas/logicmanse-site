@@ -2,15 +2,46 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import CTAButton from '../components/CTAButton.astro';
-import ServiceCard from '../components/ServiceCard.astro';
-import TrustBadge from '../components/TrustBadge.astro';
-import { SERVICES } from '../data/services';
 import { SITE } from '../data/site';
+
+const CATEGORIES = [
+  {
+    name: 'Coloring & Activity Books',
+    description: 'Mazes, word searches, and coloring pages kids actually finish — not just start.',
+  },
+  {
+    name: 'Log Books & Record Books',
+    description: 'Built around a real full year of use, not a generic 4-property template.',
+  },
+  {
+    name: 'Journals',
+    description: 'Simple, guided pages that get used past the first week.',
+  },
+  {
+    name: 'Cookbooks',
+    description: 'Recipes organized around how you actually cook, not how a magazine lays out a page.',
+  },
+];
+
+const FEATURED = [
+  {
+    category: 'Coloring & Activity Book',
+    title: 'Super Leia to the Rescue!',
+    description: 'A coloring & activity book inspired by a real dog — 30 pages, mazes, and word searches.',
+    href: '/LeiaColoringBook/',
+  },
+  {
+    category: 'Log Book',
+    title: 'Rental Property Record Book',
+    description: 'A record book for a landlord managing 1–6 properties, built for a full year of real use.',
+    href: '/RentalManagementLog/',
+  },
+];
 ---
 
 <BaseLayout
-  title="Custom Business Software for Independent Stores"
-  description="Logicmanse Solutions builds safe, custom business tools that manage your inventory, track sales, and eliminate spreadsheet errors — no tech background required."
+  title="Coloring Books, Log Books, Journals & Cookbooks"
+  description="Logicmanse Solutions publishes coloring books, log books, journals, and cookbooks designed around how you actually use them."
 >
   <!-- ============ HERO ============ -->
   <section class="bg-navy text-white">
@@ -21,19 +52,23 @@ import { SITE } from '../data/site';
       <p class="fade-in-up text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
         {SITE.subTagline}
       </p>
-      <div class="fade-in-up">
-        <CTAButton href="/contact/">Book Your Free 15-Minute Audit</CTAButton>
+      <div class="fade-in-up flex flex-wrap items-center justify-center gap-4">
+        <CTAButton href="/books/">Browse Our Books</CTAButton>
+        <a
+          href="/contact/"
+          class="inline-block border border-white/30 hover:border-white text-white font-semibold px-6 py-3 rounded-md transition-colors"
+        >
+          Get in Touch
+        </a>
       </div>
 
       <!--
-        TODO (Ani): replace this placeholder with a real photo or product
-        screenshot (e.g. a tool's dashboard, or a store owner using a
-        tablet). Drop the file in /public/ and swap the src below.
-        Keeping the hero as plain color blocks with no imagery reads as
-        empty — even one supporting image goes a long way.
+        TODO (Ani): replace this placeholder with a real photo — a stack
+        of finished books, or a cover flat-lay. Drop the file in /public/
+        and swap the src below.
       -->
       <div class="fade-in-up mt-14 max-w-3xl mx-auto aspect-video rounded-xl border-2 border-dashed border-white/20 flex items-center justify-center text-white/40 text-sm">
-        Add a photo or product screenshot here
+        Add a photo of the books here
       </div>
     </div>
   </section>
@@ -45,96 +80,61 @@ import { SITE } from '../data/site';
         <p class="font-serif font-bold text-navy text-sm md:text-base">Canadian-Owned &amp; Operated</p>
       </div>
       <div class="fade-in-up">
-        <p class="font-serif font-bold text-navy text-sm md:text-base">Free, No-Obligation Process Audit</p>
+        <p class="font-serif font-bold text-navy text-sm md:text-base">Real Research Behind Every Title</p>
       </div>
       <div class="fade-in-up">
-        <p class="font-serif font-bold text-navy text-sm md:text-base">Plain-English Contracts, No Fine Print</p>
+        <p class="font-serif font-bold text-navy text-sm md:text-base">Free Digital Companion With Every Book</p>
       </div>
     </div>
   </section>
 
-  <!-- ============ PAIN POINTS: THE EXCEL KILLER ============ -->
+  <!-- ============ WHAT WE PUBLISH ============ -->
   <section class="bg-white">
     <div class="max-w-6xl mx-auto px-6 py-20">
       <SectionHeading
-        eyebrow="The Problem"
-        title="You Didn't Start a Business to Become a Spreadsheet Expert"
-        subtitle="Most store owners we talk to are running their entire operation out of Excel — and losing weekends to it."
-      />
-
-      <div class="grid md:grid-cols-2 gap-8">
-        <div class="fade-in-up bg-slate-50 border border-slate-200 rounded-xl p-8">
-          <p class="text-sm font-semibold uppercase tracking-wide text-slate-400 mb-4">The Old Way</p>
-          <ul class="space-y-4 text-slate-600">
-            <li class="flex gap-3">
-              <span class="text-slate-400 font-bold">&times;</span>
-              Spending Sundays typing receipts into Excel by hand
-            </li>
-            <li class="flex gap-3">
-              <span class="text-slate-400 font-bold">&times;</span>
-              Counting inventory aisle-by-aisle with a clipboard
-            </li>
-            <li class="flex gap-3">
-              <span class="text-slate-400 font-bold">&times;</span>
-              Guessing at profit margins because the numbers take too long to pull together
-            </li>
-          </ul>
-        </div>
-
-        <div class="fade-in-up bg-navy rounded-xl p-8 text-white">
-          <p class="text-sm font-semibold uppercase tracking-wide text-forest-light mb-4">The Logicmanse Way</p>
-          <ul class="space-y-4">
-            <li class="flex gap-3">
-              <span class="text-forest-light font-bold">&#10003;</span>
-              One-click digital summaries, ready when you are
-            </li>
-            <li class="flex gap-3">
-              <span class="text-forest-light font-bold">&#10003;</span>
-              Automated low-stock phone notifications before you run out
-            </li>
-            <li class="flex gap-3">
-              <span class="text-forest-light font-bold">&#10003;</span>
-              Absolute data accuracy — no more mistyped formulas
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ SERVICES SUMMARY ============ -->
-  <section class="bg-slate-50">
-    <div class="max-w-6xl mx-auto px-6 py-20">
-      <SectionHeading
-        eyebrow="Our Services"
-        title="Built for Retail and Grocery — Not Silicon Valley"
-        subtitle="Every tool we build is designed around how your store already works, translated into something that runs itself."
+        eyebrow="What We Publish"
+        title="Four Kinds of Books, One Rule"
+        subtitle="If a section doesn't earn its place on the page, it doesn't go in the book."
       />
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-        {SERVICES.map((service) => <ServiceCard service={service} />)}
+        {CATEGORIES.map((cat) => (
+          <div class="fade-in-up bg-slate-50 border border-slate-200 rounded-xl p-6">
+            <h3 class="font-serif font-bold text-navy text-lg mb-2">{cat.name}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed">{cat.description}</p>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- ============ TRUST & SECURITY BANNER ============ -->
-  <section class="bg-navy-dark">
-    <div class="max-w-5xl mx-auto px-6 py-20 text-center">
+  <!-- ============ FEATURED TITLES ============ -->
+  <section class="bg-slate-50">
+    <div class="max-w-6xl mx-auto px-6 py-20">
       <SectionHeading
-        eyebrow="Data Privacy"
-        title="Data You Control. Security You Can Trust."
-        subtitle="Private, secure, and fully owned by your business. We don't sell or share your store operations data — ever."
-        light
+        eyebrow="Featured Titles"
+        title="Books We've Actually Published"
+        subtitle="Real titles, not mockups — each with its own free companion download."
       />
-      <div class="grid sm:grid-cols-3 gap-4 max-w-3xl mx-auto mt-8">
-        <TrustBadge label="Your Tools, Hosted in Canada" />
-        <TrustBadge label="Your data is never sold or shared" />
-        <TrustBadge label="No access to your banking or payments" />
+
+      <div class="grid md:grid-cols-2 gap-6 mb-10">
+        {FEATURED.map((book) => (
+          <a
+            href={book.href}
+            class="fade-in-up block bg-white border border-slate-200 rounded-xl p-8 hover:border-forest/40 hover:shadow-lg transition-all duration-200"
+          >
+            <span class="inline-block bg-forest/10 text-forest-dark text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-4">
+              {book.category}
+            </span>
+            <h3 class="text-xl font-serif font-bold text-navy mb-2">{book.title}</h3>
+            <p class="text-slate-600 text-sm leading-relaxed mb-4">{book.description}</p>
+            <span class="inline-block text-sm font-semibold text-forest">Learn more &rarr;</span>
+          </a>
+        ))}
       </div>
-      <div class="fade-in-up mt-10">
-        <a href="/trust-security/" class="text-forest-light font-semibold hover:text-white transition-colors">
-          Read our full Trust & Security commitment &rarr;
-        </a>
+
+      <div class="fade-in-up text-center">
+        <CTAButton href="/books/">See All Books</CTAButton>
       </div>
     </div>
   </section>
@@ -143,14 +143,14 @@ import { SITE } from '../data/site';
   <section class="bg-white">
     <div class="max-w-3xl mx-auto px-6 py-20 text-center">
       <h2 class="fade-in-up text-3xl md:text-4xl font-bold text-navy mb-4">
-        Ready to Get Your Weekends Back?
+        Have a Book Idea or a Bulk Order?
       </h2>
       <p class="fade-in-up text-lg text-slate-600 mb-8">
-        Book a free, no-obligation 15-minute call. We'll walk through your current process and
-        tell you plainly what can be automated — no jargon, no pressure.
+        Whether it's a question about one of our titles, a bulk order, or an idea for a book that
+        doesn't exist yet — we read every message ourselves.
       </p>
       <div class="fade-in-up">
-        <CTAButton href="/contact/">Request a Free 15-Minute Process Audit</CTAButton>
+        <CTAButton href="/contact/">Get in Touch</CTAButton>
       </div>
     </div>
   </section>

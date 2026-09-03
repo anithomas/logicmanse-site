@@ -8,9 +8,9 @@ export const SITE = {
   businessName: 'Logicmanse Solutions Canada Inc.',
   shortName: 'Logicmanse Solutions',
   domain: 'www.logicmanse.ca',
-  tagline: 'Stop Losing Your Weekends to Spreadsheets.',
+  tagline: 'Books Made to Be Used, Not Just Read.',
   subTagline:
-    "We build custom, secure tools that automate your inventory, sales tracking, and reporting — so you can focus on running your store, not managing data.",
+    'Logicmanse Solutions publishes coloring books, log books, journals, and cookbooks — plain, practical, and built around how you actually use them, not just what looks good on a shelf.',
 
   // TODO (Ani): replace with the real branded inbox once it's created
   // in your GoDaddy / email provider control panel, e.g. info@logicmanse.ca
@@ -24,27 +24,22 @@ export const SITE = {
   copyrightYear: 2026,
 };
 
+// NOTE (pivot to publishing, Sep 2026): Services, Portfolio, and
+// Trust & Security still carry copy from the pre-pivot "custom retail
+// software" business and need a content rewrite before they're re-linked
+// — same situation as the earlier Reelcase pivot notes. Not deleted,
+// just intentionally left out of nav below.
 export const NAV_LINKS = [
   { label: 'Home', href: '/' },
-  { label: 'Services', href: '/services/' },
-  // Points straight at the Services page's "How It Works" section rather
-  // than /how-it-works/ — that page is just a redirect stub kept alive for
-  // old bookmarks/search results, no reason to bounce through it internally.
-  { label: 'How It Works', href: '/services/' },
-  { label: 'Portfolio', href: '/portfolio/' },
+  { label: 'Books', href: '/books/' },
   { label: 'About', href: '/about/' },
-  { label: 'Security', href: '/trust-security/' },
   { label: 'Contact', href: '/contact/' },
   { label: 'Privacy Policy', href: '/privacy-policy/' },
 ];
 
-// Condensed set for the header bar only (footer still lists everything
-// above). Merges "How It Works" into the Services page, so it isn't a
-// separate nav item up top.
 export const HEADER_NAV_LINKS = [
   { label: 'Home', href: '/' },
-  { label: 'Services', href: '/services/' },
-  { label: 'Portfolio', href: '/portfolio/' },
+  { label: 'Books', href: '/books/' },
   { label: 'About', href: '/about/' },
   { label: 'Contact', href: '/contact/' },
 ];

@@ -23,14 +23,14 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
 
 <BaseLayout
   title="Contact"
-  description="Request a free 15-minute process audit from Logicmanse Solutions. No obligation, no jargon."
+  description="Get in touch with Logicmanse Solutions — questions about a book, bulk orders, or an idea for a title that doesn't exist yet."
 >
   <section class="bg-navy text-white">
     <div class="max-w-4xl mx-auto px-6 py-20 text-center">
-      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl mb-4">Request Your Free Process Audit</h1>
+      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl mb-4">Get in Touch</h1>
       <p class="fade-in-up text-lg text-white/80 max-w-2xl mx-auto">
-        Tell us a little about your store and how you currently handle inventory, invoices, or
-        reporting. We'll reply within one business day to schedule your free 15-minute call.
+        A question about one of our books, a bulk order, or an idea for a title that doesn't exist
+        yet — tell us about it. We'll reply within one business day.
       </p>
     </div>
   </section>
@@ -42,7 +42,7 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
         method="POST"
         class="fade-in-up space-y-6 bg-slate-50 border border-slate-200 rounded-xl p-8"
       >
-        <input type="hidden" name="_subject" value="Free Process Audit Request" />
+        <input type="hidden" name="_subject" value="Website Contact Form Submission" />
         <input type="hidden" name="_next" value="/thank-you/" />
 
         <div>
@@ -57,7 +57,7 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
         </div>
 
         <div>
-          <label for="business" class="block text-sm font-semibold text-navy mb-1">Business Name</label>
+          <label for="business" class="block text-sm font-semibold text-navy mb-1">Business / Organization (optional)</label>
           <input
             type="text"
             id="business"
@@ -79,7 +79,7 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
 
         <div>
           <label for="message" class="block text-sm font-semibold text-navy mb-1">
-            What's your biggest paperwork headache right now?
+            What can we help with?
           </label>
           <textarea
             id="message"
@@ -94,7 +94,7 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
           type="submit"
           class="w-full bg-forest hover:bg-forest-light text-white font-semibold px-8 py-4 rounded-md transition-colors"
         >
-          Request My Free 15-Minute Process Audit
+          Send Message
         </button>
 
         <p class="text-xs text-slate-400 text-center">
