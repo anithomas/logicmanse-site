@@ -1,0 +1,25 @@
+---
+// Redirect stub for a rental-management-log lead form, same pattern as
+// how-it-works.astro: this page's only job is to send visitors on to the
+// external intake form. A static safety-net file also exists at
+// public/RentalManagementLog.html so the exact URL (no trailing slash)
+// resolves correctly regardless of how GitHub Pages handles that slash —
+// see that file's own comment, and LeiaColoringBook's for the same pattern.
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/507b9eac-cab0-41c3-ae6c-41e8ff00d445';
+---
+
+<BaseLayout
+  title="Rental Management Log"
+  description="Get access to the Rental Management Log."
+>
+  <meta http-equiv="refresh" content={`0; url=${FORM_URL}`} />
+  <section class="bg-white">
+    <div class="max-w-2xl mx-auto px-6 py-24 text-center">
+      <p class="text-slate-600">
+        Redirecting you to the <a href={FORM_URL} class="text-forest font-semibold hover:underline">Rental Management Log form</a>…
+      </p>
+    </div>
+  </section>
+</BaseLayout>
