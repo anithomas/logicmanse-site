@@ -1,25 +1,224 @@
 ---
-// Redirect stub for a rental-management-log lead form, same pattern as
-// how-it-works.astro: this page's only job is to send visitors on to the
-// external intake form. A static safety-net file also exists at
-// public/RentalManagementLog.html so the exact URL (no trailing slash)
-// resolves correctly regardless of how GitHub Pages handles that slash —
-// see that file's own comment, and LeiaColoringBook's for the same pattern.
-import BaseLayout from '../layouts/BaseLayout.astro';
-
-const FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/507b9eac-cab0-41c3-ae6c-41e8ff00d445';
+// Dedicated landing page for the "Rental Property Record Book" (LogicManse
+// Publications) — a lead-magnet giveaway page for the free companion
+// digital rental tracker, same funnel pattern as LeiaColoringBook.astro.
+//
+// Palette and tone deliberately differ from Leia's page: this book's own
+// design brief (Rental_Property_Log_Blueprint.md, LogicManse Publications
+// Book Blueprint No. 01) calls for "a different visual register from Leia
+// on purpose — this is a business tool, not a children's book." Colors
+// below (forest ink / bone paper / brass / ledger teal) are taken directly
+// from that blueprint's §04 cover design brief, not reused from Leia.
+//
+// This page is self-contained (its own <head>/<body>, not the main site's
+// BaseLayout/Header/Footer), same reasoning as Leia's page: this is an
+// unrelated venture from the Logicmanse Solutions software business.
+//
+// No real product photography exists yet — the book is still in Book Bolt
+// production (interior/cover not finalized) — so the gallery below uses
+// the same dashed-box photo placeholders used elsewhere on this site.
+//
+// Route: this file's name controls the URL, so it lives at
+// https://www.logicmanse.ca/RentalManagementLog/
+// A small static redirect file (public/RentalManagementLog.html) also
+// exists so the exact URL (no trailing slash) always lands on this real
+// page too, regardless of how GitHub Pages resolves that ambiguity.
+const PAGE_TITLE = 'Free Digital Rental Tracker | LogicManse Publications';
+const PAGE_DESCRIPTION =
+  'Get a free digital rental tracker — the companion spreadsheet to the Rental Property Record Book, for landlords managing up to 6 properties.';
+const CANONICAL_URL = 'https://www.logicmanse.ca/RentalManagementLog/';
+const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/507b9eac-cab0-41c3-ae6c-41e8ff00d445';
 ---
 
-<BaseLayout
-  title="Rental Management Log"
-  description="Get access to the Rental Management Log."
->
-  <meta http-equiv="refresh" content={`0; url=${FORM_URL}`} />
-  <section class="bg-white">
-    <div class="max-w-2xl mx-auto px-6 py-24 text-center">
-      <p class="text-slate-600">
-        Redirecting you to the <a href={FORM_URL} class="text-forest font-semibold hover:underline">Rental Management Log form</a>…
-      </p>
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{PAGE_TITLE}</title>
+  <meta name="description" content={PAGE_DESCRIPTION} />
+  <link rel="canonical" href={CANONICAL_URL} />
+  <meta property="og:title" content={PAGE_TITLE} />
+  <meta property="og:description" content={PAGE_DESCRIPTION} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={CANONICAL_URL} />
+</head>
+<body>
+  <div class="wrap">
+    <div class="logo-row">
+      <img src="/rental-management-log/logo.png" alt="LogicManse">
     </div>
-  </section>
-</BaseLayout>
+
+    <h1>Get Your Free Digital Rental Tracker</h1>
+    <p class="sub">
+      The free companion spreadsheet to the Rental Property Record Book — built for a landlord
+      managing 1–6 properties, not a property-management firm.
+    </p>
+
+    <div class="card">
+      <h2>What's inside:</h2>
+      <ul class="features">
+        <li>A 12-month rent payment tracker, ready to use for up to 6 properties</li>
+        <li>A tenant &amp; lease log with every renewal date in one place, so nothing sneaks up on you</li>
+        <li>A monthly income &amp; expense tracker built with tax time in mind</li>
+        <li>A vendor &amp; contractor directory template, organized by trade</li>
+      </ul>
+
+      <a class="cta" href={REACH_FORM_URL}>Get My Free Tracker →</a>
+      <p class="fineprint">Takes 10 seconds. We'll email you the link right away.</p>
+    </div>
+
+    <div class="gallery">
+      <figure class="ph-portrait placeholder">
+        <span>Add a cover photo of the Rental Property Record Book here</span>
+      </figure>
+      <figure class="ph-landscape placeholder">
+        <span>Add a photo of a sample interior page/spread here</span>
+      </figure>
+    </div>
+
+    <footer>
+      Written by @Antz · A LogicManse Publication<br>
+      <a href="/">logicmanse.ca</a>
+    </footer>
+  </div>
+
+  <style>
+    :root {
+      --forest: #1F3B36;
+      --bone: #F4F1E6;
+      --brass: #B08D4F;
+      --teal: #2B5D63;
+      --text: #333333;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      color: var(--text);
+      background: linear-gradient(180deg, var(--bone) 0%, #ffffff 380px);
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    .logo-row { display: flex; align-items: center; justify-content: center; margin-bottom: 36px; }
+    .logo-row img { height: 44px; }
+    h1 {
+      text-align: center;
+      font-size: 2.2rem;
+      line-height: 1.2;
+      color: var(--forest);
+      margin: 0 0 10px;
+    }
+    .sub {
+      text-align: center;
+      font-size: 1.15rem;
+      font-style: italic;
+      color: #666;
+      margin: 0 0 36px;
+    }
+    .card {
+      background: #fff;
+      border: 2px solid var(--teal);
+      border-radius: 22px;
+      padding: 32px 28px;
+      box-shadow: 0 6px 24px rgba(0,0,0,0.06);
+      margin-bottom: 36px;
+    }
+    .card h2 {
+      margin-top: 0;
+      font-size: 1.3rem;
+      color: #333;
+    }
+    ul.features {
+      list-style: none;
+      padding: 0;
+      margin: 20px 0 30px;
+    }
+    ul.features li {
+      padding: 10px 0 10px 34px;
+      position: relative;
+      font-size: 1.02rem;
+      border-bottom: 1px solid #f2f2f2;
+    }
+    ul.features li:last-child { border-bottom: none; }
+    ul.features li::before {
+      content: "\2022";
+      color: var(--brass);
+      font-weight: 700;
+      position: absolute;
+      left: 12px;
+      top: 9px;
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+    .cta {
+      display: block;
+      text-align: center;
+      background: var(--forest);
+      color: #fff !important;
+      font-weight: 700;
+      font-size: 1.15rem;
+      text-decoration: none;
+      padding: 18px 24px;
+      border-radius: 10px;
+      margin: 10px 0 8px;
+      transition: transform 0.1s ease, background 0.15s ease;
+    }
+    .cta:hover { background: var(--teal); transform: translateY(-1px); }
+    .fineprint {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #999;
+      margin: 0;
+    }
+    /* Gallery: same true-aspect-ratio approach as the Leia page (a
+       portrait cover shot and a landscape interior spread have very
+       different native shapes — force-cropping both into one box hides
+       content rather than showcasing it). */
+    .gallery {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 10px;
+    }
+    .gallery figure {
+      margin: 0;
+      height: 240px;
+      border-radius: 14px;
+      overflow: hidden;
+      box-shadow: 0 4px 14px rgba(0,0,0,0.10);
+    }
+    .gallery figure.ph-portrait { aspect-ratio: 700 / 1244; }
+    .gallery figure.ph-landscape { aspect-ratio: 1000 / 563; }
+    .gallery .placeholder {
+      background: var(--bone);
+      border: 2px dashed var(--brass);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .gallery .placeholder span {
+      font-size: 0.8rem;
+      color: var(--teal);
+      text-align: center;
+      line-height: 1.4;
+    }
+    @media (max-width: 480px) {
+      .gallery { gap: 10px; }
+      .gallery figure { height: 150px; }
+    }
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 26px;
+      border-top: 1px solid #eee;
+      font-size: 0.9rem;
+      color: #777;
+    }
+    footer a { color: var(--teal); text-decoration: none; font-weight: 600; }
+  </style>
+</body>
+</html>
