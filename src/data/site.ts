@@ -44,6 +44,4 @@ export const HEADER_NAV_LINKS = [
   { label: 'Contact', href: '/contact/' },
 ];
 
-// TODO (Ani): flip to false once the full site content is finalized.
-// Shows a construction notice bar on every page.
-export const SITE_UNDER_CONSTRUCTION = true;
+export const SITE_UNDER_CONSTRUCTION = false;
