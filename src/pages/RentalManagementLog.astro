@@ -70,8 +70,8 @@ const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/507b9e
     </div>
 
     <div class="gallery">
-      <figure class="ph-portrait placeholder">
-        <span>Add a cover photo of the Rental Property Record Book here</span>
+      <figure class="ph-portrait">
+        <img src="/rental-management-log/cover-front.jpg" alt="Rental Property Record Book cover" />
       </figure>
       <figure class="ph-landscape placeholder">
         <span>Add a photo of a sample interior page/spread here</span>
@@ -192,6 +192,12 @@ const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/507b9e
     }
     .gallery figure.ph-portrait { aspect-ratio: 700 / 1244; }
     .gallery figure.ph-landscape { aspect-ratio: 1000 / 563; }
+    .gallery img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
     .gallery .placeholder {
       background: var(--bone);
       border: 2px dashed var(--brass);
