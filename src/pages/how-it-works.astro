@@ -1,22 +1,16 @@
 ---
-// This page's content now lives on the Services page (merged so the
-// header nav has one fewer item). Kept as a redirect so old links,
-// bookmarks, and search results still land somewhere useful instead of
-// a 404.
+// Pre-pivot retail-software page, long since merged away. Kept as a
+// redirect so old bookmarks/search results don't dead-end in a 404.
 import BaseLayout from '../layouts/BaseLayout.astro';
 ---
 
-<BaseLayout
-  title="How It Works"
-  description="See our four-step process on the Services page."
->
-  <meta http-equiv="refresh" content="0; url=/services/" />
+<BaseLayout title="How It Works" description="See our books at /books/.">
+  <meta http-equiv="refresh" content="0; url=/books/" />
   <section class="bg-white">
     <div class="max-w-2xl mx-auto px-6 py-24 text-center">
       <p class="text-slate-600">
         This page has moved — redirecting you to
-        <a href="/services/" class="text-forest font-semibold hover:underline">our Services page</a>,
-        where "How It Works" now lives.
+        <a href="/books/" class="text-forest font-semibold hover:underline">our Books page</a>.
       </p>
     </div>
   </section>

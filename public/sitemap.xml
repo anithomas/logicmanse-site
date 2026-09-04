@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Hand-written, not build-generated — this site deliberately has no extra
+  build dependencies (see README/DEPLOYMENT.md). Only real, canonical
+  destination pages are listed here; the redirect stubs (services,
+  portfolio, trust-security, how-it-works) and /thank-you/ are
+  intentionally excluded since they aren't pages worth indexing.
+  Update this file when a page is added, removed, or its URL changes.
+-->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url>
+    <loc>https://www.logicmanse.ca/</loc>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://www.logicmanse.ca/books/</loc>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://www.logicmanse.ca/LeiaColoringBook/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.logicmanse.ca/RentalManagementLog/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.logicmanse.ca/about/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.logicmanse.ca/contact/</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.logicmanse.ca/privacy-policy/</loc>
+    <priority>0.3</priority>
+  </url>
+</urlset>

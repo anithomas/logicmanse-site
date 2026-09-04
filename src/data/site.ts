@@ -24,11 +24,6 @@ export const SITE = {
   copyrightYear: 2026,
 };
 
-// NOTE (pivot to publishing, Sep 2026): Services, Portfolio, and
-// Trust & Security still carry copy from the pre-pivot "custom retail
-// software" business and need a content rewrite before they're re-linked
-// — same situation as the earlier Reelcase pivot notes. Not deleted,
-// just intentionally left out of nav below.
 export const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Books', href: '/books/' },
