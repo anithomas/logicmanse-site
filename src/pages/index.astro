@@ -23,6 +23,9 @@ const CATEGORIES = [
   },
 ];
 
+// Short blurbs only — the full description for each title lives on
+// /books/ and on the title's own landing page. Kept in step with the
+// per-book blueprints, same as books.astro.
 const FEATURED = [
   {
     category: 'Coloring & Activity Book',
@@ -35,6 +38,13 @@ const FEATURED = [
     title: 'Rental Property Record Book',
     description: 'A record book for a landlord managing 1–6 properties, built for a full year of real use.',
     href: '/RentalManagementLog/',
+  },
+  {
+    category: 'Log Book',
+    title: 'The Complete Heart Health Log Book',
+    description:
+      'One book instead of four — readings, medicines, blood thinner doses and test results, in one place you can carry into an appointment.',
+    href: '/HeartHealthLog/',
   },
 ];
 ---
@@ -112,11 +122,11 @@ const FEATURED = [
     <div class="max-w-6xl mx-auto px-6 py-20">
       <SectionHeading
         eyebrow="Featured Titles"
-        title="Books We've Actually Published"
-        subtitle="Real titles, not mockups — each with its own free companion download."
+        title="Real Books, Not Mockups"
+        subtitle="Every title is written, laid out and proofed here — and each one comes with its own free companion download."
       />
 
-      <div class="grid md:grid-cols-2 gap-6 mb-10">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
         {FEATURED.map((book) => (
           <a
             href={book.href}

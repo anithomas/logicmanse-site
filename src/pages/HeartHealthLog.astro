@@ -1,0 +1,423 @@
+---
+// Dedicated landing page for "The Complete Heart Health Log Book"
+// (LogicManse Publications, Book Blueprint No. 02) — the lead-magnet
+// giveaway page for the free companion spreadsheet, same funnel pattern
+// as LeiaColoringBook.astro / RentalManagementLog.astro.
+//
+// WHY THIS URL EXACTLY: the book's printed back cover carries a QR code
+// AND the readable URL "www.logicmanse.ca/HeartHealthLog", next to the
+// line "A FREE COMPANION — A spreadsheet that mirrors the main logs."
+// The blueprint (§02) and the Etsy listing kit (§11) both flag that a
+// buyer scanning that code before this page exists lands nowhere, so
+// this page must be live before the paperback goes on sale.
+//
+// Palette and typography are taken from the book's own design, which is
+// a third distinct visual register — Leia is a children's book, the
+// rental log is a business tool, this is a medical record. Colours are
+// sampled from the built cover (Heart_Health_Log_Book_COVER.png): deep
+// slate-teal ground #102B3A, bone panel #EFE3CC, clay accent #C2624F
+// (the clay is the philosophy's documented value, see
+// DESIGN_PHILOSOPHY_Quiet_Accumulation.md). Crimson Pro + IBM Plex Mono
+// mirror the cover's own typefaces. No blues-as-warning, no clinical
+// white, no red heart — the same discipline the cover holds to.
+//
+// Self-contained (its own <head>/<body>, not BaseLayout/Header/Footer),
+// same reasoning as the two sibling book pages.
+//
+// Route: this file's name controls the URL, so it lives at
+// https://www.logicmanse.ca/HeartHealthLog/
+// public/HeartHealthLog.html is a static redirect stub so the exact
+// printed URL (no trailing slash) resolves here too.
+const PAGE_TITLE = 'Free Heart Health Log Spreadsheet | LogicManse Publications';
+const PAGE_DESCRIPTION =
+  'Get the free companion spreadsheet to The Complete Heart Health Log Book — blood pressure, heart rate, weight, medicines, blood thinner doses and test results, mirroring the printed book.';
+const CANONICAL_URL = 'https://www.logicmanse.ca/HeartHealthLog/';
+
+// TODO (Ani): create the Reach500 lead-capture form for this book (same
+// as the two forms already live for Leia and the rental log), then paste
+// its URL here. Until this is a non-empty string the page renders a
+// short "opening shortly" notice instead of a dead call-to-action —
+// deliberately, so a reader who scans the QR code early is told the
+// truth rather than clicking a button that goes nowhere.
+//
+// The file the form's confirmation page / welcome email should hand back
+// is the free companion spreadsheet, which still needs building — the
+// rental log's Rental_Property_Digital_Companion.xlsx (17 tabs mirroring
+// its printed sections, served from the logbooks.logicmanse.ca R2
+// bucket) is the working model for it.
+const REACH_FORM_URL = '';
+
+// Straight from the book's own back cover ("INSIDE"), with the two
+// spacing defects in the printed cover corrected — see the note in the
+// commit message about the cover build script collapsing spaces.
+const INSIDE = [
+  '52 weekly pages — a whole week visible at a glance, in large, easy-to-read print',
+  '12 monthly reviews, with a daily weight chart and room for the questions you forget',
+  'Blood pressure, heart rate, weight, and morning-noon-evening-bedtime medicines',
+  'A blood thinner schedule built for a dose that changes with the day of the week',
+  'Surgery history, valve and device records, procedures, dental visits, blood work',
+  'A plain-English glossary of 78 terms, and conversion tables for kg, litres and salt',
+  'Space for the results nobody ever hands you a copy of',
+  'A page for whoever is helping you, so they can pick it up on a bad day',
+];
+
+// What the free download itself contains. Kept deliberately parallel to
+// the printed book's own sections, because that is precisely what the
+// back cover promises: "a spreadsheet that mirrors the main logs."
+const COMPANION = [
+  'A weekly tracking sheet that mirrors the printed weekly page — blood pressure, pulse, weight, the four medicine times, and the blood thinner dose actually taken',
+  'A monthly review sheet, with the daily weight chart drawn for you as you type',
+  'Your medicine list and daily schedule, in one place you can reprint whenever the schedule changes',
+  'A test-results log for blood tests, other blood work, scans and heart tests',
+  'Your care team, and the one-page summary card — the sheet to fill in once and photograph',
+];
+---
+
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{PAGE_TITLE}</title>
+  <meta name="description" content={PAGE_DESCRIPTION} />
+  <link rel="canonical" href={CANONICAL_URL} />
+  <meta property="og:title" content={PAGE_TITLE} />
+  <meta property="og:description" content={PAGE_DESCRIPTION} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={CANONICAL_URL} />
+  <meta property="og:image" content="/heart-health-log/cover-front.jpg" />
+
+  <!-- Crimson Pro + IBM Plex Mono: the book cover's own typefaces. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet"
+  />
+</head>
+<body>
+  <div class="wrap">
+    <div class="logo-row">
+      <img src="/heart-health-log/logo.png" alt="LogicManse">
+    </div>
+
+    <p class="eyebrow">A free companion</p>
+    <h1>The Heart Health Log, as a Spreadsheet</h1>
+    <p class="sub">
+      The free companion to <em>The Complete Heart Health Log Book</em> — the same logs you
+      write by hand, for the weeks you'd rather type.
+    </p>
+
+    <div class="card">
+      <h2>What's in the download</h2>
+      <ul class="features">
+        {COMPANION.map((item) => <li>{item}</li>)}
+      </ul>
+
+      {REACH_FORM_URL ? (
+        <>
+          <a class="cta" href={REACH_FORM_URL}>Get My Free Spreadsheet →</a>
+          <p class="fineprint">Takes 10 seconds. We'll email you the link right away.</p>
+        </>
+      ) : (
+        <div class="pending">
+          <p><strong>The download opens shortly.</strong></p>
+          <p>
+            If you've just scanned the code in the back of the book, thank you — the free
+            spreadsheet is being finished now. <a href="/contact/">Send us a message</a> and
+            we'll email you the moment it's ready.
+          </p>
+        </div>
+      )}
+    </div>
+
+    <!-- The single strongest piece of copy the book has, and the thing
+         no competitor can match. Verbatim from the back cover. -->
+    <blockquote class="origin">
+      <p>
+        This book wasn't designed in an office. It was worked out at a kitchen table, in the
+        months after someone in my family came home from heart surgery.
+      </p>
+      <p class="origin-body">
+        A blood test whose result changed the dose. A dose that was different on different days
+        of the week. Four separate pill times a day. Five specialists who each asked the same
+        questions. What was needed was one book — the whole picture in one place, in
+        handwriting, that could be carried into an appointment.
+      </p>
+      <cite>— @Antz</cite>
+    </blockquote>
+
+    <section class="book">
+      <h2>One book instead of four</h2>
+      <ul class="features inside">
+        {INSIDE.map((item) => <li>{item}</li>)}
+      </ul>
+      <p class="who">
+        For anyone after heart surgery, on a blood thinner, managing several daily medicines —
+        or caring for someone who is.
+      </p>
+      <p class="specs">Undated · 8.5" × 11" · 118 pages</p>
+    </section>
+
+    <div class="gallery">
+      <figure class="ph-portrait">
+        <img src="/heart-health-log/cover-front.jpg" alt="The Complete Heart Health Log Book cover" />
+      </figure>
+      <figure class="ph-square">
+        <img
+          src="/heart-health-log/interior-page.jpg"
+          alt="A sample interior page: the blood thinner prescribed-schedule log"
+        />
+      </figure>
+    </div>
+
+    <!-- The book's own promise, and the reason it clears KDP's rules on
+         medical guidance. Repeated here because it is the trust argument
+         a reader is weighing on this page too. -->
+    <div class="panel">
+      <p class="panel-title">Not one number in here is ours</p>
+      <p>
+        There is no target range, no dosage and no warning sign printed anywhere in this book.
+        Every one of them is a blank line — because they are set for you personally, by the
+        people looking after you. This is simply where yours go.
+      </p>
+    </div>
+
+    <p class="disclaimer">
+      A blank record book for organising information given to you by your own care team. Not
+      medical advice, and it contains no medical guidance, target values, dosages or warning
+      signs. Always follow the instructions of your own doctor, clinic or pharmacist.
+    </p>
+
+    <footer>
+      Written by @Antz · A LogicManse Publication<br>
+      <a href="/">logicmanse.ca</a>
+    </footer>
+  </div>
+
+  <style>
+    :root {
+      --slate: #102B3A;      /* cover ground */
+      --slate-light: #163B49;/* cover's lighter band */
+      --bone: #EFE3CC;       /* cover title/quote panel */
+      --sand: #F7F0E3;       /* page ground */
+      --clay: #C2624F;       /* the single accent, per the design philosophy */
+      --ink: #3A302B;
+      --soft-ink: #7A6A60;
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: "Crimson Pro", Georgia, "Times New Roman", serif;
+      font-size: 18px;
+      color: var(--ink);
+      background: linear-gradient(180deg, var(--sand) 0%, #ffffff 420px);
+    }
+    .wrap { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
+    .logo-row { display: flex; align-items: center; justify-content: center; margin-bottom: 36px; }
+    .logo-row img { height: 44px; }
+
+    /* IBM Plex Mono at small sizes with wide letterspacing is the book's
+       "specimen label" voice — used only for markers, never body copy. */
+    .eyebrow {
+      font-family: "IBM Plex Mono", ui-monospace, "Courier New", monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--soft-ink);
+      text-align: center;
+      margin: 0 0 12px;
+    }
+    h1 {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 600;
+      line-height: 1.15;
+      color: var(--slate);
+      margin: 0 0 14px;
+    }
+    .sub {
+      text-align: center;
+      font-size: 1.2rem;
+      color: var(--soft-ink);
+      line-height: 1.5;
+      margin: 0 0 40px;
+    }
+    .sub em { color: var(--ink); }
+
+    .card {
+      background: #fff;
+      border: 1px solid #E3D8C4;
+      border-top: 4px solid var(--clay);
+      border-radius: 10px;
+      padding: 32px 30px;
+      box-shadow: 0 6px 24px rgba(16, 43, 58, 0.07);
+      margin-bottom: 40px;
+    }
+    .card h2 { margin: 0; font-size: 1.35rem; font-weight: 600; color: var(--slate); }
+
+    ul.features { list-style: none; padding: 0; margin: 20px 0 30px; }
+    ul.features li {
+      padding: 11px 0 11px 26px;
+      position: relative;
+      line-height: 1.5;
+      border-bottom: 1px solid #F1EBDF;
+    }
+    ul.features li:last-child { border-bottom: none; }
+    ul.features li::before {
+      content: "";
+      position: absolute;
+      left: 6px;
+      top: 20px;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--clay);
+    }
+
+    .cta {
+      display: block;
+      text-align: center;
+      background: var(--slate);
+      color: var(--sand) !important;
+      font-weight: 600;
+      font-size: 1.15rem;
+      text-decoration: none;
+      padding: 18px 24px;
+      border-radius: 8px;
+      margin: 10px 0 8px;
+      transition: transform 0.1s ease, background 0.15s ease;
+    }
+    .cta:hover { background: var(--clay); transform: translateY(-1px); }
+    .fineprint { text-align: center; font-size: 0.9rem; color: #9C9086; margin: 0; }
+
+    /* Shown until REACH_FORM_URL is filled in — see the note at the top. */
+    .pending {
+      background: var(--sand);
+      border-left: 3px solid var(--clay);
+      padding: 18px 20px;
+      border-radius: 4px;
+    }
+    .pending p { margin: 0 0 8px; line-height: 1.55; }
+    .pending p:last-child { margin-bottom: 0; }
+    .pending a { color: var(--clay); }
+
+    .origin {
+      margin: 0 0 40px;
+      padding: 0 0 0 22px;
+      border-left: 3px solid var(--clay);
+    }
+    .origin p {
+      font-style: italic;
+      font-size: 1.22rem;
+      line-height: 1.5;
+      color: var(--slate);
+      margin: 0 0 16px;
+    }
+    .origin .origin-body {
+      font-style: normal;
+      font-size: 1.05rem;
+      color: var(--soft-ink);
+    }
+    .origin cite {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-style: normal;
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      color: var(--soft-ink);
+    }
+
+    .book { margin-bottom: 40px; }
+    .book h2 {
+      font-size: 1.9rem;
+      font-weight: 600;
+      color: var(--slate);
+      margin: 0 0 6px;
+    }
+    .book h2::after {
+      content: "";
+      display: block;
+      width: 62px;
+      height: 3px;
+      background: var(--clay);
+      margin-top: 10px;
+    }
+    ul.inside { margin-top: 18px; }
+    .who { font-style: italic; color: var(--soft-ink); line-height: 1.5; margin: 0 0 10px; }
+    .specs {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #A8998C;
+      margin: 0;
+    }
+
+    /* Same true-aspect-ratio approach as the two sibling book pages: a
+       portrait cover and a square listing photo have different native
+       shapes, and force-cropping both into one box hides content. */
+    .gallery {
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 40px;
+    }
+    .gallery figure {
+      margin: 0;
+      height: 300px;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 16px rgba(16, 43, 58, 0.14);
+    }
+    .gallery figure.ph-portrait { aspect-ratio: 970 / 1256; }
+    .gallery figure.ph-square { aspect-ratio: 1 / 1; }
+    .gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
+
+    .panel {
+      background: var(--bone);
+      border-left: 4px solid var(--clay);
+      padding: 24px 26px;
+      border-radius: 3px;
+      margin-bottom: 34px;
+    }
+    .panel p { margin: 0; line-height: 1.55; color: var(--slate); }
+    .panel-title {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.72rem !important;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--soft-ink) !important;
+      margin-bottom: 12px !important;
+    }
+
+    .disclaimer {
+      font-size: 0.85rem;
+      line-height: 1.6;
+      color: #9C9086;
+      margin: 0;
+    }
+
+    @media (max-width: 480px) {
+      h1 { font-size: 1.9rem; }
+      .sub { font-size: 1.05rem; }
+      .book h2 { font-size: 1.5rem; }
+      .card { padding: 26px 20px; }
+      .gallery { gap: 10px; }
+      .gallery figure { height: 190px; }
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 50px;
+      padding-top: 26px;
+      border-top: 1px solid #EBE2D3;
+      font-size: 0.9rem;
+      color: var(--soft-ink);
+    }
+    footer a { color: var(--clay); text-decoration: none; font-weight: 600; }
+  </style>
+</body>
+</html>

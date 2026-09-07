@@ -5,14 +5,24 @@ import CTAButton from '../components/CTAButton.astro';
 
 // Real, currently-published or in-production titles. Each links out to its
 // own dedicated landing page (built separately per book, own branding —
-// see LeiaColoringBook.astro / RentalManagementLog.astro) rather than
-// duplicating that content here.
+// see LeiaColoringBook.astro / RentalManagementLog.astro /
+// HeartHealthLog.astro) rather than duplicating that content here.
+//
+// Copy and specs below come straight from each title's own blueprint
+// (LogicManse Publications Book Blueprint No. 01 = the rental log,
+// No. 02 = the heart health log) and from Leia's content map — not
+// invented here. Keep the two in step if a blueprint changes.
+//
+// "status" is deliberately conservative: a title only reads "Available"
+// once it is actually purchasable. Both log books have finished interiors
+// and covers but are not yet live on their storefronts.
 const titles = [
   {
     category: 'Coloring & Activity Book',
     title: 'Super Leia to the Rescue!',
     description:
       "A coloring & activity book inspired by a real dog named Leia — mazes, word searches, and 30 coloring pages, with a free bonus color pack and real photos for kids and parents.",
+    specs: '8.5" × 11" · 106 pages · ages 4–8',
     href: '/LeiaColoringBook/',
     cta: 'Get the Free Color Pack',
     status: 'Available',
@@ -21,9 +31,20 @@ const titles = [
     category: 'Log Book',
     title: 'Rental Property Record Book',
     description:
-      'A record book for a landlord managing 1–6 properties — rent tracking, tenant & lease logs, maintenance, mileage, and a portfolio-wide annual summary built for tax time.',
+      'A record book for a landlord with 1–6 properties, not a property-management firm — rent tracking, tenant & lease logs, maintenance, a mileage log, a vendor directory, and a portfolio-wide annual summary built for tax time.',
+    specs: '8.5" × 11" · 109 pages · undated',
     href: '/RentalManagementLog/',
     cta: 'Get the Free Digital Tracker',
+    status: 'Coming soon',
+  },
+  {
+    category: 'Log Book',
+    title: 'The Complete Heart Health Log Book',
+    description:
+      'One book instead of four, for someone living with a heart condition that is managed rather than cured — blood pressure, medicines from morning to bedtime, a blood thinner schedule that changes with the day of the week, test results, and the surgical history every new clinic asks for.',
+    specs: '8.5" × 11" · 118 pages · undated · large print',
+    href: '/HeartHealthLog/',
+    cta: 'Get the Free Companion Spreadsheet',
     status: 'Coming soon',
   },
 ];
@@ -59,7 +80,8 @@ const titles = [
             </span>
           </div>
           <h2 class="text-2xl font-serif font-bold text-navy mb-3">{book.title}</h2>
-          <p class="text-slate-600 leading-relaxed mb-4">{book.description}</p>
+          <p class="text-slate-600 leading-relaxed mb-3">{book.description}</p>
+          <p class="text-xs uppercase tracking-wide text-slate-400 mb-4">{book.specs}</p>
           <span class="inline-block text-sm font-semibold text-forest">
             {book.cta} &rarr;
           </span>
