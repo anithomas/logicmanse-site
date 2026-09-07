@@ -14,12 +14,14 @@
 // Palette and typography are taken from the book's own design, which is
 // a third distinct visual register — Leia is a children's book, the
 // rental log is a business tool, this is a medical record. Colours are
-// sampled from the built cover (Heart_Health_Log_Book_COVER.png): deep
-// slate-teal ground #102B3A, bone panel #EFE3CC, clay accent #C2624F
-// (the clay is the philosophy's documented value, see
-// DESIGN_PHILOSOPHY_Quiet_Accumulation.md). Crimson Pro + IBM Plex Mono
-// mirror the cover's own typefaces. No blues-as-warning, no clinical
-// white, no red heart — the same discipline the cover holds to.
+// sampled from the shipping cover, Heart_Health_Log_Book_COVER.pdf
+// (NOT the stale ...COVER.png sitting beside it, which is an earlier
+// render): warm cream ground #F7F0E3, sand panel #EFE2CC, a single clay
+// accent #C1624F, ink #3A2F2A. That is exactly the discipline written
+// down in DESIGN_PHILOSOPHY_Quiet_Accumulation.md — one warm ground,
+// three neutrals, one accent, "no blues, no clinical whites, nothing
+// that could be mistaken for a warning". Crimson Pro + IBM Plex Mono
+// mirror the cover's own typefaces.
 //
 // Self-contained (its own <head>/<body>, not BaseLayout/Header/Footer),
 // same reasoning as the two sibling book pages.
@@ -33,23 +35,28 @@ const PAGE_DESCRIPTION =
   'Get the free companion spreadsheet to The Complete Heart Health Log Book — blood pressure, heart rate, weight, medicines, blood thinner doses and test results, mirroring the printed book.';
 const CANONICAL_URL = 'https://www.logicmanse.ca/HeartHealthLog/';
 
-// TODO (Ani): create the Reach500 lead-capture form for this book (same
-// as the two forms already live for Leia and the rental log), then paste
-// its URL here. Until this is a non-empty string the page renders a
-// short "opening shortly" notice instead of a dead call-to-action —
-// deliberately, so a reader who scans the QR code early is told the
-// truth rather than clicking a button that goes nowhere.
+// Reach500 lead-capture form, supplied by Ani 07 Sep 2026.
 //
-// The file the form's confirmation page / welcome email should hand back
-// is the free companion spreadsheet, which still needs building — the
-// rental log's Rental_Property_Digital_Companion.xlsx (17 tabs mirroring
-// its printed sections, served from the logbooks.logicmanse.ca R2
-// bucket) is the working model for it.
-const REACH_FORM_URL = '';
+// ⚠️ NOTE: this is the SAME form id the rental log page uses (see
+// RentalManagementLog.astro). Whatever that form's confirmation page and
+// welcome email hand back is what a heart-health reader will receive, so
+// the form itself needs either (a) repointing/duplicating in Reach500 so
+// this book gets its own delivery, or (b) a confirmation that it already
+// serves both. Until then a reader who scans the back-cover QR code gets
+// the rental tracker.
+//
+// The file it should hand back is the free companion spreadsheet — "a
+// spreadsheet that mirrors the main logs", per the printed back cover —
+// which still needs building. The rental log's
+// Rental_Property_Digital_Companion.xlsx (17 tabs mirroring its printed
+// sections, served from the logbooks.logicmanse.ca R2 bucket) is the
+// working model for it.
+//
+// If this is set back to an empty string the page falls back to an
+// honest "opening shortly" notice instead of a dead call-to-action.
+const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/507b9eac-cab0-41c3-ae6c-41e8ff00d445';
 
-// Straight from the book's own back cover ("INSIDE"), with the two
-// spacing defects in the printed cover corrected — see the note in the
-// commit message about the cover build script collapsing spaces.
+// Verbatim from the book's own back cover, under "INSIDE".
 const INSIDE = [
   '52 weekly pages — a whole week visible at a glance, in large, easy-to-read print',
   '12 monthly reviews, with a daily weight chart and room for the questions you forget',
@@ -197,14 +204,18 @@ const COMPANION = [
   </div>
 
   <style>
+    /* One warm ground, three neutrals, one accent — sampled straight off
+       Heart_Health_Log_Book_COVER.pdf, and the exact discipline set out
+       in DESIGN_PHILOSOPHY_Quiet_Accumulation.md. Do not add a second
+       accent colour here; the clay carries all the heat on purpose. */
     :root {
-      --slate: #102B3A;      /* cover ground */
-      --slate-light: #163B49;/* cover's lighter band */
-      --bone: #EFE3CC;       /* cover title/quote panel */
-      --sand: #F7F0E3;       /* page ground */
-      --clay: #C2624F;       /* the single accent, per the design philosophy */
-      --ink: #3A302B;
+      --ground: #F7F0E3;     /* cover ground */
+      --sand: #EFE2CC;       /* cover's quote/feature panel */
+      --lattice: #D8C3A0;    /* the 364-mark lattice, used for hairlines */
+      --ink: #3A2F2A;        /* cover title ink */
       --soft-ink: #7A6A60;
+      --faint: #A8998C;
+      --clay: #C1624F;       /* the single accent */
     }
     * { box-sizing: border-box; }
     body {
@@ -212,7 +223,7 @@ const COMPANION = [
       font-family: "Crimson Pro", Georgia, "Times New Roman", serif;
       font-size: 18px;
       color: var(--ink);
-      background: linear-gradient(180deg, var(--sand) 0%, #ffffff 420px);
+      background: var(--ground);
     }
     .wrap { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
     .logo-row { display: flex; align-items: center; justify-content: center; margin-bottom: 36px; }
@@ -234,7 +245,7 @@ const COMPANION = [
       font-size: 2.5rem;
       font-weight: 600;
       line-height: 1.15;
-      color: var(--slate);
+      color: var(--ink);
       margin: 0 0 14px;
     }
     .sub {
@@ -248,21 +259,21 @@ const COMPANION = [
 
     .card {
       background: #fff;
-      border: 1px solid #E3D8C4;
+      border: 1px solid var(--lattice);
       border-top: 4px solid var(--clay);
       border-radius: 10px;
       padding: 32px 30px;
-      box-shadow: 0 6px 24px rgba(16, 43, 58, 0.07);
+      box-shadow: 0 6px 24px rgba(58, 47, 42, 0.07);
       margin-bottom: 40px;
     }
-    .card h2 { margin: 0; font-size: 1.35rem; font-weight: 600; color: var(--slate); }
+    .card h2 { margin: 0; font-size: 1.35rem; font-weight: 600; color: var(--ink); }
 
     ul.features { list-style: none; padding: 0; margin: 20px 0 30px; }
     ul.features li {
       padding: 11px 0 11px 26px;
       position: relative;
       line-height: 1.5;
-      border-bottom: 1px solid #F1EBDF;
+      border-bottom: 1px solid rgba(216, 195, 160, 0.45);
     }
     ul.features li:last-child { border-bottom: none; }
     ul.features li::before {
@@ -279,8 +290,8 @@ const COMPANION = [
     .cta {
       display: block;
       text-align: center;
-      background: var(--slate);
-      color: var(--sand) !important;
+      background: var(--ink);
+      color: var(--ground) !important;
       font-weight: 600;
       font-size: 1.15rem;
       text-decoration: none;
@@ -290,11 +301,11 @@ const COMPANION = [
       transition: transform 0.1s ease, background 0.15s ease;
     }
     .cta:hover { background: var(--clay); transform: translateY(-1px); }
-    .fineprint { text-align: center; font-size: 0.9rem; color: #9C9086; margin: 0; }
+    .fineprint { text-align: center; font-size: 0.9rem; color: var(--faint); margin: 0; }
 
     /* Shown until REACH_FORM_URL is filled in — see the note at the top. */
     .pending {
-      background: var(--sand);
+      background: var(--ground);
       border-left: 3px solid var(--clay);
       padding: 18px 20px;
       border-radius: 4px;
@@ -312,7 +323,7 @@ const COMPANION = [
       font-style: italic;
       font-size: 1.22rem;
       line-height: 1.5;
-      color: var(--slate);
+      color: var(--ink);
       margin: 0 0 16px;
     }
     .origin .origin-body {
@@ -332,7 +343,7 @@ const COMPANION = [
     .book h2 {
       font-size: 1.9rem;
       font-weight: 600;
-      color: var(--slate);
+      color: var(--ink);
       margin: 0 0 6px;
     }
     .book h2::after {
@@ -350,7 +361,7 @@ const COMPANION = [
       font-size: 0.72rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
-      color: #A8998C;
+      color: var(--faint);
       margin: 0;
     }
 
@@ -370,20 +381,20 @@ const COMPANION = [
       height: 300px;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 4px 16px rgba(16, 43, 58, 0.14);
+      box-shadow: 0 4px 16px rgba(58, 47, 42, 0.16);
     }
-    .gallery figure.ph-portrait { aspect-ratio: 970 / 1256; }
+    .gallery figure.ph-portrait { aspect-ratio: 1082 / 1400; }
     .gallery figure.ph-square { aspect-ratio: 1 / 1; }
     .gallery img { width: 100%; height: 100%; object-fit: cover; display: block; }
 
     .panel {
-      background: var(--bone);
+      background: var(--sand);
       border-left: 4px solid var(--clay);
       padding: 24px 26px;
       border-radius: 3px;
       margin-bottom: 34px;
     }
-    .panel p { margin: 0; line-height: 1.55; color: var(--slate); }
+    .panel p { margin: 0; line-height: 1.55; color: var(--ink); }
     .panel-title {
       font-family: "IBM Plex Mono", ui-monospace, monospace;
       font-size: 0.72rem !important;
@@ -396,7 +407,7 @@ const COMPANION = [
     .disclaimer {
       font-size: 0.85rem;
       line-height: 1.6;
-      color: #9C9086;
+      color: var(--faint);
       margin: 0;
     }
 
@@ -413,7 +424,7 @@ const COMPANION = [
       text-align: center;
       margin-top: 50px;
       padding-top: 26px;
-      border-top: 1px solid #EBE2D3;
+      border-top: 1px solid var(--lattice);
       font-size: 0.9rem;
       color: var(--soft-ink);
     }
