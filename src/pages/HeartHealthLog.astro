@@ -20,8 +20,10 @@
 // accent #C1624F, ink #3A2F2A. That is exactly the discipline written
 // down in DESIGN_PHILOSOPHY_Quiet_Accumulation.md — one warm ground,
 // three neutrals, one accent, "no blues, no clinical whites, nothing
-// that could be mistaken for a warning". Crimson Pro + IBM Plex Mono
-// mirror the cover's own typefaces.
+// that could be mistaken for a warning". The four typefaces are the
+// cover's own too: Young Serif for the hero word, Big Shoulders for
+// the secondary title, Crimson Pro for the emotional lines, IBM Plex
+// Mono for the systematic markers.
 //
 // Self-contained (its own <head>/<body>, not BaseLayout/Header/Footer),
 // same reasoning as the two sibling book pages.
@@ -35,26 +37,19 @@ const PAGE_DESCRIPTION =
   'Get the free companion spreadsheet to The Complete Heart Health Log Book — blood pressure, heart rate, weight, medicines, blood thinner doses and test results, mirroring the printed book.';
 const CANONICAL_URL = 'https://www.logicmanse.ca/HeartHealthLog/';
 
-// Reach500 lead-capture form, supplied by Ani 07 Sep 2026.
-//
-// ⚠️ NOTE: this is the SAME form id the rental log page uses (see
-// RentalManagementLog.astro). Whatever that form's confirmation page and
-// welcome email hand back is what a heart-health reader will receive, so
-// the form itself needs either (a) repointing/duplicating in Reach500 so
-// this book gets its own delivery, or (b) a confirmation that it already
-// serves both. Until then a reader who scans the back-cover QR code gets
-// the rental tracker.
-//
-// The file it should hand back is the free companion spreadsheet — "a
-// spreadsheet that mirrors the main logs", per the printed back cover —
-// which still needs building. The rental log's
+// Reach500 lead-capture form for THIS book — its own form, distinct from
+// the rental log's (supplied by Ani 08 Sep 2026). This is the address the
+// QR code and the printed URL on the back cover both resolve to, so the
+// form's confirmation page and welcome email must hand back the free
+// companion spreadsheet — "a spreadsheet that mirrors the main logs", in
+// the back cover's words. That file is being built; the rental log's
 // Rental_Property_Digital_Companion.xlsx (17 tabs mirroring its printed
 // sections, served from the logbooks.logicmanse.ca R2 bucket) is the
 // working model for it.
 //
-// If this is set back to an empty string the page falls back to an
-// honest "opening shortly" notice instead of a dead call-to-action.
-const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/507b9eac-cab0-41c3-ae6c-41e8ff00d445';
+// Setting this to an empty string falls the page back to an honest
+// "opening shortly" notice rather than a dead call-to-action.
+const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/5feeedfb-224c-44b0-a557-dc712f200b84';
 
 // Verbatim from the book's own back cover, under "INSIDE".
 const INSIDE = [
@@ -78,6 +73,56 @@ const COMPANION = [
   'A test-results log for blood tests, other blood work, scans and heart tests',
   'Your care team, and the one-page summary card — the sheet to fill in once and photograph',
 ];
+
+// ---------------------------------------------------------------------
+// The cover's own graphic, re-drawn for the web.
+//
+// The front cover's whole idea (DESIGN_PHILOSOPHY_Quiet_Accumulation.md)
+// is a lattice of EXACTLY 52 x 7 = 364 marks — one year of days — from
+// which a small population departs the baseline to trace a heartbeat.
+// So this is not decoration and the count is not arbitrary: per column
+// the mark nearest the trace is the one that moved, which keeps the
+// total at 364 rather than adding a line on top of a grid. The build
+// asserts the count for the same reason the cover script does.
+// ---------------------------------------------------------------------
+const WEEKS = 52;
+const DAYS = 7;
+const COL_W = 20;
+const ROW_H = 32;
+const X0 = 46;   // left inset: room for the MON/SUN row labels
+const Y0 = 22;
+const BASELINE_Y = Y0 + 3 * ROW_H; // the MON..SUN middle row
+
+// One beat, in pixels off the baseline: flat run, P wave, QRS, T wave,
+// flat run. Reshaped the way revision 6 reshaped the printed one — the
+// complex proportioned against the flat runs, so the line has rhythm.
+const BEAT: Record<number, number> = {
+  17: -12, 18: -19, 19: -12,
+  22: 16, 23: -94, 24: 88, 25: 10,
+  28: -25, 29: -33, 30: -24,
+};
+const traceY = (i: number) => BASELINE_Y + (BEAT[i] ?? 0);
+
+// 6 lattice marks + 1 displaced mark per column = 7 x 52 = 364.
+const columns = Array.from({ length: WEEKS }, (_, i) => {
+  const x = X0 + i * COL_W;
+  const ty = traceY(i);
+  // The row the departed mark came from: whichever sits closest to it.
+  const from = Math.round((ty - Y0) / ROW_H);
+  const rows = Array.from({ length: DAYS }, (_, j) => Y0 + j * ROW_H).filter(
+    (_, j) => j !== Math.min(Math.max(from, 0), DAYS - 1)
+  );
+  return { x, ty, rows };
+});
+
+const markCount = columns.reduce((n, c) => n + c.rows.length + 1, 0);
+if (markCount !== 364) {
+  throw new Error(`Cover field must carry exactly 364 marks, got ${markCount}`);
+}
+
+const FIELD_W = X0 * 2 + (WEEKS - 1) * COL_W;
+const FIELD_H = Y0 * 2 + (DAYS - 1) * ROW_H;
+const WEEK_TICKS = [1, 13, 26, 39, 52];
 ---
 
 <!doctype html>
@@ -95,11 +140,13 @@ const COMPANION = [
   <meta property="og:url" content={CANONICAL_URL} />
   <meta property="og:image" content="/heart-health-log/cover-front.jpg" />
 
-  <!-- Crimson Pro + IBM Plex Mono: the book cover's own typefaces. -->
+  <!-- The cover's own four typefaces: Young Serif for the hero word,
+       Big Shoulders for the secondary title, Crimson Pro for the
+       emotional lines, IBM Plex Mono for the systematic markers. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Big+Shoulders+Display:wght@700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap"
     rel="stylesheet"
   />
 </head>
@@ -109,15 +156,66 @@ const COMPANION = [
       <img src="/heart-health-log/logo.png" alt="LogicManse">
     </div>
 
-    <p class="eyebrow">A free companion</p>
-    <h1>The Heart Health Log, as a Spreadsheet</h1>
-    <p class="sub">
-      The free companion to <em>The Complete Heart Health Log Book</em> — the same logs you
-      write by hand, for the weeks you'd rather type.
-    </p>
+    <!-- The physical front cover, re-drawn: the same title lockup, the
+         same strapline, the same field of 364 marks. Someone who scanned
+         the QR code is holding this — the page should be recognisable as
+         the same object before they read a word of it. -->
+    <header class="cover">
+      <h1 class="cover-title">
+        <span class="cover-the">The Complete</span>
+        <span class="cover-hero">Heart</span>
+        <span class="cover-rest">Health Log Book</span>
+      </h1>
+
+      <p class="cover-strap">
+        Blood pressure · heart rate · weight · blood-thinner doses · morning to bedtime medicines
+      </p>
+
+      <svg
+        class="field"
+        viewBox={`0 0 ${FIELD_W} ${FIELD_H + 46}`}
+        role="img"
+        aria-label="A lattice of 364 marks — 52 weeks by 7 days — with one line of them departing to trace a heartbeat"
+      >
+        <text class="field-day" x="0" y={Y0 + 4}>MON</text>
+        <text class="field-day" x="0" y={Y0 + 6 * ROW_H + 4}>SUN</text>
+
+        {columns.map((col) => (
+          <>
+            {col.rows.map((y) => <circle class="mark" cx={col.x} cy={y} r="2.1" />)}
+            <circle class="mark-moved" cx={col.x} cy={col.ty} r="2.8" />
+          </>
+        ))}
+
+        <polyline
+          class="trace"
+          points={columns.map((c) => `${c.x},${c.ty}`).join(' ')}
+          fill="none"
+        />
+
+        {WEEK_TICKS.map((w) => (
+          <text class="field-week" x={X0 + (w - 1) * COL_W} y={FIELD_H + 16}>
+            {String(w).padStart(2, '0')}
+          </text>
+        ))}
+        <text class="field-caption" x={FIELD_W / 2} y={FIELD_H + 38}>
+          364 MARKS — ONE YEAR, ONE DAY AT A TIME
+        </text>
+      </svg>
+
+      <p class="cover-who">
+        For anyone living with a heart condition that is managed rather than cured — and for
+        whoever is helping them.
+      </p>
+      <p class="cover-specs">Undated · 8.5" × 11" · 118 pages · by @Antz</p>
+    </header>
 
     <div class="card">
-      <h2>What's in the download</h2>
+      <p class="eyebrow">A free companion</p>
+      <h2>The same logs, as a spreadsheet</h2>
+      <p class="card-sub">
+        For the weeks you'd rather type than write. Here's what's in the download:
+      </p>
       <ul class="features">
         {COMPANION.map((item) => <li>{item}</li>)}
       </ul>
@@ -164,7 +262,6 @@ const COMPANION = [
         For anyone after heart surgery, on a blood thinner, managing several daily medicines —
         or caring for someone who is.
       </p>
-      <p class="specs">Undated · 8.5" × 11" · 118 pages</p>
     </section>
 
     <div class="gallery">
@@ -237,25 +334,85 @@ const COMPANION = [
       letter-spacing: 0.22em;
       text-transform: uppercase;
       color: var(--soft-ink);
-      text-align: center;
-      margin: 0 0 12px;
+      margin: 0 0 10px;
     }
-    h1 {
-      text-align: center;
-      font-size: 2.5rem;
-      font-weight: 600;
-      line-height: 1.15;
-      color: var(--ink);
-      margin: 0 0 14px;
-    }
-    .sub {
-      text-align: center;
-      font-size: 1.2rem;
+
+    /* ---- The cover, re-drawn ---------------------------------------
+       Three unequal registers with a severe hierarchy between them, per
+       DESIGN_PHILOSOPHY_Monumental_Tenderness.md: one hero word, and
+       everything else drops by an order of magnitude rather than a step.
+       That is what lets the cover read small and stay calm large. */
+    .cover { text-align: center; margin: 0 0 46px; }
+    .cover-title { margin: 0; font-weight: normal; }
+    .cover-title span { display: block; }
+    .cover-the {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.4em;
+      text-indent: 0.4em;         /* balance the trailing letterspace */
+      text-transform: uppercase;
       color: var(--soft-ink);
-      line-height: 1.5;
-      margin: 0 0 40px;
+      margin-bottom: 6px;
     }
-    .sub em { color: var(--ink); }
+    .cover-hero {
+      font-family: "Young Serif", Georgia, serif;
+      font-size: clamp(3.6rem, 13vw, 6.6rem);
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+      text-transform: uppercase;
+      color: var(--ink);
+    }
+    .cover-rest {
+      font-family: "Big Shoulders Display", "Arial Narrow", sans-serif;
+      font-weight: 700;
+      font-size: clamp(1.9rem, 6.4vw, 3.1rem);
+      line-height: 1;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--ink);
+      margin-top: 2px;
+    }
+    .cover-strap {
+      font-style: italic;
+      font-size: 1.02rem;
+      line-height: 1.45;
+      color: var(--soft-ink);
+      max-width: 30em;
+      margin: 20px auto 0;
+      padding-top: 18px;
+      border-top: 1px solid var(--lattice);
+    }
+
+    .field { display: block; width: 100%; height: auto; margin: 26px 0 4px; overflow: visible; }
+    .mark { fill: var(--lattice); }
+    .mark-moved { fill: var(--clay); }
+    .trace { stroke: var(--clay); stroke-width: 2.6; stroke-linejoin: round; }
+    .field-day, .field-week, .field-caption {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      fill: var(--faint);
+    }
+    .field-day { font-size: 11px; letter-spacing: 0.1em; }
+    .field-week { font-size: 11px; letter-spacing: 0.1em; text-anchor: middle; }
+    .field-caption { font-size: 11px; letter-spacing: 0.22em; text-anchor: middle; }
+
+    .cover-who {
+      font-style: italic;
+      font-size: 1.12rem;
+      line-height: 1.5;
+      color: var(--ink);
+      max-width: 26em;
+      margin: 22px auto 14px;
+    }
+    .cover-specs {
+      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--faint);
+      margin: 0;
+    }
+
+    .card-sub { color: var(--soft-ink); line-height: 1.5; margin: 8px 0 0; }
 
     .card {
       background: #fff;
@@ -355,15 +512,7 @@ const COMPANION = [
       margin-top: 10px;
     }
     ul.inside { margin-top: 18px; }
-    .who { font-style: italic; color: var(--soft-ink); line-height: 1.5; margin: 0 0 10px; }
-    .specs {
-      font-family: "IBM Plex Mono", ui-monospace, monospace;
-      font-size: 0.72rem;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--faint);
-      margin: 0;
-    }
+    .who { font-style: italic; color: var(--soft-ink); line-height: 1.5; margin: 0; }
 
     /* Same true-aspect-ratio approach as the two sibling book pages: a
        portrait cover and a square listing photo have different native
@@ -412,12 +561,15 @@ const COMPANION = [
     }
 
     @media (max-width: 480px) {
-      h1 { font-size: 1.9rem; }
-      .sub { font-size: 1.05rem; }
       .book h2 { font-size: 1.5rem; }
       .card { padding: 26px 20px; }
       .gallery { gap: 10px; }
       .gallery figure { height: 190px; }
+      /* The tracked mono markers are the first thing to overrun a narrow
+         column — tighten them rather than let the byline wrap alone. */
+      .cover-specs { letter-spacing: 0.1em; }
+      .cover-the { letter-spacing: 0.3em; text-indent: 0.3em; }
+      .cover-who { font-size: 1.02rem; }
     }
 
     footer {
