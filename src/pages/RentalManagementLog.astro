@@ -3,6 +3,12 @@
 // Publications) — a lead-magnet giveaway page for the free companion
 // digital rental tracker, same funnel pattern as LeiaColoringBook.astro.
 //
+// THIS IS THE QR-CODE PAGE, NOT THE PRODUCT PAGE. It exists to hand the
+// free bonus to somebody who already owns the book and has just scanned
+// the code in the back of it. The page that SELLS the book is
+// src/pages/books/rental-property-record-book.astro — keep the two separate, and never
+// put a buy button here: this reader has already bought.
+//
 // Palette and tone deliberately differ from Leia's page: this book's own
 // design brief (Rental_Property_Log_Blueprint.md, LogicManse Publications
 // Book Blueprint No. 01) calls for "a different visual register from Leia
@@ -25,22 +31,11 @@
 // A small static redirect file (public/RentalManagementLog.html) also
 // exists so the exact URL (no trailing slash) always lands on this real
 // page too, regardless of how GitHub Pages resolves that ambiguity.
-import { BOOK_LINKS } from '../data/site';
-
-const PAGE_TITLE = 'Rental Property Record Book | LogicManse Publications';
+const PAGE_TITLE = 'Your Free Digital Rental Tracker | LogicManse Publications';
 const PAGE_DESCRIPTION =
-  'A 109-page undated record book for a landlord with 1-6 properties — rent, tenants and leases, maintenance, mileage and a year-end summary, with a free companion spreadsheet.';
+  'Get a free digital rental tracker — the companion spreadsheet to the Rental Property Record Book, for landlords managing up to 6 properties.';
 const CANONICAL_URL = 'https://www.logicmanse.ca/RentalManagementLog/';
-
-// Where this book is sold. Both URLs live in src/data/site.ts so there is
-// one file to edit when a listing goes live; an empty string renders a
-// non-clickable "Coming soon" chip instead of a dead link.
-//
-// NOTE on the funnel: page 108 of the printed book carries a QR code and
-// this URL next to the promise of a free digital companion, so the
-// companion is described below as something every copy includes. It is
-// not offered as a download button here on Ani's instruction.
-const { etsy: ETSY_URL, amazon: AMAZON_URL } = BOOK_LINKS.rentalLog;
+const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/507b9eac-cab0-41c3-ae6c-41e8ff00d445';
 ---
 
 <!doctype html>
@@ -63,53 +58,24 @@ const { etsy: ETSY_URL, amazon: AMAZON_URL } = BOOK_LINKS.rentalLog;
       <img src="/rental-management-log/logo.png" alt="LogicManse">
     </div>
 
-    <h1>Rental Property Record Book</h1>
+    <p class="eyebrow">You've got the book — here's the companion</p>
+    <h1>Your Free Digital Rental Tracker</h1>
     <p class="sub">
-      Built for a landlord managing 1–6 properties, not a property-management firm —
-      109 undated pages for a full year of real use.
+      Thanks for picking up the <em>Rental Property Record Book</em>. The companion spreadsheet
+      is yours — the same sections you write by hand, totalled for you.
     </p>
 
     <div class="card">
-      <h2>Two ways to start</h2>
-      <p class="card-sub">
-        Print it at home today, or have the paperback delivered. Same 109 pages either way.
-      </p>
+      <h2>What's inside:</h2>
+      <ul class="features">
+        <li>A 12-month rent payment tracker, ready to use for up to 6 properties</li>
+        <li>A tenant &amp; lease log with every renewal date in one place, so nothing sneaks up on you</li>
+        <li>A monthly income &amp; expense tracker built with tax time in mind</li>
+        <li>A vendor &amp; contractor directory template, organized by trade</li>
+      </ul>
 
-      <div class="buys">
-        {ETSY_URL ? (
-          <a class="buy buy-primary" href={ETSY_URL} rel="noopener">
-            <span class="buy-kind">Digital · instant download</span>
-            <span class="buy-store">Buy on Etsy →</span>
-          </a>
-        ) : (
-          <span class="buy buy-soon">
-            <span class="buy-kind">Digital · instant download</span>
-            <span class="buy-store">Etsy — coming soon</span>
-          </span>
-        )}
-
-        {AMAZON_URL ? (
-          <a class="buy buy-primary" href={AMAZON_URL} rel="noopener">
-            <span class="buy-kind">Paperback · delivered</span>
-            <span class="buy-store">Buy on Amazon →</span>
-          </a>
-        ) : (
-          <span class="buy buy-soon">
-            <span class="buy-kind">Paperback · delivered</span>
-            <span class="buy-store">Amazon — coming soon</span>
-          </span>
-        )}
-      </div>
-
-      <div class="included">
-        <p class="included-title">Every copy includes a free companion spreadsheet</p>
-        <ul class="features">
-          <li>A 12-month rent payment tracker, ready to use for up to 6 properties</li>
-          <li>A tenant &amp; lease log with every renewal date in one place, so nothing sneaks up on you</li>
-          <li>A monthly income &amp; expense tracker built with tax time in mind</li>
-          <li>A vendor &amp; contractor directory template, organized by trade</li>
-        </ul>
-      </div>
+      <a class="cta" href={REACH_FORM_URL}>Send Me the Tracker →</a>
+      <p class="fineprint">Takes 10 seconds. We'll email you the link right away.</p>
     </div>
 
     <div class="gallery">
@@ -123,6 +89,11 @@ const { etsy: ETSY_URL, amazon: AMAZON_URL } = BOOK_LINKS.rentalLog;
         />
       </figure>
     </div>
+
+    <p class="hint">
+      Haven't got the book yet?
+      <a href="/books/rental-property-record-book/">See where to buy it →</a>
+    </p>
 
     <footer>
       Written by @Antz · A LogicManse Publication<br>
@@ -197,65 +168,42 @@ const { etsy: ETSY_URL, amazon: AMAZON_URL } = BOOK_LINKS.rentalLog;
       font-size: 1.3rem;
       line-height: 1;
     }
-    .card-sub { color: #666; line-height: 1.5; margin: 8px 0 0; }
-
-    /* Two storefronts, equal weight — a book someone prints at home
-       tonight and a book that arrives in the post are different products
-       to different buyers, so neither is the "real" one. */
-    .buys {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 22px 0 4px;
-    }
-    .buy {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
+    .cta {
+      display: block;
       text-align: center;
-      padding: 16px 18px;
-      border-radius: 10px;
-      text-decoration: none;
-    }
-    .buy-kind {
-      font-size: 0.66rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      font-weight: 700;
-      opacity: 0.75;
-    }
-    .buy-store { font-size: 1.05rem; font-weight: 700; line-height: 1.2; }
-
-    .buy-primary {
       background: var(--forest);
       color: #fff !important;
+      font-weight: 700;
+      font-size: 1.15rem;
+      text-decoration: none;
+      padding: 18px 24px;
+      border-radius: 10px;
+      margin: 10px 0 8px;
       transition: transform 0.1s ease, background 0.15s ease;
     }
-    .buy-primary:hover { background: var(--teal); transform: translateY(-1px); }
-
-    /* Not on sale yet. Deliberately a <span>, not a disabled-looking
-       link — there is nothing to click, and saying so plainly beats a
-       button that swallows a tap. */
-    .buy-soon {
-      background: var(--bone);
-      border: 1px dashed var(--brass);
-      color: #8a8175;
-      cursor: default;
-    }
-
-    .included {
-      margin-top: 26px;
-      padding-top: 22px;
-      border-top: 1px solid #eee;
-    }
-    .included-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--forest);
+    .cta:hover { background: var(--teal); transform: translateY(-1px); }
+    .fineprint {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #999;
       margin: 0;
     }
-    .included .features { margin-bottom: 0; }
-
+    .eyebrow {
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--brass);
+      margin: 0 0 10px;
+    }
+    .hint {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
+      margin: 26px 0 0;
+    }
+    .hint a { color: var(--teal); font-weight: 600; }
     /* Gallery: same true-aspect-ratio approach as the Leia page (a
        portrait cover shot and a landscape interior spread have very
        different native shapes — force-cropping both into one box hides
@@ -284,7 +232,6 @@ const { etsy: ETSY_URL, amazon: AMAZON_URL } = BOOK_LINKS.rentalLog;
       display: block;
     }
     @media (max-width: 480px) {
-      .buys { grid-template-columns: 1fr; }
       .gallery { gap: 10px; }
       .gallery figure { height: 190px; }
     }

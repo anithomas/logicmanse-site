@@ -1,0 +1,119 @@
+---
+// Shared product page for one title — the page a visitor who has NOT
+// bought the book lands on, reached from /books/ or the homepage.
+//
+// It uses the site's own BaseLayout (header, nav, footer) precisely
+// because it is FOR a visitor browsing the site, who needs to be able to
+// get elsewhere. That is the opposite of the QR-code pages, which are
+// deliberately standalone: a reader arriving there came from a printed
+// book with one thing to do, and the site's nav would only distract.
+//
+// The free companion is described here as something a copy includes, and
+// linked only as "after you buy" — the giveaway itself lives behind the
+// book's own printed QR URL, so it stays a reason to buy rather than a
+// way to skip buying.
+import BaseLayout from './BaseLayout.astro';
+import BuyButtons from '../components/BuyButtons.astro';
+import CTAButton from '../components/CTAButton.astro';
+import type { Book } from '../data/books';
+
+interface Props {
+  book: Book;
+}
+const { book } = Astro.props;
+---
+
+<BaseLayout title={book.title} description={book.tagline}>
+  <!-- ============ HERO: cover + the two storefronts ============ -->
+  <section class="bg-navy text-white">
+    <div class="max-w-5xl mx-auto px-6 py-16 md:py-20 grid md:grid-cols-2 gap-10 items-center">
+      <div class="fade-in-up order-2 md:order-1">
+        <span
+          class="inline-block bg-white/10 text-white/80 text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-4"
+        >
+          {book.category}
+        </span>
+        <h1 class="font-serif font-bold text-3xl md:text-4xl leading-tight mb-4 text-white">{book.title}</h1>
+        <p class="text-lg text-white/80 leading-relaxed mb-4">{book.tagline}</p>
+        <p class="text-xs uppercase tracking-widest text-white/50 mb-8">{book.specs}</p>
+
+        <BuyButtons bookKey={book.key} />
+
+        <p class="text-sm text-white/60 mt-5 leading-relaxed">
+          Every copy includes <strong class="text-white/90">{book.companion.name}</strong>, free —
+          {book.companion.blurb} The book tells you where to get it.
+        </p>
+      </div>
+
+      <div class="fade-in-up order-1 md:order-2 flex justify-center">
+        <img
+          src={book.cover}
+          alt={book.coverAlt}
+          class="rounded-lg shadow-2xl w-auto max-h-[26rem]"
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ WHAT'S INSIDE ============ -->
+  <section class="bg-white">
+    <div class="max-w-4xl mx-auto px-6 py-16 md:py-20 grid md:grid-cols-2 gap-12">
+      <div class="fade-in-up">
+        <h2 class="text-2xl font-serif font-bold text-navy mb-6">What's inside</h2>
+        <ul class="space-y-4">
+          {book.inside.map((item) => (
+            <li class="flex gap-3 text-slate-600 leading-relaxed">
+              <span class="mt-2 shrink-0 w-1.5 h-1.5 rounded-full bg-forest"></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+
+      <div class="fade-in-up space-y-8">
+        {book.interior && (
+          <img
+            src={book.interior}
+            alt={book.interiorAlt}
+            class="rounded-lg shadow-lg w-full h-auto"
+          />
+        )}
+        {book.story && (
+          <blockquote class="border-l-4 border-forest pl-5">
+            <p class="font-serif font-bold text-navy text-lg mb-2">{book.story.quote}</p>
+            <p class="text-slate-600 leading-relaxed text-sm">{book.story.body}</p>
+          </blockquote>
+        )}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CLOSING: buy, then the bonus ============ -->
+  <section class="bg-slate-50 border-t border-slate-200">
+    <div class="max-w-3xl mx-auto px-6 py-16 md:py-20 text-center">
+      <h2 class="fade-in-up text-2xl md:text-3xl font-serif font-bold text-navy mb-3">
+        Get {book.title}
+      </h2>
+      <p class="fade-in-up text-slate-600 mb-8">
+        Print it at home today, or have the paperback delivered. Same book either way.
+      </p>
+      <div class="fade-in-up max-w-xl mx-auto text-left">
+        <BuyButtons bookKey={book.key} />
+      </div>
+
+      <p class="fade-in-up text-sm text-slate-500 mt-8">
+        Already own it? <a href={book.qrHref} class="text-forest font-semibold hover:underline"
+          >Claim your free {book.companion.name} &rarr;</a
+        >
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="max-w-3xl mx-auto px-6 py-14 text-center">
+      <div class="fade-in-up">
+        <CTAButton href="/books/">See All Books</CTAButton>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

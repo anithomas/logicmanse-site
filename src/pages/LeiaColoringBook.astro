@@ -3,6 +3,12 @@
 // activity book (LogicManse Publishing) — a lead-magnet giveaway page for
 // people who scan the QR code on the book's back cover.
 //
+// THIS IS THE QR-CODE PAGE, NOT THE PRODUCT PAGE. It exists to hand the
+// free bonus to somebody who already owns the book and has just scanned
+// the code in the back of it. The page that SELLS the book is
+// src/pages/books/leia-coloring-book.astro — keep the two separate, and never
+// put a buy button here: this reader has already bought.
+//
 // This page is intentionally self-contained (its own <head>/<body>, not
 // wrapped in BaseLayout/Header/Footer) rather than using the site's shared
 // Reelcase chrome, since Reelcase and the coloring book are two unrelated
@@ -14,22 +20,11 @@
 // A small static redirect file (public/LeiaColoringBook.html) also exists
 // so the exact printed URL (no trailing slash) on the book's QR code and
 // back cover always resolves here too.
-import { BOOK_LINKS } from '../data/site';
-
-const PAGE_TITLE = "Super Leia to the Rescue! | LogicManse";
+const PAGE_TITLE = "Your Free Bonus — Leia's Color Pack | LogicManse";
 const PAGE_DESCRIPTION =
-  "A coloring & activity book inspired by a real dog named Leia — 30 coloring pages, mazes and word searches, with a free bonus color pack.";
+  "Get Leia's free bonus color pack: full-color reference pages, real photos, and the answer key for Super Leia to the Rescue!";
 const CANONICAL_URL = "https://www.logicmanse.ca/LeiaColoringBook/";
-
-// Where this book is sold. Both URLs live in src/data/site.ts so there is
-// one file to edit when a listing goes live; an empty string renders a
-// non-clickable "Coming soon" chip instead of a dead link.
-//
-// NOTE on the funnel: the QR code on the book's back cover points here
-// and promises the free bonus color pack, so the pack is described below
-// as something every copy includes. It is not offered as a download
-// button here on Ani's instruction.
-const { etsy: ETSY_URL, amazon: AMAZON_URL } = BOOK_LINKS.leia;
+const REACH_FORM_URL = "https://reach-forms.hostingerusercontent.com/form/c3c3a22b-2257-457a-9635-5f2a3a6ab75c";
 ---
 
 <!doctype html>
@@ -54,54 +49,34 @@ const { etsy: ETSY_URL, amazon: AMAZON_URL } = BOOK_LINKS.leia;
       <img class="logo-main" src="/leia-coloring-book/logo.png" alt="LogicManse">
     </div>
 
-    <h1>Super Leia to the Rescue!</h1>
-    <p class="sub">A coloring &amp; activity book inspired by a real dog — 30 coloring pages, mazes, and word searches.</p>
+    <p class="eyebrow">You've got the book — here's the bonus</p>
+    <h1>Leia's Free Bonus Color Pack</h1>
+    <p class="sub">
+      Thanks for picking up <em>Super Leia to the Rescue!</em> The bonus pack is yours — real
+      photos, full-color reference pages, and every puzzle answer.
+    </p>
 
     <div class="card">
-      <h2>Two ways to start</h2>
-      <p class="card-sub">Print it at home today, or have the paperback delivered.</p>
+      <h2>What's inside:</h2>
+      <ul class="features">
+        <li>Full-color reference images for all 30 coloring pages, matched page-by-page to your book</li>
+        <li>Real bonus photos of Leia — the actual dog who inspired the story</li>
+        <li>The complete answer key for every maze, word search, and puzzle</li>
+        <li>A behind-the-scenes note from the author</li>
+      </ul>
 
-      <div class="buys">
-        {ETSY_URL ? (
-          <a class="buy buy-primary" href={ETSY_URL} rel="noopener">
-            <span class="buy-kind">Digital · instant download</span>
-            <span class="buy-store">Buy on Etsy →</span>
-          </a>
-        ) : (
-          <span class="buy buy-soon">
-            <span class="buy-kind">Digital · instant download</span>
-            <span class="buy-store">Etsy — coming soon</span>
-          </span>
-        )}
-
-        {AMAZON_URL ? (
-          <a class="buy buy-primary" href={AMAZON_URL} rel="noopener">
-            <span class="buy-kind">Paperback · delivered</span>
-            <span class="buy-store">Buy on Amazon →</span>
-          </a>
-        ) : (
-          <span class="buy buy-soon">
-            <span class="buy-kind">Paperback · delivered</span>
-            <span class="buy-store">Amazon — coming soon</span>
-          </span>
-        )}
-      </div>
-
-      <div class="included">
-        <p class="included-title">Every copy includes a free bonus color pack</p>
-        <ul class="features">
-          <li>Full-color reference images for all 30 coloring pages, matched page-by-page to your book</li>
-          <li>Real bonus photos of Leia — the actual dog who inspired the story</li>
-          <li>The complete answer key for every maze, word search, and puzzle</li>
-          <li>A behind-the-scenes note from the author</li>
-        </ul>
-      </div>
+      <a class="cta" href={REACH_FORM_URL}>Send Me the Color Pack →</a>
+      <p class="fineprint">Takes 10 seconds. We'll email you the link right away.</p>
     </div>
 
     <div class="gallery">
       <figure class="ph-portrait"><img src="/leia-coloring-book/poster-leia-coloring-adventure.jpg" alt="Leia's Coloring Adventure poster"></figure>
       <figure class="ph-landscape"><img src="/leia-coloring-book/backyard-illustration.jpg" alt="Leia's backyard, illustrated"></figure>
     </div>
+
+    <p class="hint">
+      Haven't got the book yet? <a href="/books/leia-coloring-book/">See where to buy it →</a>
+    </p>
 
     <footer>
       Written by @Antz · A LogicManse Publication<br>
@@ -207,69 +182,42 @@ const { etsy: ETSY_URL, amazon: AMAZON_URL } = BOOK_LINKS.leia;
       left: 0;
       top: 9px;
     }
-    .card-sub { color: #666; line-height: 1.5; margin: 8px 0 0; }
-
-    /* Two storefronts, equal weight — a book someone prints at home
-       tonight and a book that arrives in the post are different products
-       to different buyers, so neither is the "real" one. */
-    .buys {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 22px 0 4px;
-    }
-    .buy {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
+    .cta {
+      display: block;
       text-align: center;
-      padding: 16px 18px;
-      border-radius: 14px;
-      text-decoration: none;
-    }
-    .buy-kind {
-      font-size: 0.66rem;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      font-weight: 700;
-      opacity: 0.8;
-    }
-    .buy-store { font-size: 1.05rem; font-weight: 700; line-height: 1.2; }
-
-    .buy-primary {
       background: var(--pink);
       color: #fff !important;
+      font-weight: 700;
+      font-size: 1.15rem;
+      text-decoration: none;
+      padding: 18px 24px;
+      border-radius: 14px;
+      margin: 10px 0 8px;
       transition: transform 0.1s ease, background 0.15s ease;
     }
-    .buy-primary:hover { background: #d85f80; transform: translateY(-1px); }
-
-    /* Not on sale yet. Deliberately a <span>, not a disabled-looking
-       link — there is nothing to click, and saying so plainly beats a
-       button that swallows a tap. */
-    .buy-soon {
-      background: var(--pink-light);
-      border: 1px dashed var(--pink);
-      color: #a3808b;
-      cursor: default;
-    }
-
-    .included {
-      margin-top: 26px;
-      padding-top: 22px;
-      border-top: 1px solid #f2f2f2;
-    }
-    .included-title {
-      font-size: 1.05rem;
-      font-weight: 700;
-      color: var(--green);
+    .cta:hover { background: #d85f80; transform: translateY(-1px); }
+    .fineprint {
+      text-align: center;
+      font-size: 0.85rem;
+      color: #999;
       margin: 0;
     }
-    .included .features { margin-bottom: 0; }
-
-    @media (max-width: 480px) {
-      .buys { grid-template-columns: 1fr; }
+    .eyebrow {
+      text-align: center;
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin: 0 0 10px;
     }
-
+    .hint {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
+      margin: 26px 0 0;
+    }
+    .hint a { color: var(--green); font-weight: 600; }
     footer {
       text-align: center;
       margin-top: 50px;

@@ -1,0 +1,44 @@
+---
+// The two storefronts a title can be bought from, side by side.
+//
+// Equal weight on purpose: a book someone prints at home tonight and a
+// book that arrives in the post are different products for different
+// buyers, so neither is the "real" one.
+//
+// An empty URL renders a non-clickable chip rather than a styled-down
+// link — there is nothing to click, and saying "coming soon" plainly
+// beats a button that swallows a tap. Fill the URL in at
+// src/data/site.ts and it becomes a live link on the next build.
+import { BOOK_LINKS } from '../data/site';
+
+interface Props {
+  bookKey: keyof typeof BOOK_LINKS;
+}
+const { bookKey } = Astro.props;
+const { etsy, amazon } = BOOK_LINKS[bookKey];
+
+const OPTIONS = [
+  { kind: 'Digital · instant download', store: 'Etsy', url: etsy },
+  { kind: 'Paperback · delivered', store: 'Amazon', url: amazon },
+];
+---
+
+<div class="grid sm:grid-cols-2 gap-3">
+  {OPTIONS.map((o) =>
+    o.url ? (
+      <a
+        href={o.url}
+        rel="noopener"
+        class="flex flex-col gap-1 text-center rounded-lg px-5 py-4 bg-forest hover:bg-forest-light text-white transition-colors duration-150"
+      >
+        <span class="text-[0.65rem] font-bold uppercase tracking-widest opacity-80">{o.kind}</span>
+        <span class="text-lg font-bold leading-tight">Buy on {o.store} &rarr;</span>
+      </a>
+    ) : (
+      <span class="flex flex-col gap-1 text-center rounded-lg px-5 py-4 bg-slate-50 border border-dashed border-slate-300 text-slate-400 cursor-default">
+        <span class="text-[0.65rem] font-bold uppercase tracking-widest">{o.kind}</span>
+        <span class="text-lg font-bold leading-tight">{o.store} — coming soon</span>
+      </span>
+    )
+  )}
+</div>

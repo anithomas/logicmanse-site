@@ -1,15 +1,20 @@
 ---
 // Dedicated landing page for "The Complete Heart Health Log Book"
-// (LogicManse Publications, Book Blueprint No. 02) — the book's own
-// storefront page, same pattern as LeiaColoringBook.astro /
-// RentalManagementLog.astro.
+// (LogicManse Publications, Book Blueprint No. 02).
+//
+// THIS IS THE QR-CODE PAGE, NOT THE PRODUCT PAGE. It exists to hand the
+// free companion to somebody who already owns the book and has just
+// scanned the code in the back of it. The page that SELLS the book is
+// src/pages/books/heart-health-log-book.astro — keep the two separate,
+// and never put a buy button here: this reader has already bought.
+// Same split for the other two titles.
 //
 // WHY THIS URL EXACTLY: the book's printed back cover carries a QR code
 // AND the readable URL "www.logicmanse.ca/HeartHealthLog", next to the
 // line "A FREE COMPANION — A spreadsheet that mirrors the main logs."
 // The blueprint (§02) and the Etsy listing kit (§11) both flag that a
-// buyer scanning that code and landing nowhere is a launch blocker, so
-// this page must stay live for as long as the book is in print.
+// buyer scanning that code before this page exists lands nowhere, so
+// this page must be live before the paperback goes on sale.
 //
 // Palette and typography are taken from the book's own design, which is
 // a third distinct visual register — Leia is a children's book, the
@@ -32,23 +37,24 @@
 // https://www.logicmanse.ca/HeartHealthLog/
 // public/HeartHealthLog.html is a static redirect stub so the exact
 // printed URL (no trailing slash) resolves here too.
-import { BOOK_LINKS } from '../data/site';
-
-const PAGE_TITLE = 'The Complete Heart Health Log Book | LogicManse Publications';
+const PAGE_TITLE = 'Your Free Heart Health Companion | LogicManse Publications';
 const PAGE_DESCRIPTION =
-  'A 118-page undated log book for blood pressure, heart rate, weight, medicines, blood thinner doses and test results — in large print, with a free companion spreadsheet.';
+  'Get the free companion spreadsheet to The Complete Heart Health Log Book — blood pressure, heart rate, weight, medicines, blood thinner doses and test results, mirroring the printed book.';
 const CANONICAL_URL = 'https://www.logicmanse.ca/HeartHealthLog/';
 
-// Where this book is sold. Both URLs live in src/data/site.ts so there
-// is one file to edit when a listing goes live; an empty string renders
-// a non-clickable "Coming soon" chip instead of a dead link.
+// Reach500 lead-capture form for THIS book — its own form, distinct from
+// the rental log's (supplied by Ani 08 Sep 2026). This is the address the
+// QR code and the printed URL on the back cover both resolve to, so the
+// form's confirmation page and welcome email must hand back the free
+// companion spreadsheet — "a spreadsheet that mirrors the main logs", in
+// the back cover's words. That file is being built; the rental log's
+// Rental_Property_Digital_Companion.xlsx (17 tabs mirroring its printed
+// sections, served from the logbooks.logicmanse.ca R2 bucket) is the
+// working model for it.
 //
-// NOTE on the funnel: the printed back cover promises "A FREE COMPANION —
-// a spreadsheet that mirrors the main logs" at this exact URL, so the
-// free companion is described below as something every copy includes.
-// It is not offered as a download button here on Ani's instruction —
-// the page's job is now the two storefronts.
-const { etsy: ETSY_URL, amazon: AMAZON_URL } = BOOK_LINKS.heartHealth;
+// Setting this to an empty string falls the page back to an honest
+// "opening shortly" notice rather than a dead call-to-action.
+const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/5feeedfb-224c-44b0-a557-dc712f200b84';
 
 // Verbatim from the book's own back cover, under "INSIDE".
 const INSIDE = [
@@ -210,44 +216,31 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
     </header>
 
     <div class="card">
-      <p class="eyebrow">Get the book</p>
-      <h2>Two ways to start</h2>
+      <p class="eyebrow">You've got the book — here's the companion</p>
+      <h2>Your free companion spreadsheet</h2>
       <p class="card-sub">
-        Print it at home today, or have the paperback delivered. Same 118 pages either way.
+        The same logs you write by hand, for the weeks you'd rather type. Here's what's in the
+        download:
       </p>
+      <ul class="features">
+        {COMPANION.map((item) => <li>{item}</li>)}
+      </ul>
 
-      <div class="buys">
-        {ETSY_URL ? (
-          <a class="buy buy-primary" href={ETSY_URL} rel="noopener">
-            <span class="buy-kind">Digital · instant download</span>
-            <span class="buy-store">Buy on Etsy →</span>
-          </a>
-        ) : (
-          <span class="buy buy-soon">
-            <span class="buy-kind">Digital · instant download</span>
-            <span class="buy-store">Etsy — coming soon</span>
-          </span>
-        )}
-
-        {AMAZON_URL ? (
-          <a class="buy buy-primary" href={AMAZON_URL} rel="noopener">
-            <span class="buy-kind">Paperback · delivered</span>
-            <span class="buy-store">Buy on Amazon →</span>
-          </a>
-        ) : (
-          <span class="buy buy-soon">
-            <span class="buy-kind">Paperback · delivered</span>
-            <span class="buy-store">Amazon — coming soon</span>
-          </span>
-        )}
-      </div>
-
-      <div class="included">
-        <p class="included-title">Every copy includes a free companion spreadsheet</p>
-        <ul class="features">
-          {COMPANION.map((item) => <li>{item}</li>)}
-        </ul>
-      </div>
+      {REACH_FORM_URL ? (
+        <>
+          <a class="cta" href={REACH_FORM_URL}>Send Me the Spreadsheet →</a>
+          <p class="fineprint">Takes 10 seconds. We'll email you the link right away.</p>
+        </>
+      ) : (
+        <div class="pending">
+          <p><strong>The download opens shortly.</strong></p>
+          <p>
+            If you've just scanned the code in the back of the book, thank you — the free
+            spreadsheet is being finished now. <a href="/contact/">Send us a message</a> and
+            we'll email you the moment it's ready.
+          </p>
+        </div>
+      )}
     </div>
 
     <!-- The single strongest piece of copy the book has, and the thing
@@ -300,6 +293,11 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
         people looking after you. This is simply where yours go.
       </p>
     </div>
+
+    <p class="hint">
+      Haven't got the book yet?
+      <a href="/books/heart-health-log-book/">See where to buy it →</a>
+    </p>
 
     <p class="disclaimer">
       A blank record book for organising information given to you by your own care team. Not
@@ -457,63 +455,32 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
       background: var(--clay);
     }
 
-    /* Two storefronts, equal weight — one hierarchy decision, not two.
-       A book someone can print at home tonight and a book that arrives
-       in the post are different products to different buyers, so neither
-       is the "real" one. */
-    .buys {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 12px;
-      margin: 22px 0 4px;
-    }
-    .buy {
-      display: flex;
-      flex-direction: column;
-      gap: 5px;
+    .cta {
+      display: block;
       text-align: center;
-      padding: 16px 18px;
-      border-radius: 8px;
-      text-decoration: none;
-    }
-    .buy-kind {
-      font-family: "IBM Plex Mono", ui-monospace, monospace;
-      font-size: 0.62rem;
-      letter-spacing: 0.14em;
-      text-transform: uppercase;
-      opacity: 0.75;
-    }
-    .buy-store { font-size: 1.05rem; font-weight: 600; line-height: 1.2; }
-
-    .buy-primary {
       background: var(--ink);
       color: var(--ground) !important;
+      font-weight: 600;
+      font-size: 1.15rem;
+      text-decoration: none;
+      padding: 18px 24px;
+      border-radius: 8px;
+      margin: 10px 0 8px;
       transition: transform 0.1s ease, background 0.15s ease;
     }
-    .buy-primary:hover { background: var(--clay); transform: translateY(-1px); }
+    .cta:hover { background: var(--clay); transform: translateY(-1px); }
+    .fineprint { text-align: center; font-size: 0.9rem; color: var(--faint); margin: 0; }
 
-    /* Not on sale yet. Deliberately a <span>, not a disabled-looking
-       link — there is nothing to click, and saying so plainly beats a
-       button that swallows a tap. */
-    .buy-soon {
+    /* Shown until REACH_FORM_URL is filled in — see the note at the top. */
+    .pending {
       background: var(--ground);
-      border: 1px dashed var(--lattice);
-      color: var(--faint);
-      cursor: default;
+      border-left: 3px solid var(--clay);
+      padding: 18px 20px;
+      border-radius: 4px;
     }
-
-    .included {
-      margin-top: 26px;
-      padding-top: 22px;
-      border-top: 1px solid var(--lattice);
-    }
-    .included-title {
-      font-size: 1.05rem;
-      font-weight: 600;
-      color: var(--ink);
-      margin: 0;
-    }
-    .included .features { margin-bottom: 0; }
+    .pending p { margin: 0 0 8px; line-height: 1.55; }
+    .pending p:last-child { margin-bottom: 0; }
+    .pending a { color: var(--clay); }
 
     .origin {
       margin: 0 0 40px;
@@ -597,6 +564,17 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
       margin-bottom: 12px !important;
     }
 
+    .hint {
+      text-align: center;
+      font-size: 0.95rem;
+      color: var(--soft-ink);
+      margin: 0 0 30px;
+      padding-top: 26px;
+      border-top: 1px solid var(--lattice);
+    }
+    .hint a { color: var(--clay); font-weight: 600; text-decoration: none; }
+    .hint a:hover { text-decoration: underline; }
+
     .disclaimer {
       font-size: 0.85rem;
       line-height: 1.6;
@@ -614,7 +592,6 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
       .cover-specs { letter-spacing: 0.1em; }
       .cover-the { letter-spacing: 0.3em; text-indent: 0.3em; }
       .cover-who { font-size: 1.02rem; }
-      .buys { grid-template-columns: 1fr; }
     }
 
     footer {

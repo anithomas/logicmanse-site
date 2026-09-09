@@ -5,6 +5,9 @@
   destination pages are listed here; the redirect stubs (services,
   portfolio, trust-security, how-it-works) and /thank-you/ are
   intentionally excluded since they aren't pages worth indexing.
+  Each book has two entries: the product page under /books/, which is
+  what should rank, and the lower-priority QR page carrying its printed
+  short URL, which exists for readers who already own the book.
   Update this file when a page is added, removed, or its URL changes.
 -->
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
@@ -17,16 +20,28 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.logicmanse.ca/LeiaColoringBook/</loc>
+    <loc>https://www.logicmanse.ca/books/leia-coloring-book/</loc>
     <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.logicmanse.ca/books/rental-property-record-book/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.logicmanse.ca/books/heart-health-log-book/</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.logicmanse.ca/LeiaColoringBook/</loc>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.logicmanse.ca/RentalManagementLog/</loc>
-    <priority>0.8</priority>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.logicmanse.ca/HeartHealthLog/</loc>
-    <priority>0.8</priority>
+    <priority>0.5</priority>
   </url>
   <url>
     <loc>https://www.logicmanse.ca/about/</loc>
