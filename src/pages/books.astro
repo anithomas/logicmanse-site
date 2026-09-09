@@ -2,6 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import CTAButton from '../components/CTAButton.astro';
+import { BOOK_LINKS } from '../data/site';
 
 // Real, currently-published or in-production titles. Each links out to its
 // own dedicated landing page (built separately per book, own branding —
@@ -13,9 +14,10 @@ import CTAButton from '../components/CTAButton.astro';
 // No. 02 = the heart health log) and from Leia's content map — not
 // invented here. Keep the two in step if a blueprint changes.
 //
-// "status" is deliberately conservative: a title only reads "Available"
-// once it is actually purchasable. Both log books have finished interiors
-// and covers but are not yet live on their storefronts.
+// "status" is derived from BOOK_LINKS rather than typed by hand, so this
+// page can never claim a title is available while its own landing page
+// still shows "coming soon" chips. Fill in a store URL in site.ts and
+// both flip together.
 const titles = [
   {
     category: 'Coloring & Activity Book',
@@ -24,8 +26,8 @@ const titles = [
       "A coloring & activity book inspired by a real dog named Leia — mazes, word searches, and 30 coloring pages, with a free bonus color pack and real photos for kids and parents.",
     specs: '8.5" × 11" · 106 pages · ages 4–8',
     href: '/LeiaColoringBook/',
-    cta: 'Get the Free Color Pack',
-    status: 'Available',
+    cta: 'See the book',
+    links: BOOK_LINKS.leia,
   },
   {
     category: 'Log Book',
@@ -34,8 +36,8 @@ const titles = [
       'A record book for a landlord with 1–6 properties, not a property-management firm — rent tracking, tenant & lease logs, maintenance, a mileage log, a vendor directory, and a portfolio-wide annual summary built for tax time.',
     specs: '8.5" × 11" · 109 pages · undated',
     href: '/RentalManagementLog/',
-    cta: 'Get the Free Digital Tracker',
-    status: 'Coming soon',
+    cta: 'See the book',
+    links: BOOK_LINKS.rentalLog,
   },
   {
     category: 'Log Book',
@@ -44,10 +46,13 @@ const titles = [
       'One book instead of four, for someone living with a heart condition that is managed rather than cured — blood pressure, medicines from morning to bedtime, a blood thinner schedule that changes with the day of the week, test results, and the surgical history every new clinic asks for.',
     specs: '8.5" × 11" · 118 pages · undated · large print',
     href: '/HeartHealthLog/',
-    cta: 'Get the Free Companion Spreadsheet',
-    status: 'Coming soon',
+    cta: 'See the book',
+    links: BOOK_LINKS.heartHealth,
   },
 ];
+
+const statusOf = (links: { etsy: string; amazon: string }) =>
+  links.etsy || links.amazon ? 'Available' : 'Coming soon';
 ---
 
 <BaseLayout
@@ -76,7 +81,7 @@ const titles = [
               {book.category}
             </span>
             <span class="inline-block text-xs font-bold uppercase tracking-wide text-slate-400">
-              {book.status}
+              {statusOf(book.links)}
             </span>
           </div>
           <h2 class="text-2xl font-serif font-bold text-navy mb-3">{book.title}</h2>

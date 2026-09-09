@@ -14,20 +14,33 @@
 // BaseLayout/Header/Footer), same reasoning as Leia's page: this is an
 // unrelated venture from the Logicmanse Solutions software business.
 //
-// No real product photography exists yet — the book is still in Book Bolt
-// production (interior/cover not finalized) — so the gallery below uses
-// the same dashed-box photo placeholders used elsewhere on this site.
+// Gallery images come straight from the finished production files: the
+// cover is the front panel of Rental_Property_Record_Book_COVER.pdf
+// rendered at its trim box (NOT the Book Bolt re-processed export, which
+// double-pads the bleed — see the blueprint's §08 defect note), and the
+// interior shot is the monthly income & expense tracker.
 //
 // Route: this file's name controls the URL, so it lives at
 // https://www.logicmanse.ca/RentalManagementLog/
 // A small static redirect file (public/RentalManagementLog.html) also
 // exists so the exact URL (no trailing slash) always lands on this real
 // page too, regardless of how GitHub Pages resolves that ambiguity.
-const PAGE_TITLE = 'Free Digital Rental Tracker | LogicManse Publications';
+import { BOOK_LINKS } from '../data/site';
+
+const PAGE_TITLE = 'Rental Property Record Book | LogicManse Publications';
 const PAGE_DESCRIPTION =
-  'Get a free digital rental tracker — the companion spreadsheet to the Rental Property Record Book, for landlords managing up to 6 properties.';
+  'A 109-page undated record book for a landlord with 1-6 properties — rent, tenants and leases, maintenance, mileage and a year-end summary, with a free companion spreadsheet.';
 const CANONICAL_URL = 'https://www.logicmanse.ca/RentalManagementLog/';
-const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/507b9eac-cab0-41c3-ae6c-41e8ff00d445';
+
+// Where this book is sold. Both URLs live in src/data/site.ts so there is
+// one file to edit when a listing goes live; an empty string renders a
+// non-clickable "Coming soon" chip instead of a dead link.
+//
+// NOTE on the funnel: page 108 of the printed book carries a QR code and
+// this URL next to the promise of a free digital companion, so the
+// companion is described below as something every copy includes. It is
+// not offered as a download button here on Ani's instruction.
+const { etsy: ETSY_URL, amazon: AMAZON_URL } = BOOK_LINKS.rentalLog;
 ---
 
 <!doctype html>
@@ -50,31 +63,64 @@ const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/507b9e
       <img src="/rental-management-log/logo.png" alt="LogicManse">
     </div>
 
-    <h1>Get Your Free Digital Rental Tracker</h1>
+    <h1>Rental Property Record Book</h1>
     <p class="sub">
-      The free companion spreadsheet to the Rental Property Record Book — built for a landlord
-      managing 1–6 properties, not a property-management firm.
+      Built for a landlord managing 1–6 properties, not a property-management firm —
+      109 undated pages for a full year of real use.
     </p>
 
     <div class="card">
-      <h2>What's inside:</h2>
-      <ul class="features">
-        <li>A 12-month rent payment tracker, ready to use for up to 6 properties</li>
-        <li>A tenant &amp; lease log with every renewal date in one place, so nothing sneaks up on you</li>
-        <li>A monthly income &amp; expense tracker built with tax time in mind</li>
-        <li>A vendor &amp; contractor directory template, organized by trade</li>
-      </ul>
+      <h2>Two ways to start</h2>
+      <p class="card-sub">
+        Print it at home today, or have the paperback delivered. Same 109 pages either way.
+      </p>
 
-      <a class="cta" href={REACH_FORM_URL}>Get My Free Tracker →</a>
-      <p class="fineprint">Takes 10 seconds. We'll email you the link right away.</p>
+      <div class="buys">
+        {ETSY_URL ? (
+          <a class="buy buy-primary" href={ETSY_URL} rel="noopener">
+            <span class="buy-kind">Digital · instant download</span>
+            <span class="buy-store">Buy on Etsy →</span>
+          </a>
+        ) : (
+          <span class="buy buy-soon">
+            <span class="buy-kind">Digital · instant download</span>
+            <span class="buy-store">Etsy — coming soon</span>
+          </span>
+        )}
+
+        {AMAZON_URL ? (
+          <a class="buy buy-primary" href={AMAZON_URL} rel="noopener">
+            <span class="buy-kind">Paperback · delivered</span>
+            <span class="buy-store">Buy on Amazon →</span>
+          </a>
+        ) : (
+          <span class="buy buy-soon">
+            <span class="buy-kind">Paperback · delivered</span>
+            <span class="buy-store">Amazon — coming soon</span>
+          </span>
+        )}
+      </div>
+
+      <div class="included">
+        <p class="included-title">Every copy includes a free companion spreadsheet</p>
+        <ul class="features">
+          <li>A 12-month rent payment tracker, ready to use for up to 6 properties</li>
+          <li>A tenant &amp; lease log with every renewal date in one place, so nothing sneaks up on you</li>
+          <li>A monthly income &amp; expense tracker built with tax time in mind</li>
+          <li>A vendor &amp; contractor directory template, organized by trade</li>
+        </ul>
+      </div>
     </div>
 
     <div class="gallery">
       <figure class="ph-portrait">
         <img src="/rental-management-log/cover-front.jpg" alt="Rental Property Record Book cover" />
       </figure>
-      <figure class="ph-landscape placeholder">
-        <span>Add a photo of a sample interior page/spread here</span>
+      <figure class="ph-square">
+        <img
+          src="/rental-management-log/interior-page.jpg"
+          alt="A sample interior page: the monthly income &amp; expense tracker"
+        />
       </figure>
     </div>
 
@@ -151,26 +197,65 @@ const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/507b9e
       font-size: 1.3rem;
       line-height: 1;
     }
-    .cta {
-      display: block;
+    .card-sub { color: #666; line-height: 1.5; margin: 8px 0 0; }
+
+    /* Two storefronts, equal weight — a book someone prints at home
+       tonight and a book that arrives in the post are different products
+       to different buyers, so neither is the "real" one. */
+    .buys {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin: 22px 0 4px;
+    }
+    .buy {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
       text-align: center;
+      padding: 16px 18px;
+      border-radius: 10px;
+      text-decoration: none;
+    }
+    .buy-kind {
+      font-size: 0.66rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      font-weight: 700;
+      opacity: 0.75;
+    }
+    .buy-store { font-size: 1.05rem; font-weight: 700; line-height: 1.2; }
+
+    .buy-primary {
       background: var(--forest);
       color: #fff !important;
-      font-weight: 700;
-      font-size: 1.15rem;
-      text-decoration: none;
-      padding: 18px 24px;
-      border-radius: 10px;
-      margin: 10px 0 8px;
       transition: transform 0.1s ease, background 0.15s ease;
     }
-    .cta:hover { background: var(--teal); transform: translateY(-1px); }
-    .fineprint {
-      text-align: center;
-      font-size: 0.85rem;
-      color: #999;
+    .buy-primary:hover { background: var(--teal); transform: translateY(-1px); }
+
+    /* Not on sale yet. Deliberately a <span>, not a disabled-looking
+       link — there is nothing to click, and saying so plainly beats a
+       button that swallows a tap. */
+    .buy-soon {
+      background: var(--bone);
+      border: 1px dashed var(--brass);
+      color: #8a8175;
+      cursor: default;
+    }
+
+    .included {
+      margin-top: 26px;
+      padding-top: 22px;
+      border-top: 1px solid #eee;
+    }
+    .included-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--forest);
       margin: 0;
     }
+    .included .features { margin-bottom: 0; }
+
     /* Gallery: same true-aspect-ratio approach as the Leia page (a
        portrait cover shot and a landscape interior spread have very
        different native shapes — force-cropping both into one box hides
@@ -190,31 +275,18 @@ const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/507b9e
       overflow: hidden;
       box-shadow: 0 4px 14px rgba(0,0,0,0.10);
     }
-    .gallery figure.ph-portrait { aspect-ratio: 700 / 1244; }
-    .gallery figure.ph-landscape { aspect-ratio: 1000 / 563; }
+    .gallery figure.ph-portrait { aspect-ratio: 1082 / 1400; }
+    .gallery figure.ph-square { aspect-ratio: 1 / 1; }
     .gallery img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
-    .gallery .placeholder {
-      background: var(--bone);
-      border: 2px dashed var(--brass);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 16px;
-    }
-    .gallery .placeholder span {
-      font-size: 0.8rem;
-      color: var(--teal);
-      text-align: center;
-      line-height: 1.4;
-    }
     @media (max-width: 480px) {
+      .buys { grid-template-columns: 1fr; }
       .gallery { gap: 10px; }
-      .gallery figure { height: 150px; }
+      .gallery figure { height: 190px; }
     }
     footer {
       text-align: center;

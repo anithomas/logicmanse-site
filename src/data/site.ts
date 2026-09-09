@@ -40,3 +40,33 @@ export const HEADER_NAV_LINKS = [
 ];
 
 export const SITE_UNDER_CONSTRUCTION = false;
+
+// ----------------------------------------------------------------
+// Where each book is actually sold.
+//
+// TODO (Ani): paste the real listing URLs here as each one goes live.
+// This is the ONLY file to edit — all three book landing pages read
+// from it.
+//
+//   etsy   — the digital / instant-download listing
+//   amazon — the Amazon KDP paperback
+//
+// An empty string means "not on sale yet": the landing page renders a
+// quiet, non-clickable "Coming soon" chip in place of that button,
+// rather than a link that goes nowhere. Fill one in and the button
+// becomes live on the next build — no other change needed.
+// ----------------------------------------------------------------
+export const BOOK_LINKS = {
+  leia: {
+    etsy: '',
+    amazon: '',
+  },
+  rentalLog: {
+    etsy: '',
+    amazon: '',
+  },
+  heartHealth: {
+    etsy: '',
+    amazon: '',
+  },
+};
