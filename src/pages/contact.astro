@@ -3,35 +3,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE } from '../data/site';
 
 // ----------------------------------------------------------------
-// REAL FORM SUBMISSIONS (Ani — read this before going live):
-// This form posts to Formspree, a free form-backend service — no
-// server or code needed on your end, and no third-party JS library
-// either. Submissions land in your inbox and in a dashboard at
-// formspree.io.
+// The Formspree form that used to live here is gone. It posted to the
+// never-replaced placeholder endpoint (/f/YOUR_FORM_ID), which 404s,
+// so every message typed into this page was silently thrown away.
 //
-// 1. Go to https://formspree.io and sign up free with your
-//    info@logicmanse.ca address.
-// 2. Create a new form, verify the email Formspree sends you.
-// 3. Copy the form endpoint it gives you (looks like
-//    https://formspree.io/f/abcdwxyz) and paste it below.
+// In its place: the Reach form Ani supplied, embedded, plus a direct
+// email route.
 //
-// UNTIL YOU DO, THE FORM IS NOT RENDERED AT ALL, on purpose. The
-// placeholder endpoint below is not a real Formspree form — posting to
-// it returns 404, which meant every message someone typed into this
-// page was silently thrown away, and they were shown an error page
-// instead of a reply. A contact page that loses mail is worse than one
-// with no form, so while the endpoint is unset this page shows the
-// email address as the way to reach you. info@logicmanse.ca has live
-// MX records, so that route genuinely works today.
+// WHY AN IFRAME, not the <div data-reach-form="..."> snippet: that div
+// is only half of Reach's embed code — it does nothing without the
+// loader script that hydrates it, and Reach's dashboard issues that
+// script alongside the div. Only the div was to hand, and the loader's
+// URL isn't published (the standalone form bundle doesn't serve it).
+// The form page itself sends `content-security-policy: frame-ancestors *`,
+// so framing it is explicitly supported and works today with nothing to
+// discover. If the `<script src="...">` line turns up later, swapping to
+// the official embed is a small change and buys automatic height
+// resizing.
 //
-// Paste a real endpoint and the form comes back on the next build.
-// ----------------------------------------------------------------
-const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
-
-// Guard against shipping the placeholder: anything still containing
-// YOUR_FORM_ID (or empty) counts as "not configured yet".
-const FORM_IS_LIVE =
-  Boolean(FORMSPREE_ENDPOINT) && !FORMSPREE_ENDPOINT.includes('YOUR_FORM_ID');
+// FORM_HEIGHT is measured from the live form (392px of content) plus
+// slack for the success state and for a validation message under a
+// field. The iframe scrolls if it ever needs more, so a Reach-side edit
+// can't clip the submit button.
+const REACH_CONTACT_FORM = 'https://reach-forms.hostingerusercontent.com/form/5e71aa5d-e0c2-4f63-a878-7c6dc04f88b9';
+const FORM_HEIGHT = 460;
 
 const MAILTO = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
   'Question for Logicmanse Solutions'
@@ -53,79 +48,39 @@ const MAILTO = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
   </section>
 
   <section class="bg-white">
-    <div class="max-w-2xl mx-auto px-6 py-20">
-      {FORM_IS_LIVE ? (
-      <form
-        action={FORMSPREE_ENDPOINT}
-        method="POST"
-        class="fade-in-up space-y-6 bg-slate-50 border border-slate-200 rounded-xl p-8"
-      >
-        <input type="hidden" name="_subject" value="Website Contact Form Submission" />
-        <input type="hidden" name="_next" value="/thank-you/" />
+    <div class="max-w-2xl mx-auto px-6 py-20 space-y-10">
+      <!-- Reach form: new-release list signup. -->
+      <!-- White, not slate: the Reach form paints its own white
+           background, and the height slack below it would otherwise show
+           as a coloured band under the submit button.
+           Full-bleed on mobile (-mx-6 cancels the section's px-6): inside
+           a frame the form lays itself out against the device width, not
+           the iframe's, so anything narrower than the screen clips its
+           right-hand edge — the heading and the submit button first. At
+           sm and up there is room to spare, and the card returns.
+           overflow-hidden is also held back to sm: at mobile widths the
+           frame keeps its own scrollbars, so if the form still lays out
+           wider than the phone, the fields stay reachable instead of
+           being cropped away. -->
+      <div class="fade-in-up -mx-6 sm:mx-0 bg-white sm:border sm:border-slate-200 sm:rounded-xl sm:overflow-hidden">
+        <iframe
+          src={REACH_CONTACT_FORM}
+          title="Join the Logicmanse mailing list"
+          loading="lazy"
+          height={FORM_HEIGHT}
+          class="w-full block border-0"
+        ></iframe>
+      </div>
 
-        <div>
-          <label for="name" class="block text-sm font-semibold text-navy mb-1">Your Name</label>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            required
-            class="w-full border border-slate-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-          />
-        </div>
-
-        <div>
-          <label for="business" class="block text-sm font-semibold text-navy mb-1">Business / Organization (optional)</label>
-          <input
-            type="text"
-            id="business"
-            name="business"
-            class="w-full border border-slate-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-          />
-        </div>
-
-        <div>
-          <label for="email" class="block text-sm font-semibold text-navy mb-1">Email Address</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            required
-            class="w-full border border-slate-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-          />
-        </div>
-
-        <div>
-          <label for="message" class="block text-sm font-semibold text-navy mb-1">
-            What can we help with?
-          </label>
-          <textarea
-            id="message"
-            name="message"
-            rows="5"
-            required
-            class="w-full border border-slate-300 rounded-md px-4 py-3 focus:outline-none focus:ring-2 focus:ring-forest"
-          ></textarea>
-        </div>
-
-        <button
-          type="submit"
-          class="w-full bg-forest hover:bg-forest-light text-white font-semibold px-8 py-4 rounded-md transition-colors"
-        >
-          Send Message
-        </button>
-
-        <p class="text-xs text-slate-400 text-center">
-          Submitted directly and securely via Formspree, our form-delivery provider — nothing
-          opens in a separate app. Your information is never sold or shared.
-        </p>
-      </form>
-      ) : (
+      <!-- The actual contact route. The Reach form above collects a name
+           and an email for the mailing list; it has no message field, so
+           a question needs somewhere else to go. -->
       <div class="fade-in-up bg-slate-50 border border-slate-200 rounded-xl p-8 text-center">
-        <h2 class="text-2xl font-serif font-bold text-navy mb-3">Email us directly</h2>
+        <h2 class="text-2xl font-serif font-bold text-navy mb-3">Got a question?</h2>
         <p class="text-slate-600 leading-relaxed mb-7 max-w-md mx-auto">
-          We read every message ourselves, and we'll reply within one business day. Tell us the
-          book or the question and we'll take it from there.
+          Email us and we'll reply within one business day. Bulk orders, a question about one of
+          the books, or an idea for a title that doesn't exist yet — we read every message
+          ourselves.
         </p>
         <a
           href={MAILTO}
@@ -137,16 +92,6 @@ const MAILTO = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
           Opens your email app. Your address is never sold or shared.
         </p>
       </div>
-      )}
-
-      {FORM_IS_LIVE && (
-        <p class="fade-in-up text-center text-slate-500 text-sm mt-8">
-          Prefer to email directly? Reach us at{' '}
-          <a href={MAILTO} class="text-forest font-semibold hover:underline">
-            {SITE.contactEmail}
-          </a>
-        </p>
-      )}
     </div>
   </section>
 </BaseLayout>
