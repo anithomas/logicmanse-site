@@ -58,8 +58,10 @@ export const SITE_UNDER_CONSTRUCTION = false;
 // ----------------------------------------------------------------
 export const BOOK_LINKS = {
   leia: {
-    etsy: '',
-    amazon: '',
+    // Live 09 Sep 2026. Etsy: CA$7.99 instant-download PDF.
+    // Amazon: paperback, ISBN 9798194994618, by @Antz.
+    etsy: 'https://www.etsy.com/ca/listing/4569612913/super-leia-to-the-rescue-coloring',
+    amazon: 'https://www.amazon.com/dp/B0HJDBPMQ7',
   },
   rentalLog: {
     etsy: '',
