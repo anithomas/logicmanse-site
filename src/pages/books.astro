@@ -3,17 +3,15 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import CTAButton from '../components/CTAButton.astro';
 import { BOOKS } from '../data/books';
-import { BOOK_LINKS } from '../data/site';
+import { isForSale } from '../data/site';
 
 // Every card links to that title's PRODUCT page (/books/<slug>/), never
 // to its printed QR URL — the QR pages are for readers who already own
 // the book. See the note at the top of src/data/books.ts.
 //
-// Status is derived from BOOK_LINKS rather than typed by hand, so this
-// listing can never claim a title is available while its own product
-// page still shows "coming soon" chips.
-const statusOf = (key: keyof typeof BOOK_LINKS) =>
-  BOOK_LINKS[key].etsy || BOOK_LINKS[key].amazon ? 'Available' : 'Coming soon';
+// Status is derived from the store links rather than typed by hand, so
+// this listing can never claim a title is available while its own
+// product page still shows "coming soon" chips.
 ---
 
 <BaseLayout
@@ -48,7 +46,7 @@ const statusOf = (key: keyof typeof BOOK_LINKS) =>
                 {book.category}
               </span>
               <span class="inline-block text-xs font-bold uppercase tracking-wide text-slate-400">
-                {statusOf(book.key)}
+                {isForSale(book.key) ? 'Available' : 'Coming soon'}
               </span>
             </div>
             <h2 class="text-2xl font-serif font-bold text-navy mb-3">{book.title}</h2>

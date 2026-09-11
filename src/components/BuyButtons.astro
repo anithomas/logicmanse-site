@@ -1,5 +1,5 @@
 ---
-// The two storefronts a title can be bought from, side by side.
+// The storefronts a title can be bought from, side by side.
 //
 // Equal weight on purpose: a book someone prints at home tonight and a
 // book that arrives in the post are different products for different
@@ -9,6 +9,16 @@
 // link — there is nothing to click, and saying "coming soon" plainly
 // beats a button that swallows a tap. Fill the URL in at
 // src/data/site.ts and it becomes a live link on the next build.
+//
+// AMAZON STORE, and why it is done client-side: the same paperback
+// ordered from amazon.com into Canada adds roughly CAD 11 of shipping,
+// while amazon.ca ships it free over CAD 35 — so sending a Canadian
+// reader to the US store costs them real money. This is a static site
+// on GitHub Pages with no server to look at a request's country, so the
+// HTML ships with the .com link and the script below rewrites it to .ca
+// for visitors whose browser reports a Canadian time zone. It is
+// progressive enhancement: with JS off, or a zone we don't recognise,
+// the .com link is still there and still works.
 import { BOOK_LINKS } from '../data/site';
 
 interface Props {
@@ -17,28 +27,77 @@ interface Props {
 const { bookKey } = Astro.props;
 const { etsy, amazon } = BOOK_LINKS[bookKey];
 
-const OPTIONS = [
-  { kind: 'Digital · instant download', store: 'Etsy', url: etsy },
-  { kind: 'Paperback · delivered', store: 'Amazon', url: amazon },
-];
+// Fall back sensibly when a title is on only one of the two stores.
+const amazonHref = amazon.com || amazon.ca;
+const amazonSwapTo = amazon.com && amazon.ca ? amazon.ca : '';
 ---
 
 <div class="grid sm:grid-cols-2 gap-3">
-  {OPTIONS.map((o) =>
-    o.url ? (
-      <a
-        href={o.url}
-        rel="noopener"
-        class="flex flex-col gap-1 text-center rounded-lg px-5 py-4 bg-forest hover:bg-forest-light text-white transition-colors duration-150"
-      >
-        <span class="text-[0.65rem] font-bold uppercase tracking-widest opacity-80">{o.kind}</span>
-        <span class="text-lg font-bold leading-tight">Buy on {o.store} &rarr;</span>
-      </a>
-    ) : (
-      <span class="flex flex-col gap-1 text-center rounded-lg px-5 py-4 bg-slate-50 border border-dashed border-slate-300 text-slate-400 cursor-default">
-        <span class="text-[0.65rem] font-bold uppercase tracking-widest">{o.kind}</span>
-        <span class="text-lg font-bold leading-tight">{o.store} — coming soon</span>
+  {etsy ? (
+    <a
+      href={etsy}
+      rel="noopener"
+      class="flex flex-col gap-1 text-center rounded-lg px-5 py-4 bg-forest hover:bg-forest-light text-white transition-colors duration-150"
+    >
+      <span class="text-[0.65rem] font-bold uppercase tracking-widest opacity-80">
+        Digital · instant download
       </span>
-    )
+      <span class="text-lg font-bold leading-tight">Buy on Etsy &rarr;</span>
+    </a>
+  ) : (
+    <span class="flex flex-col gap-1 text-center rounded-lg px-5 py-4 bg-slate-50 border border-dashed border-slate-300 text-slate-400 cursor-default">
+      <span class="text-[0.65rem] font-bold uppercase tracking-widest">
+        Digital · instant download
+      </span>
+      <span class="text-lg font-bold leading-tight">Etsy — coming soon</span>
+    </span>
+  )}
+
+  {amazonHref ? (
+    <a
+      href={amazonHref}
+      rel="noopener"
+      data-amazon-ca={amazonSwapTo || undefined}
+      class="flex flex-col gap-1 text-center rounded-lg px-5 py-4 bg-forest hover:bg-forest-light text-white transition-colors duration-150"
+    >
+      <span class="text-[0.65rem] font-bold uppercase tracking-widest opacity-80">
+        Paperback · delivered
+      </span>
+      <span class="text-lg font-bold leading-tight">Buy on Amazon &rarr;</span>
+    </a>
+  ) : (
+    <span class="flex flex-col gap-1 text-center rounded-lg px-5 py-4 bg-slate-50 border border-dashed border-slate-300 text-slate-400 cursor-default">
+      <span class="text-[0.65rem] font-bold uppercase tracking-widest">Paperback · delivered</span>
+      <span class="text-lg font-bold leading-tight">Amazon — coming soon</span>
+    </span>
   )}
 </div>
+
+<script>
+  // Send Canadian visitors to amazon.ca instead of amazon.com. Astro
+  // bundles this once per page no matter how many times the component
+  // is used, and it runs over every Amazon link on the page.
+  const CANADIAN_TIME_ZONES = new Set([
+    'America/Atikokan', 'America/Blanc-Sablon', 'America/Cambridge_Bay',
+    'America/Creston', 'America/Dawson', 'America/Dawson_Creek',
+    'America/Edmonton', 'America/Fort_Nelson', 'America/Glace_Bay',
+    'America/Goose_Bay', 'America/Halifax', 'America/Inuvik',
+    'America/Iqaluit', 'America/Moncton', 'America/Montreal',
+    'America/Nipigon', 'America/Pangnirtung', 'America/Rainy_River',
+    'America/Rankin_Inlet', 'America/Regina', 'America/Resolute',
+    'America/St_Johns', 'America/Swift_Current', 'America/Thunder_Bay',
+    'America/Toronto', 'America/Vancouver', 'America/Whitehorse',
+    'America/Winnipeg', 'America/Yellowknife',
+  ]);
+
+  try {
+    const zone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (CANADIAN_TIME_ZONES.has(zone)) {
+      document.querySelectorAll<HTMLAnchorElement>('a[data-amazon-ca]').forEach((a) => {
+        a.href = a.dataset.amazonCa!;
+      });
+    }
+  } catch {
+    // No Intl, or a locked-down browser — the .com link in the HTML stands.
+  }
+</script>
