@@ -90,7 +90,10 @@ export const BOOKS: Book[] = [
       'Built for a landlord managing 1–6 properties, not a property-management firm — 109 undated pages for a full year of real use.',
     description:
       'A record book for a landlord with 1–6 properties, not a property-management firm — rent tracking, tenant & lease logs, maintenance, a mileage log, a vendor directory, and a portfolio-wide annual summary built for tax time.',
-    specs: '8.5" × 11" · 109 pages · undated',
+    // 109 is the interior; the Etsy print-at-home PDF is 111 because it
+    // adds the two cover pages, and its listing title says so. Spell out
+    // both here so a buyer clicking through doesn't meet a new number.
+    specs: '8.5" × 11" · 109-page interior (111-page printable) · undated',
     cover: '/rental-management-log/cover-front.jpg',
     coverAlt: 'Rental Property Record Book cover',
     interior: '/rental-management-log/interior-page.jpg',

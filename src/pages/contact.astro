@@ -13,12 +13,29 @@ import { SITE } from '../data/site';
 //    info@logicmanse.ca address.
 // 2. Create a new form, verify the email Formspree sends you.
 // 3. Copy the form endpoint it gives you (looks like
-//    https://formspree.io/f/abcdwxyz) and paste it below, replacing
-//    FORMSPREE_ENDPOINT.
-// Until you do that, this form will not actually deliver anywhere —
-// it will show a Formspree error page saying the endpoint isn't real.
+//    https://formspree.io/f/abcdwxyz) and paste it below.
+//
+// UNTIL YOU DO, THE FORM IS NOT RENDERED AT ALL, on purpose. The
+// placeholder endpoint below is not a real Formspree form — posting to
+// it returns 404, which meant every message someone typed into this
+// page was silently thrown away, and they were shown an error page
+// instead of a reply. A contact page that loses mail is worse than one
+// with no form, so while the endpoint is unset this page shows the
+// email address as the way to reach you. info@logicmanse.ca has live
+// MX records, so that route genuinely works today.
+//
+// Paste a real endpoint and the form comes back on the next build.
 // ----------------------------------------------------------------
 const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
+
+// Guard against shipping the placeholder: anything still containing
+// YOUR_FORM_ID (or empty) counts as "not configured yet".
+const FORM_IS_LIVE =
+  Boolean(FORMSPREE_ENDPOINT) && !FORMSPREE_ENDPOINT.includes('YOUR_FORM_ID');
+
+const MAILTO = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
+  'Question for Logicmanse Solutions'
+)}`;
 ---
 
 <BaseLayout
@@ -37,6 +54,7 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
 
   <section class="bg-white">
     <div class="max-w-2xl mx-auto px-6 py-20">
+      {FORM_IS_LIVE ? (
       <form
         action={FORMSPREE_ENDPOINT}
         method="POST"
@@ -102,13 +120,33 @@ const FORMSPREE_ENDPOINT = 'https://formspree.io/f/YOUR_FORM_ID';
           opens in a separate app. Your information is never sold or shared.
         </p>
       </form>
-
-      <p class="fade-in-up text-center text-slate-500 text-sm mt-8">
-        Prefer to email directly? Reach us at{' '}
-        <a href={`mailto:${SITE.contactEmail}`} class="text-forest font-semibold hover:underline">
+      ) : (
+      <div class="fade-in-up bg-slate-50 border border-slate-200 rounded-xl p-8 text-center">
+        <h2 class="text-2xl font-serif font-bold text-navy mb-3">Email us directly</h2>
+        <p class="text-slate-600 leading-relaxed mb-7 max-w-md mx-auto">
+          We read every message ourselves, and we'll reply within one business day. Tell us the
+          book or the question and we'll take it from there.
+        </p>
+        <a
+          href={MAILTO}
+          class="inline-block bg-forest hover:bg-forest-light text-white font-semibold px-8 py-4 rounded-md transition-colors"
+        >
           {SITE.contactEmail}
         </a>
-      </p>
+        <p class="text-xs text-slate-400 mt-6">
+          Opens your email app. Your address is never sold or shared.
+        </p>
+      </div>
+      )}
+
+      {FORM_IS_LIVE && (
+        <p class="fade-in-up text-center text-slate-500 text-sm mt-8">
+          Prefer to email directly? Reach us at{' '}
+          <a href={MAILTO} class="text-forest font-semibold hover:underline">
+            {SITE.contactEmail}
+          </a>
+        </p>
+      )}
     </div>
   </section>
 </BaseLayout>
