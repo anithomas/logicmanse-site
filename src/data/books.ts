@@ -36,6 +36,12 @@ export interface Book {
   coverAlt: string;
   interior?: string;
   interiorAlt?: string;
+  /** The listing video — the same silent square slideshow Etsy shows. */
+  video?: string;
+  /** Its first frame, and square like the video. Using a non-square
+      still here makes the player box adopt the still's shape before the
+      video's metadata loads, which letterboxes the whole slideshow. */
+  videoPoster?: string;
   /** What is actually in the printed book. */
   inside: string[];
   /** The free bonus every copy comes with, delivered via qrHref. */
@@ -61,6 +67,8 @@ export const BOOKS: Book[] = [
     coverAlt: 'Super Leia to the Rescue! book cover',
     interior: '/leia-coloring-book/backyard-illustration.jpg',
     interiorAlt: "Leia's backyard, illustrated",
+    video: '/leia-coloring-book/promo-video.mp4',
+    videoPoster: '/leia-coloring-book/video-poster.jpg',
     inside: [
       '30 coloring pages — portraits, seasons, walks, naps and holiday scenes',
       'Mazes, word searches, crosswords, dot-to-dots and word scrambles, alternated so the book never feels repetitive',
@@ -98,6 +106,8 @@ export const BOOKS: Book[] = [
     coverAlt: 'Rental Property Record Book cover',
     interior: '/rental-management-log/interior-page.jpg',
     interiorAlt: 'A sample interior page: the monthly income & expense tracker',
+    video: '/rental-management-log/promo-video.mp4',
+    videoPoster: '/rental-management-log/video-poster.jpg',
     inside: [
       'A 12-month rent payment tracker, with two units per property across up to 6 properties',
       'Tenant & lease logs, and a key-dates page that puts every renewal and expiry in one place',
@@ -133,6 +143,8 @@ export const BOOKS: Book[] = [
     coverAlt: 'The Complete Heart Health Log Book cover',
     interior: '/heart-health-log/interior-page.jpg',
     interiorAlt: 'A sample interior page: the blood thinner prescribed-schedule log',
+    video: '/heart-health-log/promo-video.mp4',
+    videoPoster: '/heart-health-log/video-poster.jpg',
     // Verbatim from the printed back cover, under "INSIDE".
     inside: [
       '52 weekly pages — a whole week visible at a glance, in large, easy-to-read print',

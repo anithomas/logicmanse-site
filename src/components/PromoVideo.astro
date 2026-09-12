@@ -1,0 +1,83 @@
+---
+// A square listing video — the same 11.5-second silent slideshow that
+// runs on the Etsy listing, per the shop blueprint's media spec
+// (1080x1080 H.264, silent, five cards with a slow zoom between them).
+//
+// It loops without controls, which is only reasonable BECAUSE the file
+// has no audio track: nothing starts making noise at someone, and on an
+// eleven-second loop there is nothing to seek. muted and playsinline are
+// what let a phone play it inline at all — without playsinline, iOS
+// takes the video fullscreen instead.
+//
+// NOT the autoplay attribute, deliberately. These sit below the fold, and
+// autoplay would pull the whole file — up to 4MB for Leia — on page load
+// for every visitor including those who never scroll that far. Instead
+// preload is metadata only and an IntersectionObserver starts playback
+// when the video is actually on screen, and pauses it when it leaves.
+// A reader on mobile data pays for it only if they look at it.
+//
+// The poster is the video's own opening frame — the square Etsy cover
+// card — so the block is never an empty grey box, and the first thing
+// shown is the first thing played.
+//
+// aspect-square is belt and braces. A video element sizes itself to the
+// poster until metadata arrives, so a poster of the wrong shape makes
+// the box jump as the video loads; pinning the ratio means the layout
+// is right from the first paint whatever poster is passed in.
+//
+// prefers-reduced-motion is handled in the script rather than the markup
+// because playback cannot be toggled from CSS. Those readers get the
+// poster frame and real controls, so the video is still theirs to watch
+// — deliberately, rather than being taken away.
+interface Props {
+  src: string;
+  poster: string;
+  label: string;
+  class?: string;
+}
+const { src, poster, label, class: klass = '' } = Astro.props;
+---
+
+<video
+  class:list={['promo-video w-full aspect-square object-cover block', klass]}
+  src={src}
+  poster={poster}
+  aria-label={label}
+  muted
+  loop
+  playsinline
+  preload="metadata"
+  width="1080"
+  height="1080"></video>
+
+<script>
+  const videos = document.querySelectorAll<HTMLVideoElement>('video.promo-video');
+
+  // Someone who asked their system for less motion should not be handed
+  // a looping video. Give them the poster frame and controls instead.
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    videos.forEach((v) => {
+      v.controls = true;
+    });
+  } else if ('IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          const video = entry.target as HTMLVideoElement;
+          if (entry.isIntersecting) {
+            // Muted playback is allowed without a user gesture; if a
+            // browser refuses anyway, the poster simply stays put.
+            video.play().catch(() => {});
+          } else {
+            video.pause();
+          }
+        }
+      },
+      { threshold: 0.25 }
+    );
+    videos.forEach((v) => observer.observe(v));
+  } else {
+    // No IntersectionObserver — just let them play.
+    videos.forEach((v) => v.play().catch(() => {}));
+  }
+</script>

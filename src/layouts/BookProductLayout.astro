@@ -15,6 +15,7 @@
 import BaseLayout from './BaseLayout.astro';
 import BuyButtons from '../components/BuyButtons.astro';
 import CTAButton from '../components/CTAButton.astro';
+import PromoVideo from '../components/PromoVideo.astro';
 import type { Book } from '../data/books';
 
 interface Props {
@@ -71,12 +72,25 @@ const { book } = Astro.props;
       </div>
 
       <div class="fade-in-up space-y-8">
-        {book.interior && (
-          <img
-            src={book.interior}
-            alt={book.interiorAlt}
-            class="rounded-lg shadow-lg w-full h-auto"
+        {/* The video and the interior still show the same thing — the
+            slideshow opens on a page from the book — so only one of them
+            goes here, and the still becomes the video's poster rather
+            than a second copy beneath it. */}
+        {book.video ? (
+          <PromoVideo
+            src={book.video}
+            poster={book.videoPoster ?? book.cover}
+            label={`A short look inside ${book.title}`}
+            class="rounded-lg shadow-lg"
           />
+        ) : (
+          book.interior && (
+            <img
+              src={book.interior}
+              alt={book.interiorAlt}
+              class="rounded-lg shadow-lg w-full h-auto"
+            />
+          )
         )}
         {book.story && (
           <blockquote class="border-l-4 border-forest pl-5">

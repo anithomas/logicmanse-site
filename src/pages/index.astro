@@ -4,6 +4,7 @@ import SectionHeading from '../components/SectionHeading.astro';
 import CTAButton from '../components/CTAButton.astro';
 import { SITE } from '../data/site';
 import { BOOKS } from '../data/books';
+import PromoVideo from '../components/PromoVideo.astro';
 
 const CATEGORIES = [
   {
@@ -73,6 +74,37 @@ const CATEGORIES = [
       </div>
       <div class="fade-in-up">
         <p class="font-serif font-bold text-navy text-sm md:text-base">Free Digital Companion With Every Book</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SHOP VIDEO ============ -->
+  <!-- Placed directly under the credibility strip, before the categories:
+       it is the shop-level film (the five brand cards, not one title), so
+       it belongs with the claims it illustrates rather than down among
+       the individual books. -->
+  <section class="bg-white">
+    <div class="max-w-5xl mx-auto px-6 py-16 md:py-20 grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+      <div class="fade-in-up">
+        <p class="text-xs font-bold uppercase tracking-widest text-forest mb-3">A Look at What We Make</p>
+        <h2 class="text-3xl md:text-4xl font-serif font-bold text-navy mb-4">
+          Eleven seconds, five books' worth of pages
+        </h2>
+        <p class="text-slate-600 leading-relaxed mb-6">
+          Real covers and real interior pages — the same short film that runs on our Etsy shop.
+          No stock photography, because there isn't any: every page in it came out of a book we
+          actually made.
+        </p>
+        <CTAButton href="/books/">Browse Our Books</CTAButton>
+      </div>
+
+      <div class="fade-in-up">
+        <PromoVideo
+          src="/home/shop-video.mp4"
+          poster="/home/shop-video-poster.jpg"
+          label="A short look at the Logicmanse books"
+          class="rounded-xl shadow-xl"
+        />
       </div>
     </div>
   </section>
