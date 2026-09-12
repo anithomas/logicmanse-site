@@ -7,26 +7,31 @@ import { SITE } from '../data/site';
 // never-replaced placeholder endpoint (/f/YOUR_FORM_ID), which 404s,
 // so every message typed into this page was silently thrown away.
 //
-// In its place: the Reach form Ani supplied, embedded, plus a direct
-// email route.
+// In its place: Reach's official embed — the loader script plus the
+// <div data-reach-form="...">, exactly as Reach's dashboard issues it.
 //
-// WHY AN IFRAME, not the <div data-reach-form="..."> snippet: that div
-// is only half of Reach's embed code — it does nothing without the
-// loader script that hydrates it, and Reach's dashboard issues that
-// script alongside the div. Only the div was to hand, and the loader's
-// URL isn't published (the standalone form bundle doesn't serve it).
-// The form page itself sends `content-security-policy: frame-ancestors *`,
-// so framing it is explicitly supported and works today with nothing to
-// discover. If the `<script src="...">` line turns up later, swapping to
-// the official embed is a small change and buys automatic height
-// resizing.
+// What the loader does, having read it: it finds the div, builds the
+// iframe itself pointing at reach-forms.hostingerusercontent.com, and
+// then listens for a `reach:resize` postMessage from inside the form to
+// set the iframe's height. That auto-sizing is the reason to use the
+// official embed over a hand-rolled iframe — the height follows the
+// form through validation errors and the success state instead of being
+// a number guessed here that goes stale the moment the form is edited
+// in Reach. It also counts a view (once the div is 50% on screen) and a
+// submit, via a beacon to /api/v1/forms/<id>/impression, and dedupes
+// the view for 30 minutes using a localStorage key. That is disclosed
+// in the privacy policy — keep the two in step if this embed changes.
 //
-// FORM_HEIGHT is measured from the live form (392px of content) plus
-// slack for the success state and for a validation message under a
-// field. The iframe scrolls if it ever needs more, so a Reach-side edit
-// can't clip the submit button.
-const REACH_CONTACT_FORM = 'https://reach-forms.hostingerusercontent.com/form/5e71aa5d-e0c2-4f63-a878-7c6dc04f88b9';
-const FORM_HEIGHT = 460;
+// MIN_HEIGHT only reserves space until the first resize message lands,
+// so the page doesn't jump as the form settles. It is a floor on the
+// wrapper, not a cap on the frame: the form measures 392px at desktop
+// width and taller on a phone, and the loader sets the real height when
+// it arrives. Keep it just under the settled height, or the difference
+// shows as dead space under the form forever.
+// ----------------------------------------------------------------
+const REACH_FORM_ID = '5e71aa5d-e0c2-4f63-a878-7c6dc04f88b9';
+const REACH_EMBED_SCRIPT = 'https://cdn-reach.hostinger.com/js/embed.js';
+const MIN_HEIGHT = 400;
 
 const MAILTO = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
   'Question for Logicmanse Solutions'
@@ -51,25 +56,18 @@ const MAILTO = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
     <div class="max-w-2xl mx-auto px-6 py-20 space-y-10">
       <!-- Reach form: new-release list signup. -->
       <!-- White, not slate: the Reach form paints its own white
-           background, and the height slack below it would otherwise show
-           as a coloured band under the submit button.
-           Full-bleed on mobile (-mx-6 cancels the section's px-6): inside
-           a frame the form lays itself out against the device width, not
-           the iframe's, so anything narrower than the screen clips its
-           right-hand edge — the heading and the submit button first. At
-           sm and up there is room to spare, and the card returns.
-           overflow-hidden is also held back to sm: at mobile widths the
-           frame keeps its own scrollbars, so if the form still lays out
-           wider than the phone, the fields stay reachable instead of
-           being cropped away. -->
-      <div class="fade-in-up -mx-6 sm:mx-0 bg-white sm:border sm:border-slate-200 sm:rounded-xl sm:overflow-hidden">
-        <iframe
-          src={REACH_CONTACT_FORM}
-          title="Join the Logicmanse mailing list"
-          loading="lazy"
-          height={FORM_HEIGHT}
-          class="w-full block border-0"
-        ></iframe>
+           background, so any height slack would otherwise show as a
+           coloured band under the submit button.
+           Full-bleed on mobile (-mx-6 cancels the section's px-6). Not a
+           workaround — the form is responsive down to 320px, verified by
+           narrowing the frame to 360 real CSS pixels and watching it
+           reflow and re-report its height. It goes edge-to-edge simply
+           because the form brings its own generous padding, and nesting
+           that inside the section's padding wastes width twice over on a
+           phone. At sm and up there is room for both, and the card
+           returns. -->
+      <div class="fade-in-up -mx-6 sm:mx-0 bg-white sm:border sm:border-slate-200 sm:rounded-xl overflow-hidden">
+        <div data-reach-form={REACH_FORM_ID} style={`min-height:${MIN_HEIGHT}px`}></div>
       </div>
 
       <!-- The actual contact route. The Reach form above collects a name
@@ -94,4 +92,5 @@ const MAILTO = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
       </div>
     </div>
   </section>
+  <script is:inline src={REACH_EMBED_SCRIPT} defer></script>
 </BaseLayout>

@@ -5,8 +5,9 @@ import { SITE } from '../data/site';
 const LAST_UPDATED = 'August 23, 2026';
 
 // Kept deliberately factual and scoped to what this codebase actually
-// does (Formspree for the contact form, Google Fonts, GitHub Pages
-// hosting — no analytics, no cookies, no accounts). This is NOT a
+// does (Hostinger Reach for the contact-page signup form, Google
+// Fonts, GitHub Pages hosting — no analytics, no ad cookies, no
+// accounts). This is NOT a
 // substitute for legal review; have a lawyer check this before treating
 // it as your compliance program, especially for PIPEDA obligations as
 // an Ontario business.
@@ -17,19 +18,21 @@ const sections = [
   },
   {
     title: '2. Information We Collect',
-    body: `We collect information directly from you when you voluntarily submit it — for example, through the contact form on this site (your name, business name, email address, and the message you write). We do not require an account to browse this site, and we do not collect payment or banking information here.`,
+    body: `We collect information directly from you when you voluntarily submit it — for example, the signup form on our contact page (your first name and email address), or an email you send us. We do not require an account to browse this site, and we do not collect payment or banking information here.`,
   },
   {
     title: '3. How We Use Your Information',
-    body: `We use the information you submit only to respond to your inquiry — for example, to schedule the free process audit you requested. We do not sell your information, and we do not use it for advertising or share it with third parties for their own marketing purposes.`,
+    body: `We use the information you submit only for the purpose you gave it to us — to reply to your email, or to send you the new-release updates you signed up for. You can unsubscribe from those at any time. We do not sell your information, and we do not use it for advertising or share it with third parties for their own marketing purposes.`,
   },
   {
     title: '4. Third-Party Services',
-    body: `This site relies on a small number of third-party services to function, each of which processes limited data on our behalf:\n\n• Formspree — the contact form on this site is delivered through Formspree, a third-party form-processing service. When you submit the contact form, your submission passes through Formspree's systems before reaching our inbox. See Formspree's own privacy policy at formspree.io for details on how they handle that data.\n\n• Google Fonts — this site loads typefaces from Google's font service (fonts.googleapis.com / fonts.gstatic.com), which may log standard request data (such as your IP address) as part of delivering those files. See Google's privacy policy for details.\n\n• GitHub Pages — this site is hosted on GitHub Pages, which may log standard server/CDN access data (such as IP address and request timing) as part of serving the site. See GitHub's privacy statement for details.\n\n• Some pages on this site (such as giveaway or promotional landing pages) may link out to external, separately-operated intake forms. Information you submit through those external forms is governed by that provider's own privacy policy, not this one.`,
+    body: `This site relies on a small number of third-party services to function, each of which processes limited data on our behalf:\n\n• Hostinger Reach — the signup form on our contact page is embedded from Hostinger Reach, and the form itself is served from within that embed rather than by this site. When you submit it, your first name and email address go to Hostinger Reach's systems, where our mailing list is held. The embed also loads a small script from Hostinger and records when the form is seen and when it is submitted (see section 5). See Hostinger's own privacy policy for details on how they handle that data.\n\n• Google Fonts — this site loads typefaces from Google's font service (fonts.googleapis.com / fonts.gstatic.com), which may log standard request data (such as your IP address) as part of delivering those files. See Google's privacy policy for details.\n\n• GitHub Pages — this site is hosted on GitHub Pages, which may log standard server/CDN access data (such as IP address and request timing) as part of serving the site. See GitHub's privacy statement for details.\n\n• Some pages on this site (such as giveaway or promotional landing pages) may link out to external, separately-operated intake forms. Information you submit through those external forms is governed by that provider's own privacy policy, not this one.`,
   },
   {
     title: '5. Cookies and Tracking',
-    body: `This site does not use analytics, advertising, or tracking cookies, and does not run any tracking scripts of its own. We do not build a profile of your browsing activity.`,
+    body: `This site runs no analytics or advertising, sets no advertising cookies, and does not build a profile of your browsing activity.
+
+One exception, on the contact page only: the embedded Hostinger Reach signup form counts how often it is seen and submitted, so we can tell whether the form is working. To avoid counting the same visit repeatedly, it stores a timestamp in your browser's local storage for about thirty minutes. It is a count of the form, not of you — no profile is built from it — and it runs only on the contact page. Clearing your browser's site data removes it.`,
   },
   {
     title: '6. Data Retention',
