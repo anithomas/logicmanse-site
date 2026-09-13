@@ -26,6 +26,14 @@ const { title, description } = Astro.props;
     <meta name="description" content={description} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
 
+    <!-- Pinterest domain claim. Pinterest fetches the root URL and looks
+         for this tag, so it lives in the shared layout rather than on one
+         page; the three printed-QR landing pages are standalone and do
+         not carry it, which is fine — claiming only reads the root.
+         Keep it: removing it un-claims the domain, which would drop the
+         logicmanse.ca attribution and analytics from every pin. -->
+    <meta name="p:domain_verify" content="d396c13ff247ecc33f6f3a87a6040f57" />
+
     <!-- Open Graph / social preview -->
     <meta property="og:title" content={`${title} | ${SITE.shortName}`} />
     <meta property="og:description" content={description} />
