@@ -12,11 +12,11 @@ export const SITE = {
   subTagline:
     'Logicmanse Solutions publishes coloring books, log books, journals, and cookbooks — plain, practical, and built around how you actually use them, not just what looks good on a shelf.',
 
-  // TODO (Ani): replace with the real branded inbox once it's created
+  // TODO (@Antz): replace with the real branded inbox once it's created
   // in your GoDaddy / email provider control panel, e.g. info@logicmanse.ca
   contactEmail: 'info@logicmanse.ca',
 
-  // TODO (Ani): add a phone number here if you want one published.
+  // TODO (@Antz): add a phone number here if you want one published.
   phone: '',
 
   location: 'Ontario, Canada',
@@ -44,7 +44,7 @@ export const SITE_UNDER_CONSTRUCTION = false;
 // ----------------------------------------------------------------
 // Where each book is actually sold.
 //
-// TODO (Ani): paste the real listing URLs here as each one goes live.
+// TODO (@Antz): paste the real listing URLs here as each one goes live.
 // This is the ONLY file to edit — the /books/ listing and all three
 // product pages read from it.
 //

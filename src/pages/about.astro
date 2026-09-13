@@ -16,12 +16,13 @@ import CTAButton from '../components/CTAButton.astro';
 
   <section class="bg-white">
     <div class="max-w-3xl mx-auto px-6 py-20 space-y-8">
-      <!--
-        TODO (Ani): swap for a real photo — you, your workspace, or a
-        stack of finished books — whenever you have one. This brand
-        visual (mark + wordmark + tagline, per the brand guide PDF) is a
-        reasonable stand-in until then.
-      -->
+      {/* TODO (@Antz): swap for a real photo — you, your workspace, or a
+          stack of finished books — whenever you have one. This brand visual
+          (mark + wordmark + tagline, per the brand guide PDF) is a
+          reasonable stand-in until then.
+          Deliberately {/* */} and not an HTML comment: an HTML comment is
+          served to the browser, so the old one leaked a name into the
+          public page source. */}
       <div class="fade-in-up rounded-xl overflow-hidden">
         <img src="/about/brand-hero.jpg" alt="Logicmanse Solutions" class="w-full h-auto" />
       </div>
