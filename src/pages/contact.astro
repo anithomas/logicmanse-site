@@ -3,35 +3,38 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { SITE } from '../data/site';
 
 // ----------------------------------------------------------------
-// The Formspree form that used to live here is gone. It posted to the
-// never-replaced placeholder endpoint (/f/YOUR_FORM_ID), which 404s,
-// so every message typed into this page was silently thrown away.
+// Contact form: Hostinger Reach's official embed — the loader script
+// plus <div data-reach-form="...">, as Reach's dashboard issues it.
+// (It replaced a Formspree form whose endpoint was never configured and
+// silently discarded every message.)
 //
-// In its place: Reach's official embed — the loader script plus the
-// <div data-reach-form="...">, exactly as Reach's dashboard issues it.
+// How the loader behaves, from reading it: it builds an iframe pointing
+// at reach-forms.hostingerusercontent.com inside the div, and sets the
+// iframe's height when the form inside posts a `reach:resize` message.
+// It also counts a view and a submit via a beacon, deduping the view
+// with a localStorage key — disclosed in the privacy policy; keep the
+// two in step if this embed changes.
 //
-// What the loader does, having read it: it finds the div, builds the
-// iframe itself pointing at reach-forms.hostingerusercontent.com, and
-// then listens for a `reach:resize` postMessage from inside the form to
-// set the iframe's height. That auto-sizing is the reason to use the
-// official embed over a hand-rolled iframe — the height follows the
-// form through validation errors and the success state instead of being
-// a number guessed here that goes stale the moment the form is edited
-// in Reach. It also counts a view (once the div is 50% on screen) and a
-// submit, via a beacon to /api/v1/forms/<id>/impression, and dedupes
-// the view for 30 minutes using a localStorage key. That is disclosed
-// in the privacy policy — keep the two in step if this embed changes.
-//
-// MIN_HEIGHT only reserves space until the first resize message lands,
-// so the page doesn't jump as the form settles. It is a floor on the
-// wrapper, not a cap on the frame: the form measures 392px at desktop
-// width and taller on a phone, and the loader sets the real height when
-// it arrives. Keep it just under the settled height, or the difference
-// shows as dead space under the form forever.
+// THE LOADING STATE, and why it exists. The embed script and the frame
+// both arrive in well under a second, but the form inside is a small app
+// that has to boot before it paints anything or reports its height. Until
+// then this page used to show an empty white 400px box — which reads as
+// broken, and was reported as broken. So now:
+//   - the host shows a visible "Loading the contact form…" placeholder,
+//     and the frame stays out of sight until it has reported a real
+//     height, so nobody is ever looking at a blank rectangle;
+//   - after 6s with no form, the placeholder offers a direct link to the
+//     form and the email address — for a slow embed, or a content blocker
+//     that has stopped Hostinger's script outright;
+//   - after 15s, if the frame exists but never reported a height, it is
+//     shown anyway at a fixed height, so a Reach-side change to the resize
+//     message can't leave a working form permanently hidden.
+// With JavaScript off the loader never runs, and the placeholder's link
+// and email address are what remains — the right fallback.
 // ----------------------------------------------------------------
 const REACH_FORM_ID = '5e71aa5d-e0c2-4f63-a878-7c6dc04f88b9';
+const REACH_FORM_URL = `https://reach-forms.hostingerusercontent.com/form/${REACH_FORM_ID}`;
 const REACH_EMBED_SCRIPT = 'https://cdn-reach.hostinger.com/js/embed.js';
-const MIN_HEIGHT = 400;
 
 const MAILTO = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
   'Question for Logicmanse Solutions'
@@ -54,31 +57,29 @@ const MAILTO = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
 
   <section class="bg-white">
     <div class="max-w-2xl mx-auto px-6 py-20 space-y-10">
-      <!-- Reach form: new-release list signup. -->
-      <!-- White, not slate: the Reach form paints its own white
-           background, so any height slack would otherwise show as a
-           coloured band under the submit button.
-           Full-bleed on mobile (-mx-6 cancels the section's px-6). Not a
-           workaround — the form is responsive down to 320px, verified by
-           narrowing the frame to 360 real CSS pixels and watching it
-           reflow and re-report its height. It goes edge-to-edge simply
-           because the form brings its own generous padding, and nesting
-           that inside the section's padding wastes width twice over on a
-           phone. At sm and up there is room for both, and the card
-           returns. -->
-      <div class="fade-in-up -mx-6 sm:mx-0 bg-white sm:border sm:border-slate-200 sm:rounded-xl overflow-hidden">
-        <div data-reach-form={REACH_FORM_ID} style={`min-height:${MIN_HEIGHT}px`}></div>
+      {/* Full-bleed on mobile (-mx-6 cancels the section's px-6): the form
+          brings its own padding, and nesting it inside the section's padding
+          too wastes width twice over on a phone. The card returns from sm up.
+          The form is responsive down to 320px — verified by narrowing the
+          frame to 360 real CSS pixels and watching it reflow. */}
+      <div class="fade-in-up -mx-6 sm:mx-0 sm:border sm:border-slate-200 sm:rounded-xl overflow-hidden">
+        <div class="reach-host" data-reach-form={REACH_FORM_ID}>
+          <div class="reach-placeholder">
+            <span class="reach-spinner" aria-hidden="true"></span>
+            <p>Loading the contact form…</p>
+            <p class="reach-slow">
+              Taking a while?
+              <a href={REACH_FORM_URL} target="_blank" rel="noopener">Open the form in a new tab</a>
+              or email <a href={MAILTO}>{SITE.contactEmail}</a>.
+            </p>
+          </div>
+        </div>
       </div>
 
-      <!-- The actual contact route. The Reach form above collects a name
-           and an email for the mailing list; it has no message field, so
-           a question needs somewhere else to go. -->
       <div class="fade-in-up bg-slate-50 border border-slate-200 rounded-xl p-8 text-center">
-        <h2 class="text-2xl font-serif font-bold text-navy mb-3">Got a question?</h2>
+        <h2 class="text-2xl font-serif font-bold text-navy mb-3">Prefer email?</h2>
         <p class="text-slate-600 leading-relaxed mb-7 max-w-md mx-auto">
-          Email us and we'll reply within one business day. Bulk orders, a question about one of
-          the books, or an idea for a title that doesn't exist yet — we read every message
-          ourselves.
+          Write to us directly — the same inbox as the form, and the same one-business-day reply.
         </p>
         <a
           href={MAILTO}
@@ -92,5 +93,117 @@ const MAILTO = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
       </div>
     </div>
   </section>
+
+  <script>
+    // Watches the Reach host and flips it through three states — loading,
+    // slow, ready. See the note at the top of this file for why each exists.
+    const host = document.querySelector<HTMLElement>('.reach-host');
+    if (host) {
+      host.dataset.js = '';
+      const frame = () => host.querySelector<HTMLIFrameElement>('iframe');
+      const observer = new MutationObserver(() => check());
+      const check = () => {
+        const f = frame();
+        if (f && f.style.height && host.dataset.ready === undefined) {
+          host.dataset.ready = '';
+          observer.disconnect();
+        }
+      };
+      observer.observe(host, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['style'],
+      });
+      check();
+
+      setTimeout(() => {
+        if (host.dataset.ready === undefined) host.dataset.slow = '';
+      }, 6000);
+
+      setTimeout(() => {
+        const f = frame();
+        // Setting the height fires the observer, which marks the host ready.
+        if (host.dataset.ready === undefined && f) f.style.height = '640px';
+      }, 15000);
+    }
+  </script>
+
+  <style>
+    .reach-host {
+      position: relative;
+      background: #f8fafc;
+    }
+    .reach-host:not([data-ready]) {
+      min-height: 420px;
+    }
+    .reach-host[data-ready] {
+      background: transparent;
+    }
+    .reach-placeholder {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      padding: 2rem;
+      text-align: center;
+      color: #475569;
+      font-size: 0.95rem;
+    }
+    .reach-host[data-ready] .reach-placeholder {
+      display: none;
+    }
+    .reach-spinner {
+      display: none;
+      width: 28px;
+      height: 28px;
+      border-radius: 9999px;
+      border: 3px solid #cbd5e1;
+      border-top-color: #1f6f4a;
+      animation: reach-spin 0.9s linear infinite;
+    }
+    .reach-host[data-js]:not([data-ready]) .reach-spinner {
+      display: block;
+    }
+    .reach-slow {
+      font-size: 0.85rem;
+      color: #64748b;
+      max-width: 26rem;
+    }
+    /* Hidden only once JS is confirmed running; without JS the loader never
+       runs either, so the link has to be visible from the start. */
+    .reach-host[data-js]:not([data-slow]) .reach-slow {
+      display: none;
+    }
+    .reach-slow a {
+      color: #1f6f4a;
+      font-weight: 600;
+      text-decoration: underline;
+    }
+    /* Out of sight but full width until the form reports its height: a
+       collapsed or 1px-wide frame would make it measure itself wrong. */
+    .reach-host:not([data-ready]) :global(iframe) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      opacity: 0;
+      pointer-events: none;
+    }
+    @keyframes reach-spin {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .reach-spinner {
+        animation: none;
+      }
+    }
+  </style>
+
   <script is:inline src={REACH_EMBED_SCRIPT} defer></script>
 </BaseLayout>
