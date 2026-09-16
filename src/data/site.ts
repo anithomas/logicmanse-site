@@ -81,9 +81,14 @@ export const BOOK_LINKS: Record<'leia' | 'rentalLog' | 'heartHealth', StoreLinks
   rentalLog: {
     // Live 10 Sep 2026. Etsy: CA$12.49, the 111-page print-at-home PDF
     // (the 109-page interior plus its two cover pages).
-    // Amazon: paperback not published yet.
+    // Amazon paperback live 15 Sep 2026: ASIN B0HJX4WL58, CA$17.91 on
+    // .ca / US$18.09 on .com — same book, same "send Canadians to .ca"
+    // logic as the other two titles.
     etsy: 'https://www.etsy.com/ca/listing/4570945138/rental-property-record-book-printable',
-    amazon: { com: '', ca: '' },
+    amazon: {
+      com: 'https://www.amazon.com/dp/B0HJX4WL58',
+      ca: 'https://www.amazon.ca/dp/B0HJX4WL58',
+    },
   },
   heartHealth: {
     // Live 10 Sep 2026. Etsy: CA$14.99, the 118-page colour edition zip.
