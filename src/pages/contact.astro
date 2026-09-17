@@ -104,7 +104,20 @@ const MAILTO = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
       const observer = new MutationObserver(() => check());
       const check = () => {
         const f = frame();
-        if (f && f.style.height && host.dataset.ready === undefined) {
+        // Bug found live 16 Sep 2026: `f.style.height` is a non-empty
+        // STRING check, and Reach's form occasionally sends an early
+        // `reach:resize` reporting "0px" during its own startup, before
+        // the real content is measured. "0px" is truthy, so that first
+        // message was accepted as final, the observer disconnected, and
+        // the form stayed permanently collapsed — worse than the original
+        // blank-box complaint this file was written to fix, because a
+        // 0px host leaves no visible box at all. Reproduced intermittently
+        // on live reloads: same page, same network, sometimes 0px,
+        // sometimes the real ~1200px. Now requires an actual positive
+        // pixel value, so an early zero is ignored and the observer keeps
+        // waiting for the real one.
+        const h = f ? parseFloat(f.style.height) : 0;
+        if (h > 0 && host.dataset.ready === undefined) {
           host.dataset.ready = '';
           observer.disconnect();
         }
