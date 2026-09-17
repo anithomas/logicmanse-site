@@ -5,12 +5,25 @@
 // ----------------------------------------------------------------
 
 export const SITE = {
+  // Two names, two jobs — do not collapse them into one.
+  //   businessName — the REGISTERED LEGAL ENTITY. Use only where the site
+  //     is making a legal statement about who operates it: the privacy
+  //     policy's data-controller line, the footer's copyright/registration
+  //     line, the About page's "registered corporate entity" sentence.
+  //     Changing this without actually re-registering the corporation
+  //     would make those statements false.
+  //   imprintName — the PUBLISHING IMPRINT, "LogicManse Publications".
+  //     This is what already appears on every book: the colophon, the
+  //     back cover, "A LogicManse Publication" on each QR page, the
+  //     Etsy shop, Pinterest. Use this everywhere else — taglines,
+  //     headings, page titles, meta descriptions — so the site matches
+  //     what readers already see on the books themselves.
   businessName: 'Logicmanse Solutions Canada Inc.',
-  shortName: 'Logicmanse Solutions',
+  imprintName: 'LogicManse Publications',
   domain: 'www.logicmanse.ca',
   tagline: 'Books Made to Be Used, Not Just Read.',
   subTagline:
-    'Logicmanse Solutions publishes coloring books, log books, journals, and cookbooks — plain, practical, and built around how you actually use them, not just what looks good on a shelf.',
+    'LogicManse Publications publishes coloring books, log books, journals, and cookbooks — plain, practical, and built around how you actually use them, not just what looks good on a shelf.',
 
   // TODO (@Antz): replace with the real branded inbox once it's created
   // in your GoDaddy / email provider control panel, e.g. info@logicmanse.ca

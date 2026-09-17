@@ -30,7 +30,7 @@ const imageUrl = new URL(image, Astro.site);
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <title>{title} | {SITE.shortName}</title>
+    <title>{title} | {SITE.imprintName}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
 
@@ -43,7 +43,7 @@ const imageUrl = new URL(image, Astro.site);
     <meta name="p:domain_verify" content="d396c13ff247ecc33f6f3a87a6040f57" />
 
     <!-- Open Graph / social preview -->
-    <meta property="og:title" content={`${title} | ${SITE.shortName}`} />
+    <meta property="og:title" content={`${title} | ${SITE.imprintName}`} />
     <meta property="og:description" content={description} />
     <meta property="og:type" content="website" />
     <meta property="og:url" content={new URL(Astro.url.pathname, Astro.site)} />

@@ -2,15 +2,16 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import CTAButton from '../components/CTAButton.astro';
+import { SITE } from '../data/site';
 ---
 
 <BaseLayout
   title="About"
-  description="Logicmanse Solutions Canada Inc. publishes coloring books, log books, journals, and cookbooks designed to actually get used."
+  description="LogicManse Publications publishes coloring books, log books, journals, and cookbooks designed to actually get used."
 >
   <section class="bg-navy text-white">
     <div class="max-w-4xl mx-auto px-6 py-20 text-center">
-      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl mb-4 text-white">About Logicmanse Solutions</h1>
+      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl mb-4 text-white">About LogicManse Publications</h1>
     </div>
   </section>
 
@@ -19,17 +20,22 @@ import CTAButton from '../components/CTAButton.astro';
       {/* TODO (@Antz): swap for a real photo — you, your workspace, or a
           stack of finished books — whenever you have one. This brand visual
           (mark + wordmark + tagline, per the brand guide PDF) is a
-          reasonable stand-in until then.
+          reasonable stand-in until then. Regenerated to say "LogicManse
+          Publications" when the site's brand copy moved off "Logicmanse
+          Solutions" — it's a JPG, so the old wordmark was baked into
+          pixels and the earlier rename pass couldn't reach it. If this
+          gets replaced with a real photo, that's fine — nothing else on
+          the page depends on this exact file.
           Keep this as a JSX-style comment, not an HTML comment: HTML
           comments are served to the browser and show up in page source. */}
       <div class="fade-in-up rounded-xl overflow-hidden">
-        <img src="/about/brand-hero.jpg" alt="Logicmanse Solutions" class="w-full h-auto" />
+        <img src="/about/brand-hero.jpg" alt="LogicManse Publications" class="w-full h-auto" />
       </div>
 
       <div class="fade-in-up">
-        <h2 class="text-2xl font-serif font-bold text-navy mb-4">Why Logicmanse Solutions Exists</h2>
+        <h2 class="text-2xl font-serif font-bold text-navy mb-4">Why LogicManse Publications Exists</h2>
         <p class="text-slate-600 leading-relaxed mb-4">
-          Logicmanse Solutions Canada Inc. publishes coloring books, log books, journals, and
+          LogicManse Publications publishes coloring books, log books, journals, and
           cookbooks built to actually get used — not just displayed. Every title starts from a
           real, specific need: a landlord who needs somewhere to track six properties for a full
           year, a parent looking for a coloring book their kid will actually finish, a home cook
@@ -55,8 +61,8 @@ import CTAButton from '../components/CTAButton.astro';
       <div class="fade-in-up">
         <h2 class="text-2xl font-serif font-bold text-navy mb-4">Based in Ontario, Canada</h2>
         <p class="text-slate-600 leading-relaxed">
-          Logicmanse Solutions Canada Inc. is a registered corporate entity based in Ontario,
-          Canada.
+          LogicManse Publications is the publishing imprint of {SITE.businessName}, a registered
+          corporate entity based in Ontario, Canada.
         </p>
       </div>
     </div>
