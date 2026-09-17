@@ -16,12 +16,29 @@ import BaseLayout from './BaseLayout.astro';
 import BuyButtons from '../components/BuyButtons.astro';
 import CTAButton from '../components/CTAButton.astro';
 import PromoVideo from '../components/PromoVideo.astro';
+import { BOOK_LINKS, ETSY_SHOP_URL } from '../data/site';
 import type { Book } from '../data/books';
 
 interface Props {
   book: Book;
 }
 const { book } = Astro.props;
+
+// Review links, one line, only for stores this title is actually on.
+// Same three links, same wording, as the post-purchase Reach email's
+// P.S. — a reader landing here from that email should see the identical
+// ask, not a paraphrase of it. Amazon links go straight to the book's
+// own /dp/ page rather than a review-specific URL: "scroll to Customer
+// reviews and tap Write a customer review" from there is the same
+// instruction the email gives, and it is one click either way.
+const { etsy, amazon } = BOOK_LINKS[book.key];
+const reviewLinks = (
+  [
+    amazon.com && { label: 'Amazon', href: amazon.com },
+    amazon.ca && { label: 'Amazon.ca', href: amazon.ca },
+    etsy && { label: 'Etsy (via your Purchases page)', href: ETSY_SHOP_URL },
+  ] as const
+).filter((l): l is { label: string; href: string } => Boolean(l));
 ---
 
 <BaseLayout title={book.title} description={book.tagline} image={book.cover}>
@@ -120,6 +137,18 @@ const { book } = Astro.props;
           >Claim your free {book.companion.name} &rarr;</a
         >
       </p>
+
+      {reviewLinks.length > 0 && (
+        <p class="fade-in-up text-sm text-slate-500 mt-2">
+          Already read it? A quick honest review helps more than almost anything else:{' '}
+          {reviewLinks.map((link, i) => (
+            <>
+              {i > 0 && ' · '}
+              <a href={link.href} class="text-forest font-semibold hover:underline">{link.label}</a>
+            </>
+          ))}
+        </p>
+      )}
     </div>
   </section>
 

@@ -106,3 +106,11 @@ export const isForSale = (key: keyof typeof BOOK_LINKS) => {
   const l = BOOK_LINKS[key];
   return Boolean(l.etsy || l.amazon.com || l.amazon.ca);
 };
+
+// The shop's front door, for review links — deliberately NOT a per-title
+// listing URL. Etsy has no public "review this listing" page; a review
+// only attaches to a specific order, reachable from the buyer's own
+// Purchases page after they sign in. Sending them to the shop root and
+// asking them to find the order themselves is the real, working pattern
+// — same one used in the post-purchase email's review ask.
+export const ETSY_SHOP_URL = 'https://logicmanse.etsy.com';
