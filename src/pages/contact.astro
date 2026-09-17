@@ -26,9 +26,18 @@ import { SITE } from '../data/site';
 //   - after 6s with no form, the placeholder offers a direct link to the
 //     form and the email address — for a slow embed, or a content blocker
 //     that has stopped Hostinger's script outright;
-//   - after 15s, if the frame exists but never reported a height, it is
-//     shown anyway at a fixed height, so a Reach-side change to the resize
-//     message can't leave a working form permanently hidden.
+//   - after 20s with still no real height ever reported, the placeholder
+//     switches to a definite "this form isn't loading right now" message
+//     (same link + email) instead of spinning forever. It does NOT force
+//     a guessed height and reveal the iframe anyway — live testing showed
+//     that in this failure mode the form's own content can genuinely be
+//     empty, so revealing it just trades a labeled placeholder for an
+//     unlabeled blank box, which is worse.
+//   - the host keeps watching even after it goes ready, because Reach's
+//     own boot sequence can report a real height and then report 0 again
+//     moments later (see the long comment in the script below); if that
+//     happens the placeholder/fallback comes back instead of leaving an
+//     empty box on screen.
 // With JavaScript off the loader never runs, and the placeholder's link
 // and email address are what remains — the right fallback.
 // ----------------------------------------------------------------
@@ -66,7 +75,8 @@ const MAILTO = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
         <div class="reach-host" data-reach-form={REACH_FORM_ID}>
           <div class="reach-placeholder">
             <span class="reach-spinner" aria-hidden="true"></span>
-            <p>Loading the contact form…</p>
+            <p class="reach-loading-text">Loading the contact form…</p>
+            <p class="reach-failed-text">This form isn't loading right now.</p>
             <p class="reach-slow">
               Taking a while?
               <a href={REACH_FORM_URL} target="_blank" rel="noopener">Open the form in a new tab</a>
@@ -95,33 +105,47 @@ const MAILTO = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
   </section>
 
   <script>
-    // Watches the Reach host and flips it through three states — loading,
-    // slow, ready. See the note at the top of this file for why each exists.
+    // Watches the Reach host and flips it through states — loading, slow,
+    // ready, failed. See the note at the top of this file for why the
+    // loading state exists at all.
     const host = document.querySelector<HTMLElement>('.reach-host');
     if (host) {
       host.dataset.js = '';
       const frame = () => host.querySelector<HTMLIFrameElement>('iframe');
-      const observer = new MutationObserver(() => check());
+      // Second bug found live 16 Sep 2026, after the first (a truthy-string
+      // check accepting an early "0px" as final — fixed below by requiring
+      // h > 0). Live stress-testing that fix showed the form still went
+      // permanently blank on a meaningful fraction of loads, with `ready`
+      // true and the iframe's own height string reading "0px" — a state
+      // the h>0 check alone cannot produce. Root cause: Reach's own script
+      // can report a real positive height and then *independently* report
+      // 0 again later in the same boot sequence (its app re-measuring
+      // before its content has actually painted). The previous code
+      // disconnected its MutationObserver the instant it first saw h > 0,
+      // so that later 0 went unnoticed and the form stayed hidden with
+      // nothing on screen — the exact blank-box failure this file exists
+      // to prevent. Direct requests to the Reach form URL itself return
+      // fast and clean every time, so this is Reach's client-side app
+      // racing itself, not a network or server failure — nothing further
+      // upstream can be fixed from here. Now: never disconnect, so a later
+      // drop back to 0 un-readies the host and re-shows the fallback
+      // instead of leaving an empty box; and after 20s with no positive
+      // height ever observed, mark the host failed so the "open directly /
+      // email us" message is shown for certain, rather than spinning
+      // forever on a form that may never boot.
+      let everReady = false;
       const check = () => {
         const f = frame();
-        // Bug found live 16 Sep 2026: `f.style.height` is a non-empty
-        // STRING check, and Reach's form occasionally sends an early
-        // `reach:resize` reporting "0px" during its own startup, before
-        // the real content is measured. "0px" is truthy, so that first
-        // message was accepted as final, the observer disconnected, and
-        // the form stayed permanently collapsed — worse than the original
-        // blank-box complaint this file was written to fix, because a
-        // 0px host leaves no visible box at all. Reproduced intermittently
-        // on live reloads: same page, same network, sometimes 0px,
-        // sometimes the real ~1200px. Now requires an actual positive
-        // pixel value, so an early zero is ignored and the observer keeps
-        // waiting for the real one.
         const h = f ? parseFloat(f.style.height) : 0;
-        if (h > 0 && host.dataset.ready === undefined) {
+        if (h > 0) {
+          everReady = true;
           host.dataset.ready = '';
-          observer.disconnect();
+          delete host.dataset.failed;
+        } else if (everReady) {
+          delete host.dataset.ready;
         }
       };
+      const observer = new MutationObserver(() => check());
       observer.observe(host, {
         childList: true,
         subtree: true,
@@ -131,14 +155,12 @@ const MAILTO = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
       check();
 
       setTimeout(() => {
-        if (host.dataset.ready === undefined) host.dataset.slow = '';
+        if (!everReady) host.dataset.slow = '';
       }, 6000);
 
       setTimeout(() => {
-        const f = frame();
-        // Setting the height fires the observer, which marks the host ready.
-        if (host.dataset.ready === undefined && f) f.style.height = '640px';
-      }, 15000);
+        if (!everReady) host.dataset.failed = '';
+      }, 20000);
     }
   </script>
 
@@ -178,7 +200,18 @@ const MAILTO = `mailto:${SITE.contactEmail}?subject=${encodeURIComponent(
       border-top-color: #1f6f4a;
       animation: reach-spin 0.9s linear infinite;
     }
-    .reach-host[data-js]:not([data-ready]) .reach-spinner {
+    .reach-host[data-js]:not([data-ready]):not([data-failed]) .reach-spinner {
+      display: block;
+    }
+    .reach-failed-text {
+      display: none;
+      font-weight: 600;
+      color: #334155;
+    }
+    .reach-host[data-failed] .reach-loading-text {
+      display: none;
+    }
+    .reach-host[data-failed] .reach-failed-text {
       display: block;
     }
     .reach-slow {
