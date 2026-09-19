@@ -25,6 +25,9 @@ const PAGE_DESCRIPTION =
   "Get Leia's free bonus color pack: full-color reference pages, real photos, and the answer key for Super Leia to the Rescue!";
 const CANONICAL_URL = "https://www.logicmanse.ca/LeiaColoringBook/";
 const REACH_FORM_URL = "https://reach-forms.hostingerusercontent.com/form/c3c3a22b-2257-457a-9635-5f2a3a6ab75c";
+
+import { BOOK_LINKS } from '../data/site';
+const AMAZON_REVIEW_URL = BOOK_LINKS.leia.amazon.com || BOOK_LINKS.leia.amazon.ca;
 ---
 
 <!doctype html>
@@ -77,6 +80,13 @@ const REACH_FORM_URL = "https://reach-forms.hostingerusercontent.com/form/c3c3a2
     <p class="hint">
       Haven't got the book yet? <a href="/books/leia-coloring-book/">See where to buy it →</a>
     </p>
+
+    {AMAZON_REVIEW_URL && (
+      <p class="review-ask">
+        Loved coloring with Leia? A quick, honest review on Amazon helps other families find her
+        adventures — <a href={AMAZON_REVIEW_URL} rel="noopener">leave a review →</a>
+      </p>
+    )}
 
     <footer>
       Written by @Antz · A LogicManse Publication<br>
@@ -218,6 +228,13 @@ const REACH_FORM_URL = "https://reach-forms.hostingerusercontent.com/form/c3c3a2
       margin: 26px 0 0;
     }
     .hint a { color: var(--green); font-weight: 600; }
+    .review-ask {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
+      margin: 14px 0 0;
+    }
+    .review-ask a { color: var(--pink); font-weight: 600; }
     footer {
       text-align: center;
       margin-top: 50px;

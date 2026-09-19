@@ -37,6 +37,9 @@ const PAGE_DESCRIPTION =
   'Get a free digital rental tracker — the companion spreadsheet to the Rental Property Record Book, for landlords managing up to 6 properties.';
 const CANONICAL_URL = 'https://www.logicmanse.ca/RentalManagementLog/';
 const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/507b9eac-cab0-41c3-ae6c-41e8ff00d445';
+
+import { BOOK_LINKS } from '../data/site';
+const AMAZON_REVIEW_URL = BOOK_LINKS.rentalLog.amazon.com || BOOK_LINKS.rentalLog.amazon.ca;
 ---
 
 <!doctype html>
@@ -95,6 +98,13 @@ const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/507b9e
       Haven't got the book yet?
       <a href="/books/rental-property-record-book/">See where to buy it →</a>
     </p>
+
+    {AMAZON_REVIEW_URL && (
+      <p class="review-ask">
+        If this book has made staying organized across your properties easier, an honest review on
+        Amazon helps other landlords discover it — <a href={AMAZON_REVIEW_URL} rel="noopener">leave a review →</a>
+      </p>
+    )}
 
     <footer>
       Written by @Antz · A LogicManse Publication<br>
@@ -205,6 +215,13 @@ const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/507b9e
       margin: 26px 0 0;
     }
     .hint a { color: var(--teal); font-weight: 600; }
+    .review-ask {
+      text-align: center;
+      font-size: 0.9rem;
+      color: #888;
+      margin: 14px 0 0;
+    }
+    .review-ask a { color: var(--teal); font-weight: 600; }
     /* Gallery: same true-aspect-ratio approach as the Leia page (a
        portrait cover shot and a landscape interior spread have very
        different native shapes — force-cropping both into one box hides

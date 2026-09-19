@@ -56,6 +56,9 @@ const CANONICAL_URL = 'https://www.logicmanse.ca/HeartHealthLog/';
 // "opening shortly" notice rather than a dead call-to-action.
 const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/5feeedfb-224c-44b0-a557-dc712f200b84';
 
+import { BOOK_LINKS } from '../data/site';
+const AMAZON_REVIEW_URL = BOOK_LINKS.heartHealth.amazon.com || BOOK_LINKS.heartHealth.amazon.ca;
+
 // Verbatim from the book's own back cover, under "INSIDE".
 const INSIDE = [
   '52 weekly pages — a whole week visible at a glance, in large, easy-to-read print',
@@ -298,6 +301,14 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
       Haven't got the book yet?
       <a href="/books/heart-health-log-book/">See where to buy it →</a>
     </p>
+
+    {AMAZON_REVIEW_URL && (
+      <p class="review-ask">
+        If this log book has helped you track and stay on top of your numbers, a short review on
+        Amazon helps other readers looking for the same kind of support find it —{' '}
+        <a href={AMAZON_REVIEW_URL} rel="noopener">leave a review →</a>
+      </p>
+    )}
 
     <p class="disclaimer">
       A blank record book for organising information given to you by your own care team. Not
@@ -574,6 +585,15 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
     }
     .hint a { color: var(--clay); font-weight: 600; text-decoration: none; }
     .hint a:hover { text-decoration: underline; }
+
+    .review-ask {
+      text-align: center;
+      font-size: 0.95rem;
+      color: var(--soft-ink);
+      margin: 0 0 30px;
+    }
+    .review-ask a { color: var(--clay); font-weight: 600; text-decoration: none; }
+    .review-ask a:hover { text-decoration: underline; }
 
     .disclaimer {
       font-size: 0.85rem;
