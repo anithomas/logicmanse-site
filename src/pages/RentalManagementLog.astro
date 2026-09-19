@@ -1,5 +1,5 @@
 ---
-import { REACH_FORMS } from '../data/site';
+import { REACH_FORMS, BOOK_LINKS } from '../data/site';
 import QrLogo from '../components/QrLogo.astro';
 import SocialIcons from '../components/SocialIcons.astro';
 import '../styles/qr-brand.css';
@@ -41,6 +41,7 @@ const PAGE_DESCRIPTION =
   'Get a free digital rental tracker — the companion spreadsheet to the Rental Property Record Book, for landlords managing up to 6 properties.';
 const CANONICAL_URL = 'https://www.logicmanse.ca/RentalManagementLog/';
 const REACH_FORM_URL = REACH_FORMS.rentalLog;
+const AMAZON_REVIEW_URL = BOOK_LINKS.rentalLog.amazon.com || BOOK_LINKS.rentalLog.amazon.ca;
 ---
 
 <!doctype html>
@@ -106,6 +107,13 @@ const REACH_FORM_URL = REACH_FORMS.rentalLog;
       Haven't got the book yet?
       <a href="/books/rental-property-record-book/">See where to buy it →</a>
     </p>
+
+    {AMAZON_REVIEW_URL && (
+      <p class="review-ask">
+        If this book has made staying organized across your properties easier, an honest review on
+        Amazon helps other landlords discover it — <a href={AMAZON_REVIEW_URL} rel="noopener">leave a review →</a>
+      </p>
+    )}
 
     <footer>
       <div style="display:flex;justify-content:center;margin-bottom:14px;color:var(--navy);"><SocialIcons /></div>

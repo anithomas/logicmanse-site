@@ -1,5 +1,5 @@
 ---
-import { REACH_FORMS } from '../data/site';
+import { REACH_FORMS, BOOK_LINKS } from '../data/site';
 import QrLogo from '../components/QrLogo.astro';
 import SocialIcons from '../components/SocialIcons.astro';
 import '../styles/qr-brand.css';
@@ -29,6 +29,7 @@ const PAGE_DESCRIPTION =
   "Get Leia's free bonus color pack: full-color reference pages, real photos, and the answer key for Super Leia to the Rescue!";
 const CANONICAL_URL = "https://www.logicmanse.ca/LeiaColoringBook/";
 const REACH_FORM_URL = REACH_FORMS.leia;
+const AMAZON_REVIEW_URL = BOOK_LINKS.leia.amazon.com || BOOK_LINKS.leia.amazon.ca;
 ---
 
 <!doctype html>
@@ -87,6 +88,13 @@ const REACH_FORM_URL = REACH_FORMS.leia;
     <p class="hint">
       Haven't got the book yet? <a href="/books/leia-coloring-book/">See where to buy it →</a>
     </p>
+
+    {AMAZON_REVIEW_URL && (
+      <p class="review-ask">
+        Loved coloring with Leia? A quick, honest review on Amazon helps other families find her
+        adventures — <a href={AMAZON_REVIEW_URL} rel="noopener">leave a review →</a>
+      </p>
+    )}
 
     <footer>
       <div style="display:flex;justify-content:center;margin-bottom:14px;color:var(--navy);"><SocialIcons /></div>

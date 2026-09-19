@@ -103,6 +103,9 @@ ul.features li::before {
 .hint { text-align: center; font-size: 0.9rem; color: var(--muted); margin: 26px 0 0; }
 .hint a { color: var(--forest); font-weight: 600; }
 
+.review-ask { text-align: center; font-size: 0.9rem; color: var(--muted); margin: 14px 0 0; }
+.review-ask a { color: var(--forest); font-weight: 600; }
+
 /* Gallery: each figure keeps its own true aspect ratio (set in the page)
    and they share a height, rather than force-cropping into one box. */
 .gallery {
