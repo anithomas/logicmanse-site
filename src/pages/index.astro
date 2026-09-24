@@ -59,7 +59,7 @@ const leia = BOOKS.find((b) => b.key === 'leia')!;
       </div>
 
       <div class="hero-copy">
-        <div class="max-w-6xl mx-auto px-6 w-full">
+        <div class="hero-gutter w-full">
           <div class="hero-beats">
             <div class="beat beat-1">
               <p
@@ -98,7 +98,7 @@ const leia = BOOKS.find((b) => b.key === 'leia')!;
               <h2 class="font-serif font-bold text-4xl md:text-6xl leading-tight mb-6 text-white">
                 {leia.story?.quote}
               </h2>
-              <p class="text-lg md:text-xl text-white/85 mb-9 leading-relaxed">
+              <p class="hidden md:block text-lg md:text-xl text-white/85 mb-9 leading-relaxed">
                 {leia.story?.body}
               </p>
               <CTAButton href={leia.productHref}>See {leia.title}</CTAButton>

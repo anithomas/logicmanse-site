@@ -139,7 +139,7 @@ h1, h2, h3, h4 {
      frame and the copy has calm sky/fence behind it. The empty strip
      this leaves on the left is the same navy as the veil. */
   .hero-bg img {
-    left: 12%;
+    left: 20%;
     height: 100%;
     object-position: 50% 50%;
     transform-origin: 52% 55%;
@@ -170,9 +170,22 @@ h1, h2, h3, h4 {
     padding-bottom: 0;
   }
 }
+/* The copy hugs the left edge of the screen (not the centred page
+   column) so it stays clear of Leia however wide the window is. */
+.hero-gutter {
+  padding-inline: 1.5rem;
+}
 .hero-beats {
   display: grid;
   max-width: 34rem;
+}
+@media (min-width: 768px) {
+  .hero-gutter {
+    padding-inline: clamp(1.5rem, 4vw, 4rem);
+  }
+  .hero-beats {
+    max-width: min(31rem, 44vw);
+  }
 }
 .hero-beats > .beat {
   grid-area: 1 / 1;
@@ -191,8 +204,13 @@ h1, h2, h3, h4 {
 }
 @media (min-width: 768px) {
   .beat {
-    padding: 2.5rem;
+    padding: 1.75rem;
     border-radius: 1.5rem;
+  }
+}
+@media (min-width: 1100px) {
+  .beat {
+    padding: 2.5rem;
   }
 }
 .beat-2 {
