@@ -25,6 +25,10 @@ const CATEGORIES = [
   },
 ];
 
+// The hero's second beat is Leia's own story line, straight from the
+// shared book record so the homepage and her product page can't drift.
+const leia = BOOKS.find((b) => b.key === 'leia')!;
+
 // Featured cards read from the shared book records and link to each
 // title's PRODUCT page — never to its printed QR URL, which is for
 // readers who already own the book (see src/data/books.ts).
@@ -35,37 +39,81 @@ const CATEGORIES = [
   description="LogicManse Publications publishes coloring books, log books, journals, and cookbooks designed around how you actually use them."
 >
   <!-- ============ HERO ============ -->
-  <section class="bg-navy text-white">
-    <div class="max-w-5xl mx-auto px-6 py-24 md:py-32 text-center">
-      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-6xl leading-tight mb-6 text-white">
-        {SITE.tagline}
-      </h1>
-      <p class="fade-in-up text-lg md:text-xl text-white/80 max-w-2xl mx-auto mb-10 leading-relaxed">
-        {SITE.subTagline}
-      </p>
-      <div class="fade-in-up flex flex-wrap items-center justify-center gap-4">
-        <CTAButton href="/books/">Browse Our Books</CTAButton>
-        <a
-          href="/contact/"
-          class="inline-block border border-white/30 hover:border-white text-white font-semibold px-6 py-3 rounded-md transition-colors"
-        >
-          Get in Touch
-        </a>
+  <!-- A pinned, scroll-scrubbed scene. While the visitor scrolls through
+       it, --p (0..1, set by the script at the bottom of this file) drives
+       the slow push-in on the illustration, and a second beat takes over
+       from the headline halfway through. Without the "motion" class the
+       scene is just a single-screen banner showing beat one. -->
+  <section class="hero-scene" data-hero-scene data-beat="1">
+    <div class="hero-stick">
+      <div class="hero-bg" aria-hidden="true">
+        <img
+          src="/leia-coloring-book/backyard-illustration.jpg"
+          alt=""
+          width="1000"
+          height="563"
+          fetchpriority="high"
+        />
+        <div class="hero-veil"></div>
+        <div class="hero-dim"></div>
       </div>
 
-      <div class="fade-in-up mt-14 flex justify-center">
-        <img
-          src="/leia-coloring-book/cover-front.jpg"
-          alt="Super Leia to the Rescue! book cover"
-          class="rounded-xl shadow-2xl max-h-96 w-auto"
-        />
+      <div class="hero-copy">
+        <div class="max-w-6xl mx-auto px-6 w-full">
+          <div class="hero-beats">
+            <div class="beat beat-1">
+              <p
+                class="rise text-sm font-semibold uppercase tracking-widest mb-4"
+                style="--i:0; color:#8fd1ae"
+              >
+                LogicManse Publications
+              </p>
+              <h1 class="font-serif font-bold text-4xl md:text-6xl leading-tight mb-6 text-white">
+                {SITE.tagline.split(' ').map((word, i) => (
+                  <Fragment><span class="rise" style={`--i:${i + 1}`}>{word}</span>{' '}</Fragment>
+                ))}
+              </h1>
+              <!-- Phones get the headline and buttons only; the longer line
+                   would push the copy up over Leia's face. -->
+              <div class="hidden md:block">
+                <p class="rise text-lg md:text-xl text-white/85 mb-9 leading-relaxed" style="--i:7">
+                  {SITE.subTagline}
+                </p>
+              </div>
+              <div class="rise flex flex-wrap items-center gap-4" style="--i:8">
+                <CTAButton href="/books/">Browse Our Books</CTAButton>
+                <a
+                  href="/contact/"
+                  class="inline-block border border-white/40 hover:border-white text-white font-semibold px-6 py-3 rounded-md transition-colors"
+                >
+                  Get in Touch
+                </a>
+              </div>
+            </div>
+
+            <div class="beat beat-2">
+              <p class="text-sm font-semibold uppercase tracking-widest mb-4" style="color:#8fd1ae">
+                Meet the star
+              </p>
+              <h2 class="font-serif font-bold text-4xl md:text-6xl leading-tight mb-6 text-white">
+                {leia.story?.quote}
+              </h2>
+              <p class="text-lg md:text-xl text-white/85 mb-9 leading-relaxed">
+                {leia.story?.body}
+              </p>
+              <CTAButton href={leia.productHref}>See {leia.title}</CTAButton>
+            </div>
+          </div>
+        </div>
       </div>
+
+      <div class="hero-cue" aria-hidden="true"><span></span></div>
     </div>
   </section>
 
   <!-- ============ CREDIBILITY STRIP ============ -->
   <section class="bg-slate-50 border-y border-slate-200">
-    <div class="max-w-5xl mx-auto px-6 py-8 grid sm:grid-cols-3 gap-6 text-center">
+    <div class="max-w-5xl mx-auto px-6 py-8 grid sm:grid-cols-3 gap-6 text-center" data-stagger>
       <div class="fade-in-up">
         <p class="font-serif font-bold text-navy text-sm md:text-base">Canadian-Owned &amp; Operated</p>
       </div>
@@ -85,7 +133,7 @@ const CATEGORIES = [
        the individual books. -->
   <section class="bg-white">
     <div class="max-w-5xl mx-auto px-6 py-16 md:py-20 grid md:grid-cols-2 gap-10 md:gap-14 items-center">
-      <div class="fade-in-up">
+      <div class="fade-in-up" data-from="left">
         <p class="text-xs font-bold uppercase tracking-widest text-forest mb-3">A Look at What We Make</p>
         <h2 class="text-3xl md:text-4xl font-serif font-bold text-navy mb-4">
           Eleven seconds, five books' worth of pages
@@ -98,13 +146,17 @@ const CATEGORIES = [
         <CTAButton href="/books/">Browse Our Books</CTAButton>
       </div>
 
-      <div class="fade-in-up">
-        <PromoVideo
-          src="/home/shop-video.mp4"
-          poster="/home/shop-video-poster.jpg"
-          label="A short look at the Logicmanse books"
-          class="rounded-xl shadow-xl"
-        />
+      <div class="fade-in-up" data-from="right">
+        <!-- Inner wrapper drifts slightly against the scroll; the outer one
+             owns the reveal so the two transforms never fight. -->
+        <div data-parallax="0.06">
+          <PromoVideo
+            src="/home/shop-video.mp4"
+            poster="/home/shop-video-poster.jpg"
+            label="A short look at the Logicmanse books"
+            class="rounded-xl shadow-xl"
+          />
+        </div>
       </div>
     </div>
   </section>
@@ -118,7 +170,7 @@ const CATEGORIES = [
         subtitle="If a section doesn't earn its place on the page, it doesn't go in the book."
       />
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6" data-stagger>
         {CATEGORIES.map((cat) => (
           <div class="fade-in-up bg-slate-50 border border-slate-200 rounded-xl p-6">
             <h3 class="font-serif font-bold text-navy text-lg mb-2">{cat.name}</h3>
@@ -129,8 +181,11 @@ const CATEGORIES = [
     </div>
   </section>
 
-  <!-- ============ FEATURED TITLES ============ -->
-  <section class="bg-slate-50">
+  <!-- ============ FEATURED TITLES — card grid ============ -->
+  <!-- The default view, and the only one on phones, with reduced motion,
+       or with JS off. On desktop with motion allowed it is swapped for
+       the pinned showcase below (see .cards-fallback / .showcase-only). -->
+  <section class="bg-slate-50 cards-fallback">
     <div class="max-w-6xl mx-auto px-6 py-20">
       <SectionHeading
         eyebrow="Featured Titles"
@@ -138,7 +193,7 @@ const CATEGORIES = [
         subtitle="Every title is written, laid out and proofed here — and each one comes with its own free companion download."
       />
 
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10">
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10" data-stagger>
         {BOOKS.map((book) => (
           <a
             href={book.productHref}
@@ -160,6 +215,61 @@ const CATEGORIES = [
     </div>
   </section>
 
+  <!-- ============ FEATURED TITLES — pinned showcase ============ -->
+  <!-- Desktop + motion only. The section stays pinned while the covers
+       swap as the visitor scrolls; the dots jump straight to a title. -->
+  <section class="bg-slate-50 showcase-only" data-showcase style={`--n:${BOOKS.length}`}>
+    <div class="showcase-track">
+      <div class="showcase-stick">
+        <div class="max-w-6xl mx-auto px-6 w-full grid grid-cols-2 gap-14 items-center">
+          <div class="showcase-covers">
+            {BOOKS.map((book, i) => (
+              <a
+                href={book.productHref}
+                class="showcase-cover"
+                data-i={i}
+                tabindex={i === 0 ? 0 : -1}
+                aria-label={book.title}
+              >
+                <img src={book.cover} alt={book.coverAlt} />
+              </a>
+            ))}
+          </div>
+
+          <div>
+            <p class="uppercase tracking-widest text-sm font-semibold text-forest mb-3">Featured Titles</p>
+            <h2 class="text-3xl md:text-4xl font-bold text-navy mb-8">Real Books, Not Mockups</h2>
+
+            <div class="showcase-texts mb-8">
+              {BOOKS.map((book, i) => (
+                <div class="showcase-text" data-i={i}>
+                  <span class="inline-block bg-forest/10 text-forest-dark text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-4">
+                    {book.category}
+                  </span>
+                  <h3 class="text-2xl md:text-3xl font-serif font-bold text-navy mb-3">{book.title}</h3>
+                  <p class="text-slate-600 leading-relaxed mb-3">{book.tagline}</p>
+                  <p class="text-sm text-slate-500 mb-5">{book.specs}</p>
+                  <a href={book.productHref} class="inline-block text-sm font-semibold text-forest hover:text-forest-dark">
+                    Learn more &rarr;
+                  </a>
+                </div>
+              ))}
+            </div>
+
+            <div class="flex items-center gap-6">
+              <CTAButton href="/books/">See All Books</CTAButton>
+              <div class="flex items-center gap-3" role="group" aria-label="Choose a title">
+                {BOOKS.map((book, i) => (
+                  <button type="button" class="showcase-dot" data-dot={i} aria-label={`Show ${book.title}`}></button>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ============ FINAL CTA ============ -->
   <section class="bg-white">
     <div class="max-w-3xl mx-auto px-6 py-20 text-center">
@@ -176,3 +286,86 @@ const CATEGORIES = [
     </div>
   </section>
 </BaseLayout>
+
+<script>
+  // Drives the two pinned scenes on this page. Both are plain scroll maths:
+  // read where the section sits, write a CSS variable or data attribute,
+  // and let the stylesheet do the animating. Skipped entirely unless
+  // BaseLayout added the "motion" class (the visitor hasn't asked for
+  // reduced motion).
+  const root = document.documentElement;
+
+  if (root.classList.contains('motion')) {
+    const header = document.querySelector('header');
+    const scene = document.querySelector<HTMLElement>('[data-hero-scene]');
+    const showcase = document.querySelector<HTMLElement>('[data-showcase]');
+    const clamp = (n: number) => Math.min(1, Math.max(0, n));
+
+    const covers = showcase?.querySelectorAll<HTMLElement>('.showcase-cover') ?? [];
+    const texts = showcase?.querySelectorAll<HTMLElement>('.showcase-text') ?? [];
+    const dots = showcase?.querySelectorAll<HTMLButtonElement>('.showcase-dot') ?? [];
+    let active = -1;
+
+    const setActive = (idx: number) => {
+      if (idx === active) return;
+      active = idx;
+      const mark = (el: HTMLElement, i: number) => {
+        el.dataset.state = i === idx ? 'active' : i < idx ? 'past' : 'next';
+      };
+      covers.forEach((el, i) => {
+        mark(el, i);
+        el.tabIndex = i === idx ? 0 : -1;
+      });
+      texts.forEach(mark);
+      dots.forEach((d, i) => d.setAttribute('aria-current', String(i === idx)));
+    };
+
+    const showcaseGeometry = () => {
+      const track = showcase!.querySelector<HTMLElement>('.showcase-track')!;
+      const stick = showcase!.querySelector<HTMLElement>('.showcase-stick')!;
+      return { track, travel: track.offsetHeight - stick.offsetHeight };
+    };
+
+    const update = () => {
+      const headerH = header?.offsetHeight ?? 68;
+      root.style.setProperty('--header-h', `${headerH}px`);
+
+      if (scene) {
+        const stick = scene.querySelector<HTMLElement>('.hero-stick')!;
+        const travel = scene.offsetHeight - stick.offsetHeight;
+        const p = travel > 0 ? clamp((headerH - scene.getBoundingClientRect().top) / travel) : 0;
+        scene.style.setProperty('--p', p.toFixed(4));
+        scene.dataset.beat = p > 0.5 ? '2' : '1';
+      }
+
+      // offsetParent is null while the showcase is display:none (phones).
+      if (showcase && showcase.offsetParent !== null) {
+        const { track, travel } = showcaseGeometry();
+        const p = travel > 0 ? clamp((headerH - track.getBoundingClientRect().top) / travel) : 0;
+        setActive(Math.min(covers.length - 1, Math.floor(p * covers.length)));
+      }
+    };
+
+    let queued = false;
+    const queue = () => {
+      if (queued) return;
+      queued = true;
+      requestAnimationFrame(() => {
+        queued = false;
+        update();
+      });
+    };
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        const { track, travel } = showcaseGeometry();
+        const top = track.getBoundingClientRect().top + window.scrollY - (header?.offsetHeight ?? 68);
+        window.scrollTo({ top: top + ((i + 0.5) / covers.length) * travel, behavior: 'smooth' });
+      });
+    });
+
+    window.addEventListener('scroll', queue, { passive: true });
+    window.addEventListener('resize', queue);
+    update();
+  }
+</script>

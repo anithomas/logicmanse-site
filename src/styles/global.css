@@ -32,16 +32,304 @@ h1, h2, h3, h4 {
   transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
+/* Directional / zoom variants — set with data-from="left|right|zoom".
+   These must stay ABOVE .is-visible so the visible state wins. */
+.fade-in-up[data-from='left'] { transform: translateX(-40px); }
+.fade-in-up[data-from='right'] { transform: translateX(40px); }
+.fade-in-up[data-from='zoom'] { transform: scale(0.94); }
+
 .fade-in-up.is-visible {
   opacity: 1;
-  transform: translateY(0);
+  transform: none;
+}
+
+/* ----------------------------------------------------------------
+   Scroll-driven motion.
+
+   Everything below is opt-in via the "motion" class that BaseLayout
+   adds to <html> only when the visitor has NOT asked for reduced
+   motion. Without it the hero is a plain 100vh banner and the
+   featured-books showcase falls back to the ordinary card grid, so
+   the page is complete with JS off or motion reduced.
+------------------------------------------------------------------ */
+:root {
+  --header-h: 68px;
+  --stick-h: max(calc(100svh - var(--header-h)), 560px);
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Thin progress bar along the very top of the viewport. */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 3px;
+  background: #2c8a5d;
+  transform-origin: 0 50%;
+  transform: scaleX(var(--sp, 0));
+  z-index: 60;
+  pointer-events: none;
+}
+
+/* ---- Cinematic hero ---------------------------------------------- */
+.hero-scene {
+  --p: 0; /* scroll progress 0..1, written by JS */
+  position: relative;
+  background: #0b1f3a;
+}
+.hero-stick {
+  position: relative;
+  height: var(--stick-h);
+  overflow: hidden;
+}
+.motion .hero-scene {
+  height: calc(var(--stick-h) + 130svh);
+}
+.motion .hero-stick {
+  position: sticky;
+  top: var(--header-h);
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.hero-bg img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(calc(1.02 + var(--p) * 0.18)) translate3d(0, calc(var(--p) * -3%), 0);
+  will-change: transform;
+}
+/* Phones: the picture owns the top of the frame and fades into the navy
+   below it, so the headline never lands on Leia's face. */
+@media (max-width: 767px) {
+  .hero-bg img {
+    height: 62%;
+    object-position: 56% 50%;
+    transform-origin: 56% 45%;
+    -webkit-mask-image: linear-gradient(180deg, #000 68%, transparent 100%);
+    mask-image: linear-gradient(180deg, #000 68%, transparent 100%);
+  }
+}
+.hero-veil {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(11, 31, 58, 0) 0%,
+    rgba(11, 31, 58, 0.08) 38%,
+    rgba(11, 31, 58, 0.82) 66%,
+    rgba(11, 31, 58, 0.96) 100%
+  );
+}
+.hero-dim {
+  position: absolute;
+  inset: 0;
+  background: #0b1f3a;
+  opacity: calc(var(--p) * 0.4);
+}
+@media (min-width: 768px) {
+  /* Shift the picture right so Leia sits in the open half of the
+     frame and the copy has calm sky/fence behind it. The empty strip
+     this leaves on the left is the same navy as the veil. */
+  .hero-bg img {
+    left: 12%;
+    height: 100%;
+    object-position: 50% 50%;
+    transform-origin: 52% 55%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 26%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 26%);
+  }
+  .hero-veil {
+    background: linear-gradient(
+      90deg,
+      rgba(11, 31, 58, 0.94) 0%,
+      rgba(11, 31, 58, 0.74) 36%,
+      rgba(11, 31, 58, 0.1) 70%,
+      rgba(11, 31, 58, 0) 100%
+    );
+  }
+}
+
+.hero-copy {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: flex-end;
+  padding-bottom: 3.5rem;
+}
+@media (min-width: 768px) {
+  .hero-copy {
+    align-items: center;
+    padding-bottom: 0;
+  }
+}
+.hero-beats {
+  display: grid;
+  max-width: 34rem;
+}
+.hero-beats > .beat {
+  grid-area: 1 / 1;
+  align-self: center;
+}
+.beat {
+  transition: opacity 0.6s ease, transform 0.7s var(--ease-out), visibility 0.6s;
+}
+.beat-2 {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(28px);
+}
+.hero-scene[data-beat='2'] .beat-1 {
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-28px);
+}
+.hero-scene[data-beat='2'] .beat-2 {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+
+.hero-cue {
+  position: absolute;
+  left: 50%;
+  bottom: 1.25rem;
+  transform: translateX(-50%);
+  opacity: calc(1 - var(--p) * 8);
+  pointer-events: none;
+  display: none;
+}
+.motion .hero-cue {
+  display: flex;
+}
+.hero-cue span {
+  display: block;
+  width: 1px;
+  height: 34px;
+  background: linear-gradient(#fff, transparent);
+  animation: cue 1.8s ease-in-out infinite;
+}
+@keyframes cue {
+  0% { transform: scaleY(0); transform-origin: top; }
+  50% { transform: scaleY(1); transform-origin: top; }
+  51% { transform: scaleY(1); transform-origin: bottom; }
+  100% { transform: scaleY(0); transform-origin: bottom; }
+}
+
+/* Load-in: headline words and supporting lines rise one after another. */
+.rise {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(0.55em);
+  animation: rise 0.9s var(--ease-out) forwards;
+  animation-delay: calc(var(--i, 0) * 80ms + 120ms);
+}
+@keyframes rise {
+  to { opacity: 1; transform: none; }
+}
+
+/* ---- Pinned featured-books showcase ------------------------------ */
+.showcase-only {
+  display: none;
+}
+@media (min-width: 768px) {
+  .motion .showcase-only { display: block; }
+  .motion .cards-fallback { display: none; }
+}
+.showcase-track {
+  position: relative;
+  height: calc(var(--stick-h) + (var(--n) - 1) * 75svh);
+}
+.showcase-stick {
+  position: sticky;
+  top: var(--header-h);
+  height: var(--stick-h);
+  display: flex;
+  align-items: center;
+}
+.showcase-covers {
+  position: relative;
+  height: min(64svh, 560px);
+}
+.showcase-cover {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transform: translateY(70px) scale(0.92) rotate(4deg);
+  transition: opacity 0.6s ease, transform 0.9s var(--ease-out);
+  pointer-events: none;
+}
+.showcase-cover img {
+  height: 100%;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 32px 60px -22px rgba(11, 31, 58, 0.5);
+}
+.showcase-cover[data-state='active'] {
+  opacity: 1;
+  transform: rotate(-2deg);
+  pointer-events: auto;
+}
+.showcase-cover[data-state='past'] {
+  transform: translateY(-70px) scale(0.92) rotate(-6deg);
+}
+.showcase-texts {
+  display: grid;
+}
+.showcase-text {
+  grid-area: 1 / 1;
+  align-self: start;
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(26px);
+  transition: opacity 0.5s ease, transform 0.7s var(--ease-out), visibility 0.5s;
+}
+.showcase-text[data-state='active'] {
+  opacity: 1;
+  visibility: visible;
+  transform: none;
+}
+.showcase-text[data-state='past'] {
+  transform: translateY(-26px);
+}
+.showcase-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 9999px;
+  background: #cbd5e1;
+  transition: background-color 0.3s, transform 0.3s;
+}
+.showcase-dot[aria-current='true'] {
+  background: #1f6f4a;
+  transform: scale(1.35);
 }
 
 /* Respect users who've asked their OS to reduce motion. */
 @media (prefers-reduced-motion: reduce) {
-  .fade-in-up {
+  .fade-in-up,
+  .fade-in-up[data-from] {
     opacity: 1;
     transform: none;
     transition: none;
+  }
+  .rise {
+    opacity: 1;
+    transform: none;
+    animation: none;
+  }
+  .hero-cue span {
+    animation: none;
   }
 }

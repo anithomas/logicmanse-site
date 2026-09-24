@@ -59,8 +59,18 @@ const imageUrl = new URL(image, Astro.site);
       href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:wght@400;500;600;700&display=swap"
       rel="stylesheet"
     />
+
+    <!-- Runs before first paint so the scroll-driven hero/showcase layout
+         is in place immediately. Visitors who ask for reduced motion never
+         get the "motion" class and see the plain static layout instead. -->
+    <script is:inline>
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('motion');
+      }
+    </script>
   </head>
   <body>
+    <div id="scroll-progress" aria-hidden="true"></div>
     {SITE_UNDER_CONSTRUCTION && <ConstructionBanner />}
     {SITE_UNDER_CONSTRUCTION && <WatermarkOverlay />}
     <Header />
@@ -74,33 +84,82 @@ const imageUrl = new URL(image, Astro.site);
       // view. Plain IntersectionObserver — no animation library, no
       // layout shift, and it degrades gracefully (content is simply
       // visible immediately) if JS fails to load.
-      const items = document.querySelectorAll('.fade-in-up');
+      const items = document.querySelectorAll<HTMLElement>('.fade-in-up');
+
+      // Children of a [data-stagger] container reveal one after another.
+      // The delay is cleared once the reveal has played so it can't
+      // slow down hover transitions on the same element later.
+      document.querySelectorAll('[data-stagger]').forEach((group) => {
+        group.querySelectorAll<HTMLElement>('.fade-in-up').forEach((el, i) => {
+          el.style.transitionDelay = `${i * 90}ms`;
+          el.dataset.delay = String(i * 90);
+        });
+      });
+
+      const reveal = (el: HTMLElement) => {
+        el.classList.add('is-visible');
+        setTimeout(() => (el.style.transitionDelay = ''), 800 + Number(el.dataset.delay ?? 0));
+      };
 
       if ('IntersectionObserver' in window) {
         const observer = new IntersectionObserver(
           (entries) => {
             for (const entry of entries) {
               if (entry.isIntersecting) {
-                entry.target.classList.add('is-visible');
+                reveal(entry.target as HTMLElement);
                 observer.unobserve(entry.target);
               }
             }
           },
-          { threshold: 0.15 }
+          { threshold: 0.12, rootMargin: '0px 0px -6% 0px' }
         );
 
         items.forEach((el) => observer.observe(el));
 
-        // Safety net: if something above the fold never crosses the
-        // 0.15 threshold (very tall element, fast page load before
-        // layout settles, etc.), force it visible after a beat so
-        // content is never stuck invisible.
+        // Safety net: anything already on screen (or above it, e.g. after
+        // a reload mid-page) that never crossed the threshold is shown
+        // after a beat. Elements further down are deliberately left for
+        // the observer, so they still animate in as you scroll.
         setTimeout(() => {
-          items.forEach((el) => el.classList.add('is-visible'));
+          items.forEach((el) => {
+            if (el.getBoundingClientRect().top < window.innerHeight) reveal(el);
+          });
         }, 1200);
       } else {
         // No IntersectionObserver support — just show everything.
         items.forEach((el) => el.classList.add('is-visible'));
+      }
+
+      // ---- Scroll progress bar + gentle parallax --------------------
+      // One passive scroll listener, batched through requestAnimationFrame.
+      // [data-parallax="0.08"] elements drift against the scroll by that
+      // fraction of their distance from the viewport centre.
+      if (document.documentElement.classList.contains('motion')) {
+        const bar = document.getElementById('scroll-progress');
+        const drifters = document.querySelectorAll<HTMLElement>('[data-parallax]');
+        let queued = false;
+
+        const frame = () => {
+          queued = false;
+          const max = document.documentElement.scrollHeight - window.innerHeight;
+          bar?.style.setProperty('--sp', String(max > 0 ? Math.min(1, window.scrollY / max) : 0));
+          const mid = window.innerHeight / 2;
+          drifters.forEach((el) => {
+            const r = el.getBoundingClientRect();
+            if (r.bottom < -200 || r.top > window.innerHeight + 200) return;
+            const speed = Number(el.dataset.parallax);
+            el.style.transform = `translate3d(0, ${((r.top + r.height / 2 - mid) * -speed).toFixed(1)}px, 0)`;
+          });
+        };
+        const queue = () => {
+          if (!queued) {
+            queued = true;
+            requestAnimationFrame(frame);
+          }
+        };
+        window.addEventListener('scroll', queue, { passive: true });
+        window.addEventListener('resize', queue);
+        frame();
       }
     </script>
   </body>
