@@ -231,69 +231,30 @@ const reviewLinks = (
 </BaseLayout>
 
 <style is:global>
-  /* Companion section pieces — plain defaults, recoloured by a theme below. */
+  /* Companion section pieces — the site's own forest green by default. */
   .companion-eyebrow { color: #1f6f4a; }
   .companion-box { background: #fff; }
   .step-dot { background: #1f6f4a; }
 
-  /* ---- Per-title themes (see BookTheme in books.ts) ----------------------
-     Each theme is a set of variables taken from that book's own cover and
-     QR landing page; one shared block of rules then re-colours the
-     utilities this layout, the header, the footer, BuyButtons and CTAButton
-     already use, so no markup changes. The class goes on <body> so the
-     header and footer follow.
-       --t-hero      hero band and header       --t-foot   footer
-       --t-ink       headings                   --t-body   running text
-       --t-muted     small print               --t-bg1    "white" sections
-       --t-bg2       alternate sections         --t-line   borders
-       --t-btn       buttons (+ --t-btn-h)      --t-accent links, bullets, bar
-       --t-dot       eyebrow, step numbers, header wordmark
-       --t-box       companion box border       --t-font   type, if not the site's */
-  .theme-pink {
-    --t-hero: #b32a54; --t-foot: #8f1f42; --t-ink: #a8264c; --t-body: #444;
-    --t-muted: #777; --t-bg1: #fff; --t-bg2: #fdeff3; --t-line: #f3cdd8;
-    --t-btn: #1f6f4a; --t-btn-h: #2c8a5d; --t-accent: #c8325a; --t-dot: #c8325a;
-    --t-box: #e67896; --t-mark: #ffd3e0;
-  }
-  .theme-forest {
-    --t-hero: #1f3b36; --t-foot: #142825; --t-ink: #1f3b36; --t-body: #333;
-    --t-muted: #666; --t-bg1: #f4f1e6; --t-bg2: #ebe6d3; --t-line: #ddd6bf;
-    --t-btn: #9a7a3f; --t-btn-h: #7f6330; --t-accent: #2b5d63; --t-dot: #b08d4f;
-    --t-box: #2b5d63;
-  }
-  .theme-clay {
-    --t-hero: #3a2f2a; --t-foot: #2a211d; --t-ink: #3a2f2a; --t-body: #3a2f2a;
-    --t-muted: #7a6a60; --t-bg1: #f7f0e3; --t-bg2: #efe2cc; --t-line: #d8c3a0;
-    --t-btn: #c1624f; --t-btn-h: #a84f3e; --t-accent: #c1624f; --t-dot: #c1624f;
-    --t-box: #d8c3a0; --t-font: Georgia, 'Times New Roman', serif;
-  }
-  /* Renovation book: the palette and type of its own landing-page file. */
-  .theme-earth {
-    --t-hero: #241f1b; --t-foot: #17130f; --t-ink: #3a302b; --t-body: #3a302b;
-    --t-muted: #6a5a52; --t-bg1: #f6eedf; --t-bg2: #efe3ce; --t-line: #d8c9ae;
-    --t-btn: #c2624f; --t-btn-h: #a94f3d; --t-accent: #c2624f; --t-dot: #ad8a4e;
-    --t-box: #6a5a52; --t-font: Georgia, 'Times New Roman', serif;
-  }
+  /* ---- Per-title accent (see BookTheme in books.ts) ----------------------
+     BRAND FIRST. Every book page keeps the site's own header, footer, navy
+     hero, forest-green buttons and Merriweather / Inter type — the brand
+     rule in tailwind.config.mjs is that forest is the ONLY digital accent
+     and brass is never a UI colour. A book's own colour is allowed in
+     exactly three small places, so its page still feels like its book:
+       --t-accent   eyebrow line, step numbers, the pull-quote bar
+       --t-tint     the alternate section background (a faint wash)
+       --t-line     the companion box border
+     Do not add rules here that recolour buttons, the header, the footer or
+     the hero, or change the type. */
+  .theme-pink   { --t-accent: #c8325a; --t-tint: #fdf1f5; --t-line: #f0c3d0; }
+  .theme-forest { --t-accent: #2b5d63; --t-tint: #f3f1e6; --t-line: #cfdcd9; }
+  .theme-clay   { --t-accent: #c1624f; --t-tint: #f9f2e7; --t-line: #e6d2b5; }
+  .theme-earth  { --t-accent: #c2624f; --t-tint: #f8f0e1; --t-line: #e3d2b6; }
 
-  .themed { font-family: var(--t-font, inherit); }
-  .themed .font-serif { font-family: var(--t-font, Merriweather, Georgia, serif); }
-  .themed .bg-navy { background: var(--t-hero); }
-  .themed .bg-navy-dark { background: var(--t-foot); }
-  .themed .text-navy { color: var(--t-ink); }
-  .themed .bg-white { background: var(--t-bg1); }
-  .themed .bg-slate-50 { background: var(--t-bg2); }
-  .themed .border-slate-200,
-  .themed .border-slate-300 { border-color: var(--t-line); }
-  .themed .text-slate-600 { color: var(--t-body); }
-  .themed .text-slate-500,
-  .themed .text-slate-400 { color: var(--t-muted); }
-  .themed .bg-forest { background: var(--t-btn); }
-  .themed .hover\:bg-forest-light:hover { background: var(--t-btn-h); }
-  .themed .text-forest { color: var(--t-accent); }
+  .themed .bg-slate-50 { background: var(--t-tint); }
   .themed .border-forest { border-color: var(--t-accent); }
-  .themed .text-forest-light,
-  .themed .hover\:text-forest-light:hover { color: var(--t-mark, var(--t-dot)); }
-  .themed .companion-eyebrow { color: var(--t-dot); font-style: italic; }
-  .themed .companion-box { background: #fff; border-color: var(--t-box); }
-  .themed .step-dot { background: var(--t-dot); }
+  .themed .companion-eyebrow { color: var(--t-accent); }
+  .themed .companion-box { border-color: var(--t-line); }
+  .themed .step-dot { background: var(--t-accent); }
 </style>

@@ -36,10 +36,11 @@ export interface Book {
       but stays off the homepage and the /books/ listing, and is noindex.
       Delete this line, add the cover, and it joins the shelf. */
   unreleased?: boolean;
-  /** Re-colours this title's whole product page (header and footer too) to
-      the palette of the book's own cover and QR page. See the themes in
-      src/layouts/BookProductLayout.astro. Omit for the site's navy and
-      green. */
+  /** A small accent from the book's own cover — the eyebrow line, step
+      numbers, pull-quote bar and a faint section tint on its product page.
+      NEVER buttons, header, footer, hero or type: those stay the site's
+      brand (navy and forest green) on every page. See the note in
+      src/layouts/BookProductLayout.astro. */
   theme?: BookTheme;
   slug: string;
   productHref: string;

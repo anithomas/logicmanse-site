@@ -18,8 +18,7 @@ interface Props {
   image?: string;
   /** Keep the page out of search results (a title not yet on sale). */
   noindex?: boolean;
-  /** Re-colours the whole page (header and footer too) — see the "earth"
-      theme in BookProductLayout.astro. */
+  /** A book's accent tint (see BookTheme). Brand chrome is never changed. */
   theme?: BookTheme;
 }
 const { title, description, image = '/about/brand-hero.jpg', noindex = false, theme } = Astro.props;
