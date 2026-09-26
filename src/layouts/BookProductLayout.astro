@@ -46,6 +46,7 @@ const reviewLinks = (
   description={book.tagline}
   image={book.cover || undefined}
   noindex={book.unreleased}
+  theme={book.theme}
 >
   <!-- ============ HERO: cover + the two storefronts ============ -->
   <section class="bg-navy text-white">
@@ -137,7 +138,7 @@ const reviewLinks = (
   {book.companionDownload && (
     <section id="companion" class="bg-slate-50 border-t border-slate-200 scroll-mt-20">
       <div class="max-w-3xl mx-auto px-6 py-16 md:py-20">
-        <p class="fade-in-up text-xs font-bold uppercase tracking-widest text-forest text-center mb-3">
+        <p class="fade-in-up text-xs font-bold uppercase tracking-widest companion-eyebrow text-center mb-3">
           Already own the book?
         </p>
         <h2 class="fade-in-up text-2xl md:text-3xl font-serif font-bold text-navy text-center mb-4">
@@ -156,7 +157,7 @@ const reviewLinks = (
           ))}
         </ul>
 
-        <div class="fade-in-up bg-white border border-slate-200 rounded-xl p-6 text-center mb-10">
+        <div class="fade-in-up companion-box border border-slate-200 rounded-xl p-6 text-center mb-10">
           <a
             href={book.companionDownload.href}
             download={book.companionDownload.filename}
@@ -171,7 +172,7 @@ const reviewLinks = (
         <ol class="fade-in-up space-y-3">
           {book.companionDownload.steps.map((step, i) => (
             <li class="flex gap-3 text-slate-600 leading-relaxed">
-              <span class="shrink-0 w-6 h-6 rounded-full bg-forest text-white text-sm font-bold flex items-center justify-center">{i + 1}</span>
+              <span class="shrink-0 w-6 h-6 rounded-full step-dot text-white text-sm font-bold flex items-center justify-center">{i + 1}</span>
               <span>{step}</span>
             </li>
           ))}
@@ -223,3 +224,38 @@ const reviewLinks = (
     </div>
   </section>
 </BaseLayout>
+
+<style is:global>
+  /* Companion section pieces — plain defaults, recoloured by a theme below. */
+  .companion-eyebrow { color: #1f6f4a; }
+  .companion-box { background: #fff; }
+  .step-dot { background: #1f6f4a; }
+
+  /* The "earth" theme: a title whose own design is warm rather than the
+     site's navy and green. Palette and type are the ones in the book's own
+     landing-page file (Renovation_Repair_Log_Book: charcoal #241F1B,
+     cream #F6EEDF, ink #3A302B, rule #6A5A52, terracotta #C2624F, brass
+     #AD8A4E, Georgia). It works by re-colouring the utilities the shared
+     layout, BuyButtons and CTAButton already use, so no markup changes. */
+  .theme-earth { font-family: Georgia, 'Times New Roman', serif; }
+  .theme-earth .font-serif { font-family: Georgia, 'Times New Roman', serif; }
+  .theme-earth .bg-navy { background: #241f1b; }
+  .theme-earth .text-navy { color: #3a302b; }
+  .theme-earth .bg-white { background: #f6eedf; }
+  .theme-earth .bg-slate-50 { background: #efe3ce; }
+  .theme-earth .border-slate-200 { border-color: #d8c9ae; }
+  .theme-earth .border-slate-300 { border-color: #c9b99a; }
+  .theme-earth .text-slate-600 { color: #3a302b; }
+  .theme-earth .text-slate-500,
+  .theme-earth .text-slate-400 { color: #6a5a52; }
+  .theme-earth .bg-forest { background: #c2624f; }
+  .theme-earth .hover\:bg-forest-light:hover { background: #a94f3d; }
+  .theme-earth .text-forest { color: #c2624f; }
+  .theme-earth .border-forest { border-color: #c2624f; }
+  .theme-earth .companion-eyebrow { color: #ad8a4e; font-style: italic; }
+  .theme-earth .companion-box { background: #fff; border-color: #6a5a52; }
+  .theme-earth .step-dot { background: #ad8a4e; }
+  .theme-earth .text-forest-light,
+  .theme-earth .hover\:text-forest-light:hover { color: #ad8a4e; }
+  .theme-earth .bg-navy-dark { background: #17130f; }
+</style>

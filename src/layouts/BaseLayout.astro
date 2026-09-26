@@ -17,8 +17,11 @@ interface Props {
   image?: string;
   /** Keep the page out of search results (a title not yet on sale). */
   noindex?: boolean;
+  /** Re-colours the whole page (header and footer too) — see the "earth"
+      theme in BookProductLayout.astro. */
+  theme?: "earth";
 }
-const { title, description, image = '/about/brand-hero.jpg', noindex = false } = Astro.props;
+const { title, description, image = '/about/brand-hero.jpg', noindex = false, theme } = Astro.props;
 
 // og:image must be absolute — Pinterest, Facebook and iMessage all reject
 // a relative path and fall back to no preview at all, which is what this
@@ -72,7 +75,7 @@ const imageUrl = new URL(image, Astro.site);
       }
     </script>
   </head>
-  <body>
+  <body class:list={[theme === "earth" && "theme-earth"]}>
     <div id="scroll-progress" aria-hidden="true"></div>
     {SITE_UNDER_CONSTRUCTION && <ConstructionBanner />}
     {SITE_UNDER_CONSTRUCTION && <WatermarkOverlay />}

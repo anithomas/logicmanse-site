@@ -27,6 +27,9 @@ export interface Book {
       but stays off the homepage and the /books/ listing, and is noindex.
       Delete this line, add the cover, and it joins the shelf. */
   unreleased?: boolean;
+  /** Re-colours this title's product page to a warmer palette that
+      matches the book's own design. Omit for the site's navy and green. */
+  theme?: 'earth';
   slug: string;
   productHref: string;
   qrHref: string;
@@ -191,6 +194,7 @@ export const BOOKS: Book[] = [
     // reader-only page. That URL is printed on the cover: never change it.
     key: 'renovationLog',
     unreleased: true,
+    theme: 'earth',
     slug: 'renovation-repair-record-book',
     productHref: '/books/renovation-repair-record-book/',
     qrHref: '/books/renovation-repair-record-book/#companion',
