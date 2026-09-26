@@ -135,3 +135,16 @@ export const isForSale = (key: keyof typeof BOOK_LINKS) => {
 // asking them to find the order themselves is the real, working pattern
 // — same one used in the post-purchase email's review ask.
 export const ETSY_SHOP_URL = 'https://logicmanse.etsy.com';
+
+// Hostinger Reach sign-up forms — the "send me the free companion" form for
+// each title. ONE copy of each address, read by both the printed-QR landing
+// pages (src/pages/LeiaColoringBook.astro etc.) and the companion section on
+// each product page, so the two can never point at different forms.
+//
+// An empty string means the form doesn't exist yet: the QR page then shows an
+// "opening shortly" notice, and the product page hides its button.
+export const REACH_FORMS = {
+  leia: 'https://reach-forms.hostingerusercontent.com/form/c3c3a22b-2257-457a-9635-5f2a3a6ab75c',
+  rentalLog: 'https://reach-forms.hostingerusercontent.com/form/507b9eac-cab0-41c3-ae6c-41e8ff00d445',
+  heartHealth: 'https://reach-forms.hostingerusercontent.com/form/5feeedfb-224c-44b0-a557-dc712f200b84',
+} as const;

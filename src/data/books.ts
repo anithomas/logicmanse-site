@@ -20,6 +20,15 @@
 // than written fresh, so the site and the books can't drift apart.
 // ----------------------------------------------------------------
 
+import { REACH_FORMS } from './site';
+
+/** One per title: pink (Leia), forest (rental log), clay (heart health log),
+    earth (renovation book). */
+export type BookTheme = 'pink' | 'forest' | 'clay' | 'earth';
+
+// Shared by the three Reach-form companions: what the button is followed by.
+const SIGNUP_NOTE = 'Takes 10 seconds. We’ll email you the link right away.';
+
 export interface Book {
   key: 'leia' | 'rentalLog' | 'heartHealth' | 'renovationLog';
   /** True until the book is on sale and has a real cover. An unreleased
@@ -27,9 +36,11 @@ export interface Book {
       but stays off the homepage and the /books/ listing, and is noindex.
       Delete this line, add the cover, and it joins the shelf. */
   unreleased?: boolean;
-  /** Re-colours this title's product page to a warmer palette that
-      matches the book's own design. Omit for the site's navy and green. */
-  theme?: 'earth';
+  /** Re-colours this title's whole product page (header and footer too) to
+      the palette of the book's own cover and QR page. See the themes in
+      src/layouts/BookProductLayout.astro. Omit for the site's navy and
+      green. */
+  theme?: BookTheme;
   slug: string;
   productHref: string;
   qrHref: string;
@@ -54,16 +65,20 @@ export interface Book {
   inside: string[];
   /** The free bonus every copy comes with, delivered via qrHref. */
   companion: { name: string; blurb: string };
-  /** Only for a title whose printed QR points at its own product page
-      (see the note on qrHref above): the product page then carries the
-      free companion itself, at #companion, and a real file to download. */
-  companionDownload?: {
-    href: string;
-    filename: string;
-    /** What is in the file, one line each. */
+  /** The "Claim your free companion" section on the product page, at
+      #companion. It is one button with a short write-up around it. For the
+      three titles whose QR code goes to a separate page, the button is the
+      same Hostinger Reach sign-up form that page uses; for the Renovation
+      book, whose QR lands on this page, it is a direct file download. */
+  companionOffer?: {
+    /** What the free companion contains, one line each. */
     contents: string[];
     /** How to start, in order. */
     steps: string[];
+    /** The button. `download` (a filename) makes it a direct download;
+        without it the href is a sign-up form. An empty href hides the
+        section's button, for a form that doesn't exist yet. */
+    cta: { href: string; label: string; note: string; download?: string };
   };
   /** Optional pull-quote for the product page. */
   story?: { quote: string; body: string };
@@ -99,6 +114,21 @@ export const BOOKS: Book[] = [
       name: "Leia's bonus color pack",
       blurb:
         'Full-colour reference images for all 30 pages, real photos of the actual dog, and every puzzle answer.',
+    },
+    theme: 'pink',
+    companionOffer: {
+      cta: { href: REACH_FORMS.leia, label: 'Send me the color pack →', note: SIGNUP_NOTE },
+      contents: [
+        'Full-color reference images for all 30 coloring pages, matched page-by-page to your book',
+        'Real bonus photos of Leia — the actual dog who inspired the story',
+        'The complete answer key for every maze, word search, and puzzle',
+        'A behind-the-scenes note from the author',
+      ],
+      steps: [
+        'Tap the button and add your email — it takes about 10 seconds.',
+        'We email you the download link right away.',
+        'Keep the pack beside your book: the reference pages match it page by page.',
+      ],
     },
     story: {
       quote: 'Leia is a real dog.',
@@ -140,6 +170,21 @@ export const BOOKS: Book[] = [
       blurb:
         'A 17-tab spreadsheet mirroring every section of the book, with a year-end ROI dashboard that totals itself.',
     },
+    theme: 'forest',
+    companionOffer: {
+      cta: { href: REACH_FORMS.rentalLog, label: 'Send me the tracker →', note: SIGNUP_NOTE },
+      contents: [
+        'A 12-month rent payment tracker, ready to use for up to 6 properties',
+        'A tenant & lease log with every renewal date in one place, so nothing sneaks up on you',
+        'A monthly income & expense tracker built with tax time in mind',
+        'A vendor & contractor directory template, organized by trade',
+      ],
+      steps: [
+        'Tap the button and add your email — it takes about 10 seconds.',
+        'We email you the download link right away.',
+        'Open the spreadsheet in Excel, Google Sheets or Numbers and keep it alongside the book.',
+      ],
+    },
     story: {
       quote: 'Generic expense categories, on purpose.',
       body:
@@ -178,6 +223,22 @@ export const BOOKS: Book[] = [
     companion: {
       name: 'the companion spreadsheet',
       blurb: 'The same logs as the printed book, for the weeks you would rather type than write.',
+    },
+    theme: 'clay',
+    companionOffer: {
+      cta: { href: REACH_FORMS.heartHealth, label: 'Send me the spreadsheet →', note: SIGNUP_NOTE },
+      contents: [
+        'A weekly tracking sheet that mirrors the printed weekly page — blood pressure, pulse, weight, the four medicine times, and the blood thinner dose actually taken',
+        'A monthly review sheet, with the daily weight chart drawn for you as you type',
+        'Your medicine list and daily schedule, in one place you can reprint whenever the schedule changes',
+        'A test-results log for blood tests, other blood work, scans and heart tests',
+        'Your care team, and the one-page summary card — the sheet to fill in once and photograph',
+      ],
+      steps: [
+        'Tap the button and add your email — it takes about 10 seconds.',
+        'We email you the download link right away.',
+        'Open the spreadsheet on your computer and use it for the weeks you would rather type than write.',
+      ],
     },
     story: {
       quote: 'Not one number in here is ours.',
@@ -222,9 +283,13 @@ export const BOOKS: Book[] = [
       blurb:
         'An 18-tab spreadsheet that mirrors the tables in the book, with a live dashboard and the budget sums done for you.',
     },
-    companionDownload: {
-      href: '/renovation-repair-log/Renovation_Repair_Digital_Companion.xlsx',
-      filename: 'Renovation_Repair_Digital_Companion.xlsx',
+    companionOffer: {
+      cta: {
+        href: '/renovation-repair-log/Renovation_Repair_Digital_Companion.xlsx',
+        label: 'Download the workbook (.xlsx) ↓',
+        note: 'Renovation_Repair_Digital_Companion.xlsx',
+        download: 'Renovation_Repair_Digital_Companion.xlsx',
+      },
       contents: [
         'A portfolio summary and at-a-glance dashboard, with live totals',
         'A project tracker that links every log sheet to a property and project',

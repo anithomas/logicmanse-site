@@ -7,6 +7,7 @@ import Footer from '../components/Footer.astro';
 import ConstructionBanner from '../components/ConstructionBanner.astro';
 import WatermarkOverlay from '../components/WatermarkOverlay.astro';
 import { SITE, SITE_UNDER_CONSTRUCTION } from '../data/site';
+import type { BookTheme } from '../data/books';
 import '../styles/global.css';
 
 interface Props {
@@ -19,7 +20,7 @@ interface Props {
   noindex?: boolean;
   /** Re-colours the whole page (header and footer too) — see the "earth"
       theme in BookProductLayout.astro. */
-  theme?: "earth";
+  theme?: BookTheme;
 }
 const { title, description, image = '/about/brand-hero.jpg', noindex = false, theme } = Astro.props;
 
@@ -75,7 +76,7 @@ const imageUrl = new URL(image, Astro.site);
       }
     </script>
   </head>
-  <body class:list={[theme === "earth" && "theme-earth"]}>
+  <body class:list={theme ? ['themed', `theme-${theme}`] : []}>
     <div id="scroll-progress" aria-hidden="true"></div>
     {SITE_UNDER_CONSTRUCTION && <ConstructionBanner />}
     {SITE_UNDER_CONSTRUCTION && <WatermarkOverlay />}

@@ -1,4 +1,5 @@
 ---
+import { REACH_FORMS } from '../data/site';
 // Dedicated landing page for "The Complete Heart Health Log Book"
 // (LogicManse Publications, Book Blueprint No. 02).
 //
@@ -54,7 +55,7 @@ const CANONICAL_URL = 'https://www.logicmanse.ca/HeartHealthLog/';
 //
 // Setting this to an empty string falls the page back to an honest
 // "opening shortly" notice rather than a dead call-to-action.
-const REACH_FORM_URL = 'https://reach-forms.hostingerusercontent.com/form/5feeedfb-224c-44b0-a557-dc712f200b84';
+const REACH_FORM_URL: string = REACH_FORMS.heartHealth;
 
 // Verbatim from the book's own back cover, under "INSIDE".
 const INSIDE = [
