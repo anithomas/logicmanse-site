@@ -1,0 +1,15 @@
+---
+// Product page for this title — see src/data/books.ts for the two-page
+// split (this sells; the printed QR URL gives the bonus away).
+// All content comes from BOOKS; the layout does the rest.
+//
+// The book is still at blueprint stage (`unreleased` in books.ts), so this
+// page is noindex, has no cover, and shows "coming soon" store chips. It
+// exists so the site is ready the day the paperback lists.
+import BookProductLayout from '../../layouts/BookProductLayout.astro';
+import { bookBySlug } from '../../data/books';
+
+const book = bookBySlug('renovation-repair-record-book');
+---
+
+<BookProductLayout book={book} />

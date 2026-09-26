@@ -41,7 +41,12 @@ const reviewLinks = (
 ).filter((l): l is { label: string; href: string } => Boolean(l));
 ---
 
-<BaseLayout title={book.title} description={book.tagline} image={book.cover}>
+<BaseLayout
+  title={book.title}
+  description={book.tagline}
+  image={book.cover || undefined}
+  noindex={book.unreleased}
+>
   <!-- ============ HERO: cover + the two storefronts ============ -->
   <section class="bg-navy text-white">
     <div class="max-w-5xl mx-auto px-6 py-16 md:py-20 grid md:grid-cols-2 gap-10 items-center">
@@ -64,11 +69,19 @@ const reviewLinks = (
       </div>
 
       <div class="fade-in-up order-1 md:order-2 flex justify-center">
-        <img
-          src={book.cover}
-          alt={book.coverAlt}
-          class="rounded-lg shadow-2xl w-auto max-h-[26rem]"
-        />
+        {book.cover ? (
+          <img
+            src={book.cover}
+            alt={book.coverAlt}
+            class="rounded-lg shadow-2xl w-auto max-h-[26rem]"
+          />
+        ) : (
+          <div
+            class="rounded-lg shadow-2xl w-64 aspect-[1082/1400] border border-white/20 bg-white/5 flex items-center justify-center text-center p-6"
+          >
+            <p class="font-serif font-bold text-white/70 leading-snug">Cover coming soon</p>
+          </div>
+        )}
       </div>
     </div>
   </section>
@@ -126,7 +139,9 @@ const reviewLinks = (
         Get {book.title}
       </h2>
       <p class="fade-in-up text-slate-600 mb-8">
-        Print it at home today, or have the paperback delivered. Same book either way.
+        {book.unreleased
+          ? 'This book is still being finished. Both stores will be linked here the day it goes on sale.'
+          : 'Print it at home today, or have the paperback delivered. Same book either way.'}
       </p>
       <div class="fade-in-up max-w-xl mx-auto text-left">
         <BuyButtons bookKey={book.key} />

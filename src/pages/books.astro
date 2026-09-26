@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import CTAButton from '../components/CTAButton.astro';
-import { BOOKS } from '../data/books';
+import { SHELF } from '../data/books';
 import { isForSale } from '../data/site';
 
 // Every card links to that title's PRODUCT page (/books/<slug>/), never
@@ -30,7 +30,7 @@ import { isForSale } from '../data/site';
 
   <section class="bg-white">
     <div class="max-w-4xl mx-auto px-6 py-20 grid gap-8">
-      {BOOKS.map((book) => (
+      {SHELF.map((book) => (
         <a
           href={book.productHref}
           class="fade-in-up grid sm:grid-cols-[auto_1fr] gap-6 items-start bg-slate-50 border border-slate-200 rounded-xl p-8 hover:border-forest/40 hover:shadow-lg transition-all duration-200"

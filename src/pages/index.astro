@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import CTAButton from '../components/CTAButton.astro';
 import { SITE } from '../data/site';
-import { BOOKS } from '../data/books';
+import { SHELF } from '../data/books';
 import PromoVideo from '../components/PromoVideo.astro';
 
 const CATEGORIES = [
@@ -27,7 +27,7 @@ const CATEGORIES = [
 
 // The hero's second beat is Leia's own story line, straight from the
 // shared book record so the homepage and her product page can't drift.
-const leia = BOOKS.find((b) => b.key === 'leia')!;
+const leia = SHELF.find((b) => b.key === 'leia')!;
 
 // Featured cards read from the shared book records and link to each
 // title's PRODUCT page — never to its printed QR URL, which is for
@@ -194,7 +194,7 @@ const leia = BOOKS.find((b) => b.key === 'leia')!;
       />
 
       <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10" data-stagger>
-        {BOOKS.map((book) => (
+        {SHELF.map((book) => (
           <a
             href={book.productHref}
             class="fade-in-up block bg-white border border-slate-200 rounded-xl p-8 hover:border-forest/40 hover:shadow-lg transition-all duration-200"
@@ -218,12 +218,12 @@ const leia = BOOKS.find((b) => b.key === 'leia')!;
   <!-- ============ FEATURED TITLES — pinned showcase ============ -->
   <!-- Desktop + motion only. The section stays pinned while the covers
        swap as the visitor scrolls; the dots jump straight to a title. -->
-  <section class="bg-slate-50 showcase-only" data-showcase style={`--n:${BOOKS.length}`}>
+  <section class="bg-slate-50 showcase-only" data-showcase style={`--n:${SHELF.length}`}>
     <div class="showcase-track">
       <div class="showcase-stick">
         <div class="max-w-6xl mx-auto px-6 w-full grid grid-cols-2 gap-14 items-center">
           <div class="showcase-covers">
-            {BOOKS.map((book, i) => (
+            {SHELF.map((book, i) => (
               <a
                 href={book.productHref}
                 class="showcase-cover"
@@ -241,7 +241,7 @@ const leia = BOOKS.find((b) => b.key === 'leia')!;
             <h2 class="text-3xl md:text-4xl font-bold text-navy mb-8">Real Books, Not Mockups</h2>
 
             <div class="showcase-texts mb-8">
-              {BOOKS.map((book, i) => (
+              {SHELF.map((book, i) => (
                 <div class="showcase-text" data-i={i}>
                   <span class="inline-block bg-forest/10 text-forest-dark text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-4">
                     {book.category}
@@ -259,7 +259,7 @@ const leia = BOOKS.find((b) => b.key === 'leia')!;
             <div class="flex items-center gap-6">
               <CTAButton href="/books/">See All Books</CTAButton>
               <div class="flex items-center gap-3" role="group" aria-label="Choose a title">
-                {BOOKS.map((book, i) => (
+                {SHELF.map((book, i) => (
                   <button type="button" class="showcase-dot" data-dot={i} aria-label={`Show ${book.title}`}></button>
                 ))}
               </div>

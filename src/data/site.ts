@@ -81,7 +81,15 @@ export interface StoreLinks {
   amazon: { com: string; ca: string };
 }
 
-export const BOOK_LINKS: Record<'leia' | 'rentalLog' | 'heartHealth', StoreLinks> = {
+export const BOOK_LINKS: Record<
+  'leia' | 'rentalLog' | 'heartHealth' | 'renovationLog',
+  StoreLinks
+> = {
+  renovationLog: {
+    // Not on sale yet — blueprint stage. Fill these in the day it lists.
+    etsy: '',
+    amazon: { com: '', ca: '' },
+  },
   leia: {
     // Live 09 Sep 2026. Etsy: CA$7.99 instant-download PDF.
     // Amazon: paperback, ISBN 9798194994618, by @Antz.

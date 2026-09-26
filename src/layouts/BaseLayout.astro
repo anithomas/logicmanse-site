@@ -15,8 +15,10 @@ interface Props {
   /** Site-relative path to the preview image. Defaults to the brand
       visual; product pages pass the book's own cover. */
   image?: string;
+  /** Keep the page out of search results (a title not yet on sale). */
+  noindex?: boolean;
 }
-const { title, description, image = '/about/brand-hero.jpg' } = Astro.props;
+const { title, description, image = '/about/brand-hero.jpg', noindex = false } = Astro.props;
 
 // og:image must be absolute — Pinterest, Facebook and iMessage all reject
 // a relative path and fall back to no preview at all, which is what this
@@ -32,6 +34,7 @@ const imageUrl = new URL(image, Astro.site);
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>{title} | {SITE.imprintName}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
     <link rel="canonical" href={new URL(Astro.url.pathname, Astro.site)} />
 
     <!-- Pinterest domain claim. Pinterest fetches the root URL and looks

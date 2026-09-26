@@ -21,7 +21,12 @@
 // ----------------------------------------------------------------
 
 export interface Book {
-  key: 'leia' | 'rentalLog' | 'heartHealth';
+  key: 'leia' | 'rentalLog' | 'heartHealth' | 'renovationLog';
+  /** True until the book is on sale and has a real cover. An unreleased
+      title has a product page (so its printed URL and the site are ready)
+      but stays off the homepage and the /books/ listing, and is noindex.
+      Delete this line, add the cover, and it joins the shelf. */
+  unreleased?: boolean;
   slug: string;
   productHref: string;
   qrHref: string;
@@ -166,6 +171,48 @@ export const BOOKS: Book[] = [
         'There is no target range, no dosage and no warning sign printed anywhere in this book. Every one of them is a blank line — because they are set for you personally, by the people looking after you. This is simply where yours go.',
     },
   },
+  {
+    // Blueprint stage (Renovation_Repair_Log_Blueprint.md). Everything
+    // below is drafted from the blueprint, not a finished book — the
+    // capacity (4 properties x 3 projects), page count and price are
+    // still open questions there, so none of them are stated here.
+    key: 'renovationLog',
+    unreleased: true,
+    slug: 'renovation-repair-record-book',
+    productHref: '/books/renovation-repair-record-book/',
+    qrHref: '/renovationrepairlog/',
+    category: 'Log Book',
+    title: 'The Renovation & Repair Record Book',
+    tagline:
+      'Track every contractor quote, permit, budget and repair across every rental property you own — one book, not a stack of notes per house.',
+    description:
+      'A record book for a landlord or small-scale investor who runs renovation and repair jobs across more than one property — contractor quotes, permits, budgets and materials, kept separate for each property.',
+    specs: '8.5" × 11" · undated · black & white interior',
+    cover: '',
+    coverAlt: 'The Renovation & Repair Record Book cover',
+    inside: [
+      'A portfolio summary of every property — year built, roof age, heating age, panel size — so you can see at a glance what needs attention',
+      'A project log for each property: scope, dates and status for every renovation or repair job',
+      'A side-by-side contractor quote comparison, so the cheapest quote is never the only thing you looked at',
+      'A permit and inspection tracker, and a budget-versus-actual table with a column for why it moved',
+      'A materials and fixtures reference — the paint colour and part number you will want in two years',
+      'A vendor and contractor directory by trade, and a four-page guide to renovating a rental property',
+    ],
+    companion: {
+      name: 'the digital renovation tracker',
+      blurb:
+        'A spreadsheet that mirrors the project pages of the book, with the budget sums done for you.',
+    },
+    story: {
+      quote: 'Organised by property, not by room.',
+      body:
+        'Homeowner planners ask which colour you picked for the guest room. A landlord asks which contractor quoted the roof at the North Bay unit, and whether that permit was ever closed out. This book is built for the second question.',
+    },
+  },
 ];
+
+/** The titles shown on the homepage and /books/ — everything but the
+    ones still being written. */
+export const SHELF = BOOKS.filter((b) => !b.unreleased);
 
 export const bookBySlug = (slug: string) => BOOKS.find((b) => b.slug === slug)!;
