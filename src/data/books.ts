@@ -51,6 +51,17 @@ export interface Book {
   inside: string[];
   /** The free bonus every copy comes with, delivered via qrHref. */
   companion: { name: string; blurb: string };
+  /** Only for a title whose printed QR points at its own product page
+      (see the note on qrHref above): the product page then carries the
+      free companion itself, at #companion, and a real file to download. */
+  companionDownload?: {
+    href: string;
+    filename: string;
+    /** What is in the file, one line each. */
+    contents: string[];
+    /** How to start, in order. */
+    steps: string[];
+  };
   /** Optional pull-quote for the product page. */
   story?: { quote: string; body: string };
 }
@@ -172,36 +183,57 @@ export const BOOKS: Book[] = [
     },
   },
   {
-    // Blueprint stage (Renovation_Repair_Log_Blueprint.md). Everything
-    // below is drafted from the blueprint, not a finished book — the
-    // capacity (4 properties x 3 projects), page count and price are
-    // still open questions there, so none of them are stated here.
+    // Built (interior, cover, companion workbook — see
+    // Renovation_Repair_Log_Blueprint.md) but not yet on sale, hence
+    // `unreleased`. UNLIKE the other three, this title's printed QR code
+    // points at its own product page (blueprint §06, changed 2026-09-26),
+    // so qrHref is this page's #companion section rather than a separate
+    // reader-only page. That URL is printed on the cover: never change it.
     key: 'renovationLog',
     unreleased: true,
     slug: 'renovation-repair-record-book',
     productHref: '/books/renovation-repair-record-book/',
-    qrHref: '/renovationrepairlog/',
+    qrHref: '/books/renovation-repair-record-book/#companion',
     category: 'Log Book',
     title: 'The Renovation & Repair Record Book',
     tagline:
       'Track every contractor quote, permit, budget and repair across every rental property you own — one book, not a stack of notes per house.',
     description:
       'A record book for a landlord or small-scale investor who runs renovation and repair jobs across more than one property — contractor quotes, permits, budgets and materials, kept separate for each property.',
-    specs: '8.5" × 11" · undated · black & white interior',
-    cover: '',
+    specs: '8.5" × 11" · 108 pages · undated · up to 4 properties',
+    cover: '/renovation-repair-log/cover-front.jpg',
     coverAlt: 'The Renovation & Repair Record Book cover',
     inside: [
-      'A portfolio summary of every property — year built, roof age, heating age, panel size — so you can see at a glance what needs attention',
-      'A project log for each property: scope, dates and status for every renovation or repair job',
+      'A portfolio summary for every property — year built, roof, heating, panel and water-heater age — repeated for four years, so you can see at a glance what needs attention',
+      'A 15-page block for each of up to 4 properties: five projects each, with scope, dates and status',
       'A side-by-side contractor quote comparison, so the cheapest quote is never the only thing you looked at',
       'A permit and inspection tracker, and a budget-versus-actual table with a column for why it moved',
-      'A materials and fixtures reference — the paint colour and part number you will want in two years',
-      'A vendor and contractor directory by trade, and a four-page guide to renovating a rental property',
+      'A materials and fixtures reference — the paint colour and part number you will want in two years — plus a before-and-after photo log',
+      'Seasonal maintenance checklists, emergency shut-off details and a contractor performance review, so the next hiring decision has a paper trail',
+      'A vendor and contractor directory across 24 trades, a capital improvements log and an annual budget planner',
+      'A four-page guide to renovating a rental property — repair or capital improvement, renovating while tenanted, vetting a contractor, protecting your return',
     ],
     companion: {
       name: 'the digital renovation tracker',
       blurb:
-        'A spreadsheet that mirrors the project pages of the book, with the budget sums done for you.',
+        'An 18-tab spreadsheet that mirrors the tables in the book, with a live dashboard and the budget sums done for you.',
+    },
+    companionDownload: {
+      href: '/renovation-repair-log/Renovation_Repair_Digital_Companion.xlsx',
+      filename: 'Renovation_Repair_Digital_Companion.xlsx',
+      contents: [
+        'A portfolio summary and at-a-glance dashboard, with live totals',
+        'A project tracker that links every log sheet to a property and project',
+        'Contractor and quote comparison, permits, budget vs. actual, materials and photo log — per project',
+        'Property systems and appliances, emergency contacts, and a seasonal maintenance checklist',
+        'A vendor and contractor directory, spend-by-property rollups and an annual budget planner',
+        'A capital improvements log and a repair-vs-capital reference page to fill in with your own accountant',
+      ],
+      steps: [
+        'Download the workbook and open it in Excel, Google Sheets or Numbers.',
+        'Start on the Portfolio Summary tab and add your properties, then log each job on the Project Tracker tab.',
+        'Every other tab picks up your property and project names from a dropdown — fill in the rest as you go, on paper or on screen.',
+      ],
     },
     story: {
       quote: 'Organised by property, not by room.',

@@ -132,6 +132,54 @@ const reviewLinks = (
     </div>
   </section>
 
+  <!-- ============ FREE COMPANION (only for a book whose printed QR
+       code lands on this page — see companionDownload in books.ts) ====== -->
+  {book.companionDownload && (
+    <section id="companion" class="bg-slate-50 border-t border-slate-200 scroll-mt-20">
+      <div class="max-w-3xl mx-auto px-6 py-16 md:py-20">
+        <p class="fade-in-up text-xs font-bold uppercase tracking-widest text-forest text-center mb-3">
+          Already own the book?
+        </p>
+        <h2 class="fade-in-up text-2xl md:text-3xl font-serif font-bold text-navy text-center mb-4">
+          Claim your free companion
+        </h2>
+        <p class="fade-in-up text-slate-600 leading-relaxed text-center mb-8">
+          {book.companion.blurb}
+        </p>
+
+        <ul class="fade-in-up space-y-3 mb-8">
+          {book.companionDownload.contents.map((item) => (
+            <li class="flex gap-3 text-slate-600 leading-relaxed">
+              <span class="mt-2 shrink-0 w-1.5 h-1.5 rounded-full bg-forest"></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+
+        <div class="fade-in-up bg-white border border-slate-200 rounded-xl p-6 text-center mb-10">
+          <a
+            href={book.companionDownload.href}
+            download={book.companionDownload.filename}
+            class="inline-block rounded-lg px-6 py-3.5 bg-forest hover:bg-forest-light text-white font-bold transition-colors duration-150"
+          >
+            Download the workbook (.xlsx) &darr;
+          </a>
+          <p class="text-xs text-slate-400 mt-3 break-all">{book.companionDownload.filename}</p>
+        </div>
+
+        <h3 class="fade-in-up font-serif font-bold text-navy text-lg mb-4">How to use it</h3>
+        <ol class="fade-in-up space-y-3">
+          {book.companionDownload.steps.map((step, i) => (
+            <li class="flex gap-3 text-slate-600 leading-relaxed">
+              <span class="shrink-0 w-6 h-6 rounded-full bg-forest text-white text-sm font-bold flex items-center justify-center">{i + 1}</span>
+              <span>{step}</span>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  )}
+
   <!-- ============ CLOSING: buy, then the bonus ============ -->
   <section class="bg-slate-50 border-t border-slate-200">
     <div class="max-w-3xl mx-auto px-6 py-16 md:py-20 text-center">
