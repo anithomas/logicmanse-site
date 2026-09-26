@@ -1,5 +1,7 @@
 ---
 import { REACH_FORMS } from '../data/site';
+import QrLogo from '../components/QrLogo.astro';
+import '../styles/qr-brand.css';
 // Dedicated landing page for the "Rental Property Record Book" (LogicManse
 // Publications) — a lead-magnet giveaway page for the free companion
 // digital rental tracker, same funnel pattern as LeiaColoringBook.astro.
@@ -53,12 +55,17 @@ const REACH_FORM_URL = REACH_FORMS.rentalLog;
   <meta property="og:description" content={PAGE_DESCRIPTION} />
   <meta property="og:type" content="website" />
   <meta property="og:url" content={CANONICAL_URL} />
+  <!-- Brand type: Merriweather headings, Inter body — same as the site. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet"
+  />
 </head>
 <body>
   <div class="wrap">
-    <div class="logo-row">
-      <img src="/rental-management-log/logo.png" alt="LogicManse">
-    </div>
+    <QrLogo />
 
     <p class="eyebrow">You've got the book — here's the companion</p>
     <h1>Your Free Digital Rental Tracker</h1>
@@ -104,148 +111,9 @@ const REACH_FORM_URL = REACH_FORMS.rentalLog;
   </div>
 
   <style>
-    :root {
-      --forest: #1F3B36;
-      --bone: #F4F1E6;
-      --brass: #B08D4F;
-      --teal: #2B5D63;
-      --text: #333333;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      color: var(--text);
-      background: linear-gradient(180deg, var(--bone) 0%, #ffffff 380px);
-    }
-    .wrap { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
-    .logo-row { display: flex; align-items: center; justify-content: center; margin-bottom: 36px; }
-    .logo-row img { height: 44px; }
-    h1 {
-      text-align: center;
-      font-size: 2.2rem;
-      line-height: 1.2;
-      color: var(--forest);
-      margin: 0 0 10px;
-    }
-    .sub {
-      text-align: center;
-      font-size: 1.15rem;
-      font-style: italic;
-      color: #666;
-      margin: 0 0 36px;
-    }
-    .card {
-      background: #fff;
-      border: 2px solid var(--teal);
-      border-radius: 22px;
-      padding: 32px 28px;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.06);
-      margin-bottom: 36px;
-    }
-    .card h2 {
-      margin-top: 0;
-      font-size: 1.3rem;
-      color: #333;
-    }
-    ul.features {
-      list-style: none;
-      padding: 0;
-      margin: 20px 0 30px;
-    }
-    ul.features li {
-      padding: 10px 0 10px 34px;
-      position: relative;
-      font-size: 1.02rem;
-      border-bottom: 1px solid #f2f2f2;
-    }
-    ul.features li:last-child { border-bottom: none; }
-    ul.features li::before {
-      content: "\2022";
-      color: var(--brass);
-      font-weight: 700;
-      position: absolute;
-      left: 12px;
-      top: 9px;
-      font-size: 1.3rem;
-      line-height: 1;
-    }
-    .cta {
-      display: block;
-      text-align: center;
-      background: var(--forest);
-      color: #fff !important;
-      font-weight: 700;
-      font-size: 1.15rem;
-      text-decoration: none;
-      padding: 18px 24px;
-      border-radius: 10px;
-      margin: 10px 0 8px;
-      transition: transform 0.1s ease, background 0.15s ease;
-    }
-    .cta:hover { background: var(--teal); transform: translateY(-1px); }
-    .fineprint {
-      text-align: center;
-      font-size: 0.85rem;
-      color: #999;
-      margin: 0;
-    }
-    .eyebrow {
-      text-align: center;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--brass);
-      margin: 0 0 10px;
-    }
-    .hint {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #888;
-      margin: 26px 0 0;
-    }
-    .hint a { color: var(--teal); font-weight: 600; }
-    /* Gallery: same true-aspect-ratio approach as the Leia page (a
-       portrait cover shot and a landscape interior spread have very
-       different native shapes — force-cropping both into one box hides
-       content rather than showcasing it). */
-    .gallery {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-      margin-bottom: 10px;
-    }
-    .gallery figure {
-      margin: 0;
-      height: 240px;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.10);
-    }
+    /* Page-specific only — the brand look is in src/styles/qr-brand.css. */
     .gallery figure.ph-portrait { aspect-ratio: 1082 / 1400; }
     .gallery figure.ph-square { aspect-ratio: 1 / 1; }
-    .gallery img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    @media (max-width: 480px) {
-      .gallery { gap: 10px; }
-      .gallery figure { height: 190px; }
-    }
-    footer {
-      text-align: center;
-      margin-top: 50px;
-      padding-top: 26px;
-      border-top: 1px solid #eee;
-      font-size: 0.9rem;
-      color: #777;
-    }
-    footer a { color: var(--teal); text-decoration: none; font-weight: 600; }
   </style>
 </body>
 </html>

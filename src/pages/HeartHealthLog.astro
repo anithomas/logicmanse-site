@@ -1,5 +1,6 @@
 ---
 import { REACH_FORMS } from '../data/site';
+import QrLogo from '../components/QrLogo.astro';
 // Dedicated landing page for "The Complete Heart Health Log Book"
 // (LogicManse Publications, Book Blueprint No. 02).
 //
@@ -17,19 +18,13 @@ import { REACH_FORMS } from '../data/site';
 // buyer scanning that code before this page exists lands nowhere, so
 // this page must be live before the paperback goes on sale.
 //
-// Palette and typography are taken from the book's own design, which is
-// a third distinct visual register — Leia is a children's book, the
-// rental log is a business tool, this is a medical record. Colours are
-// sampled from the shipping cover, Heart_Health_Log_Book_COVER.pdf
-// (NOT the stale ...COVER.png sitting beside it, which is an earlier
-// render): warm cream ground #F7F0E3, sand panel #EFE2CC, a single clay
-// accent #C1624F, ink #3A2F2A. That is exactly the discipline written
-// down in DESIGN_PHILOSOPHY_Quiet_Accumulation.md — one warm ground,
-// three neutrals, one accent, "no blues, no clinical whites, nothing
-// that could be mistaken for a warning". The four typefaces are the
-// cover's own too: Young Serif for the hero word, Big Shoulders for
-// the secondary title, Crimson Pro for the emotional lines, IBM Plex
-// Mono for the systematic markers.
+// Palette and typography are the SITE'S brand, not the cover's: navy ink,
+// forest-green accent, light slate ground, Merriweather headings and Inter
+// body. (Changed 2026-09-26: the page had used the cover's warm cream and
+// clay with four cover typefaces; the standing rule is that the brand is
+// followed everywhere — see tailwind.config.mjs.) What still comes from
+// the book is the lattice illustration: 52 x 7 = 364 marks, one year of
+// days, drawn in brand colours.
 //
 // Self-contained (its own <head>/<body>, not BaseLayout/Header/Footer),
 // same reasoning as the two sibling book pages.
@@ -146,21 +141,17 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
   <meta property="og:url" content={CANONICAL_URL} />
   <meta property="og:image" content="/heart-health-log/cover-front.jpg" />
 
-  <!-- The cover's own four typefaces: Young Serif for the hero word,
-       Big Shoulders for the secondary title, Crimson Pro for the
-       emotional lines, IBM Plex Mono for the systematic markers. -->
+  <!-- Brand type: Merriweather headings, Inter body — same as the site. -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Big+Shoulders+Display:wght@700&family=Crimson+Pro:ital,wght@0,400;0,600;1,400&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
     rel="stylesheet"
   />
 </head>
 <body>
   <div class="wrap">
-    <div class="logo-row">
-      <img src="/heart-health-log/logo.png" alt="LogicManse">
-    </div>
+    <QrLogo />
 
     <!-- The physical front cover, re-drawn: the same title lockup, the
          same strapline, the same field of 364 marks. Someone who scanned
@@ -313,35 +304,37 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
   </div>
 
   <style>
-    /* One warm ground, three neutrals, one accent — sampled straight off
-       Heart_Health_Log_Book_COVER.pdf, and the exact discipline set out
-       in DESIGN_PHILOSOPHY_Quiet_Accumulation.md. Do not add a second
-       accent colour here; the clay carries all the heat on purpose. */
+    /* BRAND FIRST. The page uses the site's own colours and type — navy
+       ink, forest-green accent, light slate ground, Merriweather headings
+       and Inter body (see tailwind.config.mjs: forest is the only digital
+       accent). The cover's own warm palette and four typefaces are NOT
+       used here. The lattice illustration below is still the cover's idea
+       — 52 x 7 = 364 marks, one year of days — just drawn in brand colours.
+       (Variable names kept from the original so the rules below still read.) */
     :root {
-      --ground: #F7F0E3;     /* cover ground */
-      --sand: #EFE2CC;       /* cover's quote/feature panel */
-      --lattice: #D8C3A0;    /* the 364-mark lattice, used for hairlines */
-      --ink: #3A2F2A;        /* cover title ink */
-      --soft-ink: #7A6A60;
-      --faint: #A8998C;
-      --clay: #C1624F;       /* the single accent */
+      --ground: #F8FAFC;     /* light slate ground */
+      --sand: #F1F5F9;      /* panel background */
+      --lattice: #CBD5E1;    /* the 364-mark lattice, and hairlines */
+      --ink: #0B1F3A;        /* brand navy */
+      --soft-ink: #475569;
+      --faint: #64748B;
+      --accent: #1F6F4A;     /* brand forest green — the single accent */
     }
     * { box-sizing: border-box; }
     body {
       margin: 0;
-      font-family: "Crimson Pro", Georgia, "Times New Roman", serif;
-      font-size: 18px;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+      font-size: 17px;
+      -webkit-font-smoothing: antialiased;
       color: var(--ink);
       background: var(--ground);
     }
     .wrap { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
-    .logo-row { display: flex; align-items: center; justify-content: center; margin-bottom: 36px; }
-    .logo-row img { height: 44px; }
 
-    /* IBM Plex Mono at small sizes with wide letterspacing is the book's
-       "specimen label" voice — used only for markers, never body copy. */
+    /* Small, widely spaced uppercase Inter is the "specimen label" voice —
+       used only for markers, never body copy. */
     .eyebrow {
-      font-family: "IBM Plex Mono", ui-monospace, "Courier New", monospace;
+      font-family: Inter, system-ui, sans-serif;
       font-size: 0.72rem;
       letter-spacing: 0.22em;
       text-transform: uppercase;
@@ -358,7 +351,7 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
     .cover-title { margin: 0; font-weight: normal; }
     .cover-title span { display: block; }
     .cover-the {
-      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-family: Inter, system-ui, sans-serif;
       font-size: 0.7rem;
       letter-spacing: 0.4em;
       text-indent: 0.4em;         /* balance the trailing letterspace */
@@ -367,17 +360,18 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
       margin-bottom: 6px;
     }
     .cover-hero {
-      font-family: "Young Serif", Georgia, serif;
-      font-size: clamp(3.6rem, 13vw, 6.6rem);
+      font-family: Merriweather, Georgia, serif;
+      font-weight: 900;
+      font-size: clamp(3rem, 11vw, 5.4rem);
       line-height: 0.92;
       letter-spacing: 0.02em;
       text-transform: uppercase;
       color: var(--ink);
     }
     .cover-rest {
-      font-family: "Big Shoulders Display", "Arial Narrow", sans-serif;
-      font-weight: 700;
-      font-size: clamp(1.9rem, 6.4vw, 3.1rem);
+      font-family: Inter, system-ui, sans-serif;
+      font-weight: 800;
+      font-size: clamp(1.5rem, 5.4vw, 2.5rem);
       line-height: 1;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -397,10 +391,10 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
 
     .field { display: block; width: 100%; height: auto; margin: 26px 0 4px; overflow: visible; }
     .mark { fill: var(--lattice); }
-    .mark-moved { fill: var(--clay); }
-    .trace { stroke: var(--clay); stroke-width: 2.6; stroke-linejoin: round; }
+    .mark-moved { fill: var(--accent); }
+    .trace { stroke: var(--accent); stroke-width: 2.6; stroke-linejoin: round; }
     .field-day, .field-week, .field-caption {
-      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-family: Inter, system-ui, sans-serif;
       fill: var(--faint);
     }
     .field-day { font-size: 11px; letter-spacing: 0.1em; }
@@ -416,7 +410,7 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
       margin: 22px auto 14px;
     }
     .cover-specs {
-      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-family: Inter, system-ui, sans-serif;
       font-size: 0.7rem;
       letter-spacing: 0.18em;
       text-transform: uppercase;
@@ -429,20 +423,20 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
     .card {
       background: #fff;
       border: 1px solid var(--lattice);
-      border-top: 4px solid var(--clay);
+      border-top: 4px solid var(--accent);
       border-radius: 10px;
       padding: 32px 30px;
-      box-shadow: 0 6px 24px rgba(58, 47, 42, 0.07);
+      box-shadow: 0 6px 24px rgba(11, 31, 58, 0.07);
       margin-bottom: 40px;
     }
-    .card h2 { margin: 0; font-size: 1.35rem; font-weight: 600; color: var(--ink); }
+    .card h2 { margin: 0; font-family: Merriweather, Georgia, serif; font-size: 1.25rem; font-weight: 700; color: var(--ink); }
 
     ul.features { list-style: none; padding: 0; margin: 20px 0 30px; }
     ul.features li {
       padding: 11px 0 11px 26px;
       position: relative;
       line-height: 1.5;
-      border-bottom: 1px solid rgba(216, 195, 160, 0.45);
+      border-bottom: 1px solid rgba(203, 213, 225, 0.5);
     }
     ul.features li:last-child { border-bottom: none; }
     ul.features li::before {
@@ -453,15 +447,15 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: var(--clay);
+      background: var(--accent);
     }
 
     .cta {
       display: block;
       text-align: center;
-      background: var(--ink);
-      color: var(--ground) !important;
-      font-weight: 600;
+      background: var(--accent);
+      color: #fff !important;
+      font-weight: 700;
       font-size: 1.15rem;
       text-decoration: none;
       padding: 18px 24px;
@@ -469,24 +463,24 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
       margin: 10px 0 8px;
       transition: transform 0.1s ease, background 0.15s ease;
     }
-    .cta:hover { background: var(--clay); transform: translateY(-1px); }
+    .cta:hover { background: #2c8a5d; transform: translateY(-1px); }
     .fineprint { text-align: center; font-size: 0.9rem; color: var(--faint); margin: 0; }
 
     /* Shown until REACH_FORM_URL is filled in — see the note at the top. */
     .pending {
       background: var(--ground);
-      border-left: 3px solid var(--clay);
+      border-left: 3px solid var(--accent);
       padding: 18px 20px;
       border-radius: 4px;
     }
     .pending p { margin: 0 0 8px; line-height: 1.55; }
     .pending p:last-child { margin-bottom: 0; }
-    .pending a { color: var(--clay); }
+    .pending a { color: var(--accent); }
 
     .origin {
       margin: 0 0 40px;
       padding: 0 0 0 22px;
-      border-left: 3px solid var(--clay);
+      border-left: 3px solid var(--accent);
     }
     .origin p {
       font-style: italic;
@@ -501,7 +495,7 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
       color: var(--soft-ink);
     }
     .origin cite {
-      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-family: Inter, system-ui, sans-serif;
       font-style: normal;
       font-size: 0.75rem;
       letter-spacing: 0.14em;
@@ -510,8 +504,9 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
 
     .book { margin-bottom: 40px; }
     .book h2 {
-      font-size: 1.9rem;
-      font-weight: 600;
+      font-family: Merriweather, Georgia, serif;
+      font-size: 1.7rem;
+      font-weight: 700;
       color: var(--ink);
       margin: 0 0 6px;
     }
@@ -520,7 +515,7 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
       display: block;
       width: 62px;
       height: 3px;
-      background: var(--clay);
+      background: var(--accent);
       margin-top: 10px;
     }
     ul.inside { margin-top: 18px; }
@@ -542,7 +537,7 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
       height: 300px;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 4px 16px rgba(58, 47, 42, 0.16);
+      box-shadow: 0 4px 16px rgba(11, 31, 58, 0.16);
     }
     .gallery figure.ph-portrait { aspect-ratio: 1082 / 1400; }
     .gallery figure.ph-square { aspect-ratio: 1 / 1; }
@@ -550,14 +545,14 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
 
     .panel {
       background: var(--sand);
-      border-left: 4px solid var(--clay);
+      border-left: 4px solid var(--accent);
       padding: 24px 26px;
       border-radius: 3px;
       margin-bottom: 34px;
     }
     .panel p { margin: 0; line-height: 1.55; color: var(--ink); }
     .panel-title {
-      font-family: "IBM Plex Mono", ui-monospace, monospace;
+      font-family: Inter, system-ui, sans-serif;
       font-size: 0.72rem !important;
       letter-spacing: 0.2em;
       text-transform: uppercase;
@@ -573,7 +568,7 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
       padding-top: 26px;
       border-top: 1px solid var(--lattice);
     }
-    .hint a { color: var(--clay); font-weight: 600; text-decoration: none; }
+    .hint a { color: var(--accent); font-weight: 600; text-decoration: none; }
     .hint a:hover { text-decoration: underline; }
 
     .disclaimer {
@@ -603,7 +598,7 @@ const WEEK_TICKS = [1, 13, 26, 39, 52];
       font-size: 0.9rem;
       color: var(--soft-ink);
     }
-    footer a { color: var(--clay); text-decoration: none; font-weight: 600; }
+    footer a { color: var(--accent); text-decoration: none; font-weight: 600; }
   </style>
 </body>
 </html>

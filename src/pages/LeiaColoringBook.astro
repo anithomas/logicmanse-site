@@ -1,5 +1,7 @@
 ---
 import { REACH_FORMS } from '../data/site';
+import QrLogo from '../components/QrLogo.astro';
+import '../styles/qr-brand.css';
 // Dedicated landing page for the "Super Leia to the Rescue!" coloring &
 // activity book (LogicManse Publishing) — a lead-magnet giveaway page for
 // people who scan the QR code on the book's back cover.
@@ -42,13 +44,17 @@ const REACH_FORM_URL = REACH_FORMS.leia;
   <meta property="og:type" content="website" />
   <meta property="og:url" content={CANONICAL_URL} />
   <meta property="og:image" content="/leia-coloring-book/backyard-illustration.jpg" />
+  <!-- Brand type: Merriweather headings, Inter body — same as the site. -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Inter:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400&display=swap"
+    rel="stylesheet"
+  />
 </head>
 <body>
   <div class="wrap">
-    <div class="logo-row">
-      <img class="logo-badge" src="/leia-coloring-book/badge-coloring-activity.png" alt="Coloring & Activity Books">
-      <img class="logo-main" src="/leia-coloring-book/logo.png" alt="LogicManse">
-    </div>
+    <QrLogo />
 
     <p class="eyebrow">You've got the book — here's the bonus</p>
     <h1>Leia's Free Bonus Color Pack</h1>
@@ -86,148 +92,10 @@ const REACH_FORM_URL = REACH_FORMS.leia;
   </div>
 
   <style>
-    :root {
-      --pink: #e67896;
-      --pink-light: #fae1e8;
-      --green: #1f6f4a;
-      --black: #000000;
-      --text: #333333;
-    }
-    * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
-      color: var(--text);
-      background: linear-gradient(180deg, var(--pink-light) 0%, #ffffff 380px);
-    }
-    .wrap { max-width: 720px; margin: 0 auto; padding: 40px 24px 80px; }
-    .logo-row { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin-bottom: 36px; flex-wrap: wrap; }
-    .logo-row img { display: block; width: auto; }
-    .logo-row .logo-badge { height: 52px; }
-    .logo-row .logo-main { height: 48px; }
-    h1 {
-      text-align: center;
-      font-size: 2.2rem;
-      line-height: 1.2;
-      color: #c8325a;
-      margin: 0 0 10px;
-    }
-    .sub {
-      text-align: center;
-      font-size: 1.15rem;
-      font-style: italic;
-      color: #666;
-      margin: 0 0 36px;
-    }
-    .card {
-      background: #fff;
-      border: 2px solid var(--pink);
-      border-radius: 22px;
-      padding: 32px 28px;
-      box-shadow: 0 6px 24px rgba(0,0,0,0.06);
-      margin-bottom: 36px;
-    }
-    /* Gallery: the poster (tall/portrait) and the backyard illustration
-       (wide/landscape) have very different native shapes. Rather than
-       forcing both into one aspect-ratio box (which crops the landscape
-       image down to a sliver), each figure keeps its own true aspect
-       ratio and they're aligned by a shared height instead — like two
-       different-shaped photos laid side by side, not a rigid grid. */
-    .gallery {
-      display: flex;
-      align-items: flex-start;
-      justify-content: center;
-      gap: 16px;
-      flex-wrap: wrap;
-    }
-    .gallery figure {
-      margin: 0;
-      height: 240px;
-      border-radius: 14px;
-      overflow: hidden;
-      box-shadow: 0 4px 14px rgba(0,0,0,0.10);
-      background: #f2f2f2;
-    }
+    /* Page-specific only — the brand look is in src/styles/qr-brand.css. */
     .gallery figure.ph-portrait { aspect-ratio: 700 / 1244; }
     .gallery figure.ph-landscape { aspect-ratio: 1000 / 563; }
-    .gallery img {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-      display: block;
-    }
-    @media (max-width: 480px) {
-      .gallery { gap: 10px; }
-      .gallery figure { height: 150px; }
-    }
-    .card h2 {
-      margin-top: 0;
-      font-size: 1.3rem;
-      color: #333;
-    }
-    ul.features {
-      list-style: none;
-      padding: 0;
-      margin: 20px 0 30px;
-    }
-    ul.features li {
-      padding: 10px 0 10px 34px;
-      position: relative;
-      font-size: 1.02rem;
-      border-bottom: 1px solid #f2f2f2;
-    }
-    ul.features li:last-child { border-bottom: none; }
-    ul.features li::before {
-      content: "🐾";
-      position: absolute;
-      left: 0;
-      top: 9px;
-    }
-    .cta {
-      display: block;
-      text-align: center;
-      background: var(--pink);
-      color: #fff !important;
-      font-weight: 700;
-      font-size: 1.15rem;
-      text-decoration: none;
-      padding: 18px 24px;
-      border-radius: 14px;
-      margin: 10px 0 8px;
-      transition: transform 0.1s ease, background 0.15s ease;
-    }
-    .cta:hover { background: #d85f80; transform: translateY(-1px); }
-    .fineprint {
-      text-align: center;
-      font-size: 0.85rem;
-      color: #999;
-      margin: 0;
-    }
-    .eyebrow {
-      text-align: center;
-      font-size: 0.78rem;
-      font-weight: 700;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--green);
-      margin: 0 0 10px;
-    }
-    .hint {
-      text-align: center;
-      font-size: 0.9rem;
-      color: #888;
-      margin: 26px 0 0;
-    }
-    .hint a { color: var(--green); font-weight: 600; }
-    footer {
-      text-align: center;
-      margin-top: 50px;
-      padding-top: 26px;
-      border-top: 1px solid #eee;
-      font-size: 0.9rem;
-      color: #777;
-    }
-    footer a { color: var(--green); text-decoration: none; font-weight: 600; }
+    @media (max-width: 480px) { .gallery figure { height: 150px; } }
   </style>
 </body>
 </html>
