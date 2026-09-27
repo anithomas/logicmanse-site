@@ -1,0 +1,12 @@
+---
+// Product page for this title — see src/data/books.ts for the two-page
+// split (this sells; the printed QR URL is a different kind of page for
+// this title — see the note on qrHref in books.ts).
+// All content comes from BOOKS; the layout does the rest.
+import BookProductLayout from '../../layouts/BookProductLayout.astro';
+import { bookBySlug } from '../../data/books';
+
+const book = bookBySlug('family-table-favorites-vol1');
+---
+
+<BookProductLayout book={book} />

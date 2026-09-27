@@ -62,12 +62,14 @@ const reviewLinks = (
         <p class="text-lg text-white/80 leading-relaxed mb-4">{book.tagline}</p>
         <p class="text-xs uppercase tracking-widest text-white/50 mb-8">{book.specs}</p>
 
-        <BuyButtons bookKey={book.key} />
+        <BuyButtons bookKey={book.key} amazonLabel={book.amazonFormatLabel} />
 
-        <p class="text-sm text-white/60 mt-5 leading-relaxed">
-          Every copy includes <strong class="text-white/90">{book.companion.name}</strong>, free —
-          {book.companion.blurb} The book tells you where to get it.
-        </p>
+        {book.companion && (
+          <p class="text-sm text-white/60 mt-5 leading-relaxed">
+            Every copy includes <strong class="text-white/90">{book.companion.name}</strong>, free —
+            {book.companion.blurb} The book tells you where to get it.
+          </p>
+        )}
       </div>
 
       <div class="fade-in-up order-1 md:order-2 flex justify-center">
@@ -195,16 +197,24 @@ const reviewLinks = (
       <p class="fade-in-up text-slate-600 mb-8">
         {book.unreleased
           ? 'This book is still being finished. Both stores will be linked here the day it goes on sale.'
-          : 'Print it at home today, or have the paperback delivered. Same book either way.'}
+          : etsy
+            ? 'Print it at home today, or have the paperback delivered. Same book either way.'
+            : 'Have it delivered today. A print-at-home digital edition is on the way.'}
       </p>
       <div class="fade-in-up max-w-xl mx-auto text-left">
-        <BuyButtons bookKey={book.key} />
+        <BuyButtons bookKey={book.key} amazonLabel={book.amazonFormatLabel} />
       </div>
 
       <p class="fade-in-up text-sm text-slate-500 mt-8">
-        Already own it? <a href={book.qrHref} class="text-forest font-semibold hover:underline"
-          >Claim your free {book.companion.name} &rarr;</a
-        >
+        {book.companion ? (
+          <>Already own it? <a href={book.qrHref} class="text-forest font-semibold hover:underline"
+            >Claim your free {book.companion.name} &rarr;</a
+          ></>
+        ) : (
+          <>Already own it? <a href={book.qrHref} class="text-forest font-semibold hover:underline"
+            >More from our kitchen &rarr;</a
+          ></>
+        )}
       </p>
 
       {reviewLinks.length > 0 && (
@@ -251,6 +261,7 @@ const reviewLinks = (
   .theme-forest { --t-accent: #2b5d63; --t-tint: #f3f1e6; --t-line: #cfdcd9; }
   .theme-clay   { --t-accent: #c1624f; --t-tint: #f9f2e7; --t-line: #e6d2b5; }
   .theme-earth  { --t-accent: #c2624f; --t-tint: #f8f0e1; --t-line: #e3d2b6; }
+  .theme-spice  { --t-accent: #8a301f; --t-tint: #faf3e9; --t-line: #e6d5b8; }
 
   .themed .bg-slate-50 { background: var(--t-tint); }
   .themed .border-forest { border-color: var(--t-accent); }

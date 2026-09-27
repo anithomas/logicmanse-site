@@ -1,0 +1,111 @@
+---
+// Printed-URL page for "Family Table Favorites, Volume One".
+//
+// UNLIKE the other three titles' printed-QR pages (Leia, Rental, Heart
+// Health), this book's back cover does NOT promise a free bonus there —
+// it prints "SCAN OR VISIT www.logicmanse.ca/familytablefavorites-vol1 /
+// More from our kitchen, and news on Volumes Two and Three." (see the
+// cover file, FTF_Vol1_KDP_Cover_8.5x11_StandardColor_158pp.pdf, and
+// FTF_Vol1_KDP_Publishing_Kit.md §4's pre-publish checklist). So this page
+// is a welcome/hub page for someone holding the book, not a giveaway page:
+// where to get every format, a review ask, and what's coming next. When a
+// digital companion exists for this title, add a #companion section here
+// the same way the other three do — see companionOffer in books.ts.
+//
+// WHY THIS URL EXACTLY: it's printed on the back cover next to a QR code
+// and must never change. The filename is lowercase on purpose (site rule:
+// new logicmanse.ca URLs are always lowercase).
+//
+// Brand-first (see the standing rule): built from the shared qr-brand.css
+// + QrLogo used by the Leia and Rental pages — navy/forest/Merriweather/
+// Inter — not a recolour to the book's own spice palette.
+//
+// Route: this file's name controls the URL, so it lives at
+// https://www.logicmanse.ca/familytablefavorites-vol1/
+// public/familytablefavorites-vol1.html is a static redirect stub so the
+// exact printed URL (no trailing slash) resolves here too.
+import QrLogo from '../components/QrLogo.astro';
+import '../styles/qr-brand.css';
+import { BOOK_LINKS } from '../data/site';
+
+const PAGE_TITLE = 'Family Table Favorites | LogicManse Publications';
+const PAGE_DESCRIPTION =
+  'You’ve got the book — here’s where to find every format, and what’s coming next from Family Table Favorites.';
+const CANONICAL_URL = 'https://www.logicmanse.ca/familytablefavorites-vol1/';
+
+const { amazon } = BOOK_LINKS.familyTableFavorites;
+const amazonHref = amazon.com || amazon.ca;
+---
+
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  <title>{PAGE_TITLE}</title>
+  <meta name="description" content={PAGE_DESCRIPTION} />
+  <link rel="canonical" href={CANONICAL_URL} />
+  <meta property="og:title" content={PAGE_TITLE} />
+  <meta property="og:description" content={PAGE_DESCRIPTION} />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content={CANONICAL_URL} />
+  <meta property="og:image" content="https://www.logicmanse.ca/family-table-favorites/cover-front.jpg" />
+</head>
+<body>
+  <div class="wrap">
+    <QrLogo />
+
+    <p class="eyebrow">Thanks for cooking with us</p>
+    <h1>More From Our Kitchen</h1>
+    <p class="sub">
+      You've got <em>Family Table Favorites, Volume One</em> — 72 Kerala classics and
+      East-West family favorites, cooked and passed down at the family table. Here's where
+      to find every format, and what's coming next.
+    </p>
+
+    <div class="card">
+      <h2>Get the book:</h2>
+      <ul class="features">
+        <li>72 heirloom recipes in 15 sections, from breakfast to sweets</li>
+        <li>22 full-page color images, and every recipe illustrated</li>
+        <li>Clear measurements, cook's notes and the story behind each dish</li>
+        <li>Keepsake pages to record your own family's recipes</li>
+      </ul>
+
+      {amazonHref && (
+        <>
+          <a class="cta" href={amazonHref} rel="noopener">See Paperback, Hardcover &amp; Kindle &rarr;</a>
+          <p class="fineprint">All three formats are on the same Amazon page.</p>
+        </>
+      )}
+    </div>
+
+    <p class="hint">
+      Enjoyed these recipes? A short, honest review on Amazon helps other families find
+      their way to the table.
+      {amazonHref && <> <a href={amazonHref} rel="noopener">Leave a review &rarr;</a></>}
+    </p>
+
+    <div class="card">
+      <h2>What's next:</h2>
+      <p style="margin:0 0 10px; line-height:1.55;">
+        Volume One is 72 recipes across 15 sections. Volumes Two and Three continue the
+        collection with new recipes in every section — check back here for the news.
+      </p>
+      <p style="margin:0; line-height:1.55;">
+        A print-at-home digital edition is coming soon on Etsy.
+      </p>
+    </div>
+
+    <p class="hint">
+      <a href="/books/family-table-favorites-vol1/">See the full book page &rarr;</a>
+    </p>
+
+    <footer>
+      Written by @Antz · A LogicManse Publication<br />
+      <a href="/">logicmanse.ca</a>
+    </footer>
+  </div>
+</body>
+</html>

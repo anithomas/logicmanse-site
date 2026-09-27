@@ -23,14 +23,15 @@
 import { REACH_FORMS } from './site';
 
 /** One per title: pink (Leia), forest (rental log), clay (heart health log),
-    earth (renovation book). */
-export type BookTheme = 'pink' | 'forest' | 'clay' | 'earth';
+    earth (renovation book), spice (Family Table Favorites — its own accent
+    #8A301F, straight from that book's own design system, COWORK_HANDOFF §3). */
+export type BookTheme = 'pink' | 'forest' | 'clay' | 'earth' | 'spice';
 
 // Shared by the three Reach-form companions: what the button is followed by.
 const SIGNUP_NOTE = 'Takes 10 seconds. We’ll email you the link right away.';
 
 export interface Book {
-  key: 'leia' | 'rentalLog' | 'heartHealth' | 'renovationLog';
+  key: 'leia' | 'rentalLog' | 'heartHealth' | 'renovationLog' | 'familyTableFavorites';
   /** True until the book is on sale and has a real cover. An unreleased
       title has a product page (so its printed URL and the site are ready)
       but stays off the homepage and the /books/ listing, and is noindex.
@@ -64,8 +65,16 @@ export interface Book {
   videoPoster?: string;
   /** What is actually in the printed book. */
   inside: string[];
-  /** The free bonus every copy comes with, delivered via qrHref. */
-  companion: { name: string; blurb: string };
+  /** The free bonus every copy comes with, delivered via qrHref. Omit for a
+      title with no bonus yet — its product page then skips the "claim your
+      free companion" copy and its qrHref becomes a plain "more from us"
+      link instead (see BookProductLayout.astro). */
+  companion?: { name: string; blurb: string };
+  /** Overrides the Amazon button's default "Paperback · delivered" caption
+      — for a title whose one Amazon link covers more than one format (KDP
+      links paperback/hardcover/Kindle to the same product page once all
+      three are published). */
+  amazonFormatLabel?: string;
   /** The "Claim your free companion" section on the product page, at
       #companion. It is one button with a short write-up around it. For the
       three titles whose QR code goes to a separate page, the button is the
@@ -309,6 +318,52 @@ export const BOOKS: Book[] = [
       quote: 'Organised by property, not by room.',
       body:
         'Homeowner planners ask which colour you picked for the guest room. A landlord asks which contractor quoted the roof at the North Bay unit, and whether that permit was ever closed out. This book is built for the second question.',
+    },
+  },
+  {
+    // Published 2026-09-27 (paperback; the same Amazon listing carries
+    // hardcover and Kindle once KDP finishes linking them — see
+    // amazonFormatLabel below and the note in site.ts). Volume One of a
+    // three-volume series; copy is taken from the KDP listing itself
+    // (FTF_Vol1_KDP_Publishing_Kit.md) so the site and the listing can't
+    // drift apart, same rule as every other title here.
+    key: 'familyTableFavorites',
+    theme: 'spice',
+    slug: 'family-table-favorites-vol1',
+    productHref: '/books/family-table-favorites-vol1/',
+    // The book's own back cover prints this exact URL next to its QR code
+    // (no free bonus promised there — just "more from our kitchen, and
+    // news on Volumes Two and Three"), so unlike the other titles this
+    // isn't a giveaway page. See qrHref's doc comment above and the
+    // fallback it triggers in BookProductLayout.astro.
+    qrHref: '/familytablefavorites-vol1/',
+    category: 'Cookbook',
+    title: 'Family Table Favorites',
+    tagline: 'Handed down, cooked often, written down at last.',
+    description:
+      'Kerala classics and East-West family favorites, cooked in North American kitchens and passed down at the family table — 72 heirloom recipes in 15 sections, from Sunday chicken stew and layered biriyani to baked pasta, banana bread and a caramel pudding that never lasts the night.',
+    specs: '8.5" × 11" · 158 pages · Volume One of Three',
+    cover: '/family-table-favorites/cover-front.jpg',
+    coverAlt: 'Family Table Favorites, Volume One, book cover',
+    interior: '/family-table-favorites/interior-page.jpg',
+    interiorAlt: 'A sample interior page: the Snacks, Starters & Savories section opener',
+    inside: [
+      '72 heirloom recipes in 15 sections, from breakfast to sweets',
+      '22 full-page color images, and every recipe illustrated, so you know what you’re aiming for',
+      'Clear measurements, servings, cook times and numbered steps written for home cooks',
+      'Cook’s notes and tips throughout: what to watch for, what to swap, and how each dish should look and taste',
+      'A glossary of ingredients and a measurements guide',
+      'Keepsake pages to record your own family’s recipes and notes, ready to hand down',
+      'A large 8.5 × 11 in format with easy-to-read type',
+    ],
+    // No free digital companion yet — the owner is building the lead-magnet
+    // funnel next. Leave `companion` unset until one exists; the product
+    // page and the printed-URL page both fall back gracefully.
+    amazonFormatLabel: 'Paperback, hardcover & Kindle',
+    story: {
+      quote: 'The dishes that taste like home, finally written down.',
+      body:
+        '@Antz grew up between fast-paced North American life and the spice-filled kitchens of Kerala, cooking beside the aunties who knew every recipe by heart. For years these recipes lived in memory, measured in pinches and handfuls — now every one has been cooked, checked and clarified for your kitchen.',
     },
   },
 ];

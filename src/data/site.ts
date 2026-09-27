@@ -82,13 +82,31 @@ export interface StoreLinks {
 }
 
 export const BOOK_LINKS: Record<
-  'leia' | 'rentalLog' | 'heartHealth' | 'renovationLog',
+  'leia' | 'rentalLog' | 'heartHealth' | 'renovationLog' | 'familyTableFavorites',
   StoreLinks
 > = {
   renovationLog: {
     // Not on sale yet — blueprint stage. Fill these in the day it lists.
     etsy: '',
     amazon: { com: '', ca: '' },
+  },
+  familyTableFavorites: {
+    // Paperback live 27 Sep 2026 (confirmed via KDP's own "published"
+    // email; ASIN B0HL5WYX45, checked live on both amazon.com and
+    // amazon.ca same day). Hardcover and Kindle were published from the
+    // same KDP draft via "+ Create hardcover" / "+ Create eBook"
+    // (FTF_Vol1_KDP_Publishing_Kit.md §H/§K), which links all three
+    // formats to this ONE product page with a format switcher — Amazon's
+    // own confirmation email says linking can take up to 5 days, so the
+    // switcher may not show all three formats immediately. One link
+    // covers all three; see amazonFormatLabel in books.ts.
+    // Etsy: not yet published — owner is building the digital/lead-magnet
+    // edition next.
+    etsy: '',
+    amazon: {
+      com: 'https://www.amazon.com/dp/B0HL5WYX45',
+      ca: 'https://www.amazon.ca/dp/B0HL5WYX45',
+    },
   },
   leia: {
     // Live 09 Sep 2026. Etsy: CA$7.99 instant-download PDF.

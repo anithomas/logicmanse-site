@@ -23,8 +23,11 @@ import { BOOK_LINKS } from '../data/site';
 
 interface Props {
   bookKey: keyof typeof BOOK_LINKS;
+  /** Overrides the Amazon button's small caption ("Paperback · delivered")
+      — for a title whose one Amazon link covers more than one format. */
+  amazonLabel?: string;
 }
-const { bookKey } = Astro.props;
+const { bookKey, amazonLabel = 'Paperback · delivered' } = Astro.props;
 const { etsy, amazon } = BOOK_LINKS[bookKey];
 
 // Fall back sensibly when a title is on only one of the two stores.
@@ -61,13 +64,13 @@ const amazonSwapTo = amazon.com && amazon.ca ? amazon.ca : '';
       class="flex flex-col gap-1 text-center rounded-lg px-5 py-4 bg-forest hover:bg-forest-light text-white transition-colors duration-150"
     >
       <span class="text-[0.65rem] font-bold uppercase tracking-widest opacity-80">
-        Paperback · delivered
+        {amazonLabel}
       </span>
       <span class="text-lg font-bold leading-tight">Buy on Amazon &rarr;</span>
     </a>
   ) : (
     <span class="flex flex-col gap-1 text-center rounded-lg px-5 py-4 bg-slate-50 border border-dashed border-slate-300 text-slate-400 cursor-default">
-      <span class="text-[0.65rem] font-bold uppercase tracking-widest">Paperback · delivered</span>
+      <span class="text-[0.65rem] font-bold uppercase tracking-widest">{amazonLabel}</span>
       <span class="text-lg font-bold leading-tight">Amazon — coming soon</span>
     </span>
   )}
