@@ -347,6 +347,16 @@ export const BOOKS: Book[] = [
     coverAlt: 'Family Table Favorites, Volume One, book cover',
     interior: '/family-table-favorites/interior-page.jpg',
     interiorAlt: 'A sample interior page: the Snacks, Starters & Savories section opener',
+    // A silent square slideshow, same spec as the other titles' listing
+    // videos (PromoVideo.astro): 1080x1080, five cards, a slow zoom
+    // between them. Built with Remotion from real production files — the
+    // KDP cover PDF (front and back panels) and two full-bleed feature
+    // photos pulled straight from the finished interior PDF (pages 22 and
+    // 70) — not stock or AI-illustrated filler. Source project + render
+    // script: ask before rebuilding, since the source images were cropped
+    // by hand for this specific cut.
+    video: '/family-table-favorites/promo-video.mp4',
+    videoPoster: '/family-table-favorites/video-poster.jpg',
     inside: [
       '72 heirloom recipes in 15 sections, from breakfast to sweets',
       '22 full-page color images, and every recipe illustrated, so you know what you’re aiming for',
