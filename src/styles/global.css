@@ -48,9 +48,12 @@ h1, h2, h3, h4 {
 
    Everything below is opt-in via the "motion" class that BaseLayout
    adds to <html> only when the visitor has NOT asked for reduced
-   motion. Without it the hero is a plain 100vh banner and the
-   featured-books showcase falls back to the ordinary card grid, so
-   the page is complete with JS off or motion reduced.
+   motion. The hero itself (.hero-plain / .hero-shelf) is a plain
+   banner regardless — only its small entrance fade is gated (by the
+   prefers-reduced-motion query near the bottom of this file), not by
+   "motion". Without "motion" the featured-books showcase further down
+   the page falls back to the ordinary card grid, so the page is
+   complete with JS off or motion reduced.
 ------------------------------------------------------------------ */
 :root {
   --header-h: 68px;
@@ -72,187 +75,70 @@ h1, h2, h3, h4 {
   pointer-events: none;
 }
 
-/* ---- Cinematic hero ---------------------------------------------- */
-.hero-scene {
-  --p: 0; /* scroll progress 0..1, written by JS */
+/* ---- Hero: plain navy banner + a fanned spread of every real cover ----
+   Replaces the old full-bleed Leia photo (see the note in index.astro).
+   .hero-plain has no motion of its own — the "rise" word-by-word entrance
+   on the headline and the .hero-shelf fade-in below are the only motion,
+   and both degrade to a static, fully-visible state under reduced motion
+   (see the media query near the bottom of this file). */
+.hero-shelf {
   position: relative;
-  background: #0b1f3a;
+  display: flex;
+  gap: 0.875rem;
+  overflow-x: auto;
+  padding: 0.25rem 0.125rem 0.5rem;
+  opacity: 0;
+  animation: shelf-in 0.8s var(--ease-out) 550ms forwards;
 }
-.hero-stick {
-  position: relative;
-  height: var(--stick-h);
+.hero-shelf-cover {
+  flex: 0 0 auto;
+  width: 84px;
+  aspect-ratio: 1082 / 1400;
+  border-radius: 8px;
   overflow: hidden;
+  box-shadow: 0 10px 22px -8px rgba(0, 0, 0, 0.5);
+  transition: transform 0.25s var(--ease-out);
 }
-.motion .hero-scene {
-  height: calc(var(--stick-h) + 130svh);
-}
-.motion .hero-stick {
-  position: sticky;
-  top: var(--header-h);
-}
-
-.hero-bg {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-}
-.hero-bg img {
-  position: absolute;
-  top: 0;
-  left: 0;
+.hero-shelf-cover img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transform: scale(calc(1.02 + var(--p) * 0.18)) translate3d(0, calc(var(--p) * -3%), 0);
-  will-change: transform;
-}
-/* Phones: the picture owns the top of the frame and fades into the navy
-   below it, so the headline never lands on Leia's face. */
-@media (max-width: 767px) {
-  .hero-bg img {
-    height: 62%;
-    object-position: 56% 50%;
-    transform-origin: 56% 45%;
-    -webkit-mask-image: linear-gradient(180deg, #000 68%, transparent 100%);
-    mask-image: linear-gradient(180deg, #000 68%, transparent 100%);
-  }
-}
-.hero-veil {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(11, 31, 58, 0) 0%,
-    rgba(11, 31, 58, 0.08) 38%,
-    rgba(11, 31, 58, 0.82) 66%,
-    rgba(11, 31, 58, 0.96) 100%
-  );
-}
-.hero-dim {
-  position: absolute;
-  inset: 0;
-  background: #0b1f3a;
-  opacity: calc(var(--p) * 0.4);
-}
-@media (min-width: 768px) {
-  /* Shift the picture right so Leia sits in the open half of the
-     frame and the copy has calm sky/fence behind it. The empty strip
-     this leaves on the left is the same navy as the veil. */
-  .hero-bg img {
-    left: 20%;
-    height: 100%;
-    object-position: 50% 50%;
-    transform-origin: 52% 55%;
-    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 26%);
-    mask-image: linear-gradient(90deg, transparent 0, #000 26%);
-  }
-  .hero-veil {
-    background: linear-gradient(
-      90deg,
-      rgba(11, 31, 58, 0.8) 0%,
-      rgba(11, 31, 58, 0.5) 36%,
-      rgba(11, 31, 58, 0.06) 70%,
-      rgba(11, 31, 58, 0) 100%
-    );
-  }
-}
-
-.hero-copy {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: flex-end;
-  padding-bottom: 3.5rem;
-}
-@media (min-width: 768px) {
-  .hero-copy {
-    align-items: center;
-    padding-bottom: 0;
-  }
-}
-/* The copy hugs the left edge of the screen (not the centred page
-   column) so it stays clear of Leia however wide the window is. */
-.hero-gutter {
-  padding-inline: 1.5rem;
-}
-.hero-beats {
-  display: grid;
-  max-width: 34rem;
-}
-@media (min-width: 768px) {
-  .hero-gutter {
-    padding-inline: clamp(1.5rem, 4vw, 4rem);
-  }
-  .hero-beats {
-    max-width: min(31rem, 44vw);
-  }
-}
-.hero-beats > .beat {
-  grid-area: 1 / 1;
-  align-self: center;
-}
-.beat {
-  /* Frosted rounded panel so the copy reads cleanly over the illustration. */
-  padding: 1.5rem;
-  border-radius: 1.25rem;
-  background: rgba(11, 31, 58, 0.58);
-  border: 1px solid rgba(255, 255, 255, 0.18);
-  box-shadow: 0 24px 48px -20px rgba(0, 0, 0, 0.45);
-  -webkit-backdrop-filter: blur(10px);
-  backdrop-filter: blur(10px);
-  transition: opacity 0.6s ease, transform 0.7s var(--ease-out), visibility 0.6s;
-}
-@media (min-width: 768px) {
-  .beat {
-    padding: 1.75rem;
-    border-radius: 1.5rem;
-  }
-}
-@media (min-width: 1100px) {
-  .beat {
-    padding: 2.5rem;
-  }
-}
-.beat-2 {
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(28px);
-}
-.hero-scene[data-beat='2'] .beat-1 {
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-28px);
-}
-.hero-scene[data-beat='2'] .beat-2 {
-  opacity: 1;
-  visibility: visible;
-  transform: none;
-}
-
-.hero-cue {
-  position: absolute;
-  left: 50%;
-  bottom: 1.25rem;
-  transform: translateX(-50%);
-  opacity: calc(1 - var(--p) * 8);
-  pointer-events: none;
-  display: none;
-}
-.motion .hero-cue {
-  display: flex;
-}
-.hero-cue span {
   display: block;
-  width: 1px;
-  height: 34px;
-  background: linear-gradient(#fff, transparent);
-  animation: cue 1.8s ease-in-out infinite;
 }
-@keyframes cue {
-  0% { transform: scaleY(0); transform-origin: top; }
-  50% { transform: scaleY(1); transform-origin: top; }
-  51% { transform: scaleY(1); transform-origin: bottom; }
-  100% { transform: scaleY(0); transform-origin: bottom; }
+.hero-shelf-cover:hover,
+.hero-shelf-cover:focus-visible {
+  transform: translateY(-6px);
+}
+@media (min-width: 768px) {
+  /* A gentle fan, centred, each cover rotated a few degrees off its
+     neighbours and stacked so the most recent title sits on top —
+     the "hand of cards" look, sized purely from --n so it keeps working
+     as titles are added or removed. */
+  .hero-shelf {
+    position: relative;
+    display: block;
+    overflow: visible;
+    height: 22rem;
+    padding: 0;
+  }
+  .hero-shelf-cover {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(13rem, 30vw);
+    z-index: calc(var(--i) + 1);
+    --offset: calc(var(--i) - (var(--n) - 1) / 2);
+    transform: translate(-50%, -50%) translateX(calc(var(--offset) * 34%)) rotate(calc(var(--offset) * 6deg));
+  }
+  .hero-shelf-cover:hover,
+  .hero-shelf-cover:focus-visible {
+    transform: translate(-50%, -50%) translateX(calc(var(--offset) * 34%)) translateY(-0.875rem) rotate(0deg) scale(1.05);
+    z-index: 20;
+  }
+}
+@keyframes shelf-in {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
 }
 
 /* Load-in: headline words and supporting lines rise one after another. */
@@ -361,7 +247,8 @@ h1, h2, h3, h4 {
     transform: none;
     animation: none;
   }
-  .hero-cue span {
+  .hero-shelf {
+    opacity: 1;
     animation: none;
   }
 }
