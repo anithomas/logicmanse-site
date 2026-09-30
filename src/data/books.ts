@@ -154,6 +154,97 @@ export const BOOKS: Book[] = [
     },
   },
   {
+    // Published 2026-09-27 (paperback, hardcover and Kindle all confirmed
+    // live via KDP's own e-mails that day, each its own ASIN/page — see
+    // `editions` below) and 2026-09-30 (Etsy digital PDF). Volume One of a
+    // three-volume series; copy is taken from the KDP listing itself
+    // (FTF_Vol1_KDP_Publishing_Kit.md) so the site and the listing can't
+    // drift apart, same rule as every other title here.
+    key: 'familyTableFavorites',
+    theme: 'spice',
+    slug: 'family-table-favorites-vol1',
+    productHref: '/books/family-table-favorites-vol1/',
+    // The book's own back cover prints this exact URL next to its QR code
+    // (no free bonus promised there — just "more from our kitchen, and
+    // news on Volumes Two and Three"), so unlike the other titles this
+    // isn't a giveaway page. See qrHref's doc comment above and the
+    // fallback it triggers in BookProductLayout.astro.
+    qrHref: '/familytablefavorites-vol1/',
+    category: 'Cookbook',
+    title: 'Family Table Favorites',
+    tagline: 'Handed down, cooked often, written down at last.',
+    description:
+      'Kerala classics and East-West family favorites, cooked in North American kitchens and passed down at the family table — 72 heirloom recipes in 15 sections, from Sunday chicken stew and layered biriyani to baked pasta, banana bread and a caramel pudding that never lasts the night.',
+    specs: '8.5" × 11" · 158 pages · Volume One of Three',
+    cover: '/family-table-favorites/cover-front.jpg',
+    coverAlt: 'Family Table Favorites, Volume One, book cover',
+    interior: '/family-table-favorites/interior-page.jpg',
+    interiorAlt: 'A sample interior page: the Snacks, Starters & Savories section opener',
+    // A silent square slideshow, same spec as the other titles' listing
+    // videos (PromoVideo.astro): 1080x1080, five cards, a slow zoom
+    // between them. Built with Remotion from real production files — the
+    // KDP cover PDF (front and back panels) and two full-bleed feature
+    // photos pulled straight from the finished interior PDF (pages 22 and
+    // 70) — not stock or AI-illustrated filler. Source project + render
+    // script: ask before rebuilding, since the source images were cropped
+    // by hand for this specific cut.
+    video: '/family-table-favorites/promo-video.mp4',
+    videoPoster: '/family-table-favorites/video-poster.jpg',
+    inside: [
+      '72 heirloom recipes in 15 sections, from breakfast to sweets',
+      '22 full-page color images, and every recipe illustrated, so you know what you’re aiming for',
+      'Clear measurements, servings, cook times and numbered steps written for home cooks',
+      'Cook’s notes and tips throughout: what to watch for, what to swap, and how each dish should look and taste',
+      'A glossary of ingredients and a measurements guide',
+      'Keepsake pages to record your own family’s recipes and notes, ready to hand down',
+      'A large 8.5 × 11 in format with easy-to-read type',
+    ],
+    // No free digital companion yet — the owner is building the lead-magnet
+    // funnel next (the Etsy PDF's bundled 8-page keepsake bonus is part of
+    // that paid purchase, not a standalone free giveaway like the other
+    // three titles' QR pages). Leave `companion` unset until one exists;
+    // the product page and the printed-URL page both fall back gracefully.
+    // "Buy on Amazon" defaults to the paperback — the same channel every
+    // other title's Amazon button goes to — with the other two print
+    // formats listed separately below.
+    amazonFormatLabel: 'Paperback',
+    // Every real, live purchase link, exactly as confirmed 2026-09-29 (KDP
+    // "published" e-mails for print/Kindle; the Etsy listing itself for
+    // the PDF — see FTF_Vol1_Etsy_Listing.md). Prices drift; re-check the
+    // live listing before trusting an old figure here.
+    editions: [
+      {
+        label: 'Kindle eBook',
+        format: 'Reflowable ebook · 158 pp',
+        price: 'US$9.99',
+        href: 'https://www.amazon.com/dp/B0HL75YFLS',
+      },
+      {
+        label: 'Paperback',
+        format: '8.5 × 11 in · standard colour · 158 pp',
+        price: 'US$14.99',
+        href: 'https://www.amazon.com/dp/B0HL5WYX45',
+      },
+      {
+        label: 'Hardcover',
+        format: '8.25 × 11 in · premium colour · 158 pp',
+        price: 'US$39.99',
+        href: 'https://www.amazon.com/dp/B0HL74CFY8',
+      },
+      {
+        label: 'Digital PDF',
+        format: 'Instant download · 158 pp + an 8-page keepsake bonus',
+        price: 'CA$9.99',
+        href: 'https://www.etsy.com/ca/listing/4584613661/kerala-cookbook-pdf-dig',
+      },
+    ],
+    story: {
+      quote: 'The dishes that taste like home, finally written down.',
+      body:
+        '@Antz grew up between fast-paced North American life and the spice-filled kitchens of Kerala, cooking beside the aunties who knew every recipe by heart. For years these recipes lived in memory, measured in pinches and handfuls — now every one has been cooked, checked and clarified for your kitchen.',
+    },
+  },
+  {
     key: 'rentalLog',
     slug: 'rental-property-record-book',
     productHref: '/books/rental-property-record-book/',
@@ -325,97 +416,6 @@ export const BOOKS: Book[] = [
       quote: 'Organised by property, not by room.',
       body:
         'Homeowner planners ask which colour you picked for the guest room. A landlord asks which contractor quoted the roof at the North Bay unit, and whether that permit was ever closed out. This book is built for the second question.',
-    },
-  },
-  {
-    // Published 2026-09-27 (paperback, hardcover and Kindle all confirmed
-    // live via KDP's own e-mails that day, each its own ASIN/page — see
-    // `editions` below) and 2026-09-30 (Etsy digital PDF). Volume One of a
-    // three-volume series; copy is taken from the KDP listing itself
-    // (FTF_Vol1_KDP_Publishing_Kit.md) so the site and the listing can't
-    // drift apart, same rule as every other title here.
-    key: 'familyTableFavorites',
-    theme: 'spice',
-    slug: 'family-table-favorites-vol1',
-    productHref: '/books/family-table-favorites-vol1/',
-    // The book's own back cover prints this exact URL next to its QR code
-    // (no free bonus promised there — just "more from our kitchen, and
-    // news on Volumes Two and Three"), so unlike the other titles this
-    // isn't a giveaway page. See qrHref's doc comment above and the
-    // fallback it triggers in BookProductLayout.astro.
-    qrHref: '/familytablefavorites-vol1/',
-    category: 'Cookbook',
-    title: 'Family Table Favorites',
-    tagline: 'Handed down, cooked often, written down at last.',
-    description:
-      'Kerala classics and East-West family favorites, cooked in North American kitchens and passed down at the family table — 72 heirloom recipes in 15 sections, from Sunday chicken stew and layered biriyani to baked pasta, banana bread and a caramel pudding that never lasts the night.',
-    specs: '8.5" × 11" · 158 pages · Volume One of Three',
-    cover: '/family-table-favorites/cover-front.jpg',
-    coverAlt: 'Family Table Favorites, Volume One, book cover',
-    interior: '/family-table-favorites/interior-page.jpg',
-    interiorAlt: 'A sample interior page: the Snacks, Starters & Savories section opener',
-    // A silent square slideshow, same spec as the other titles' listing
-    // videos (PromoVideo.astro): 1080x1080, five cards, a slow zoom
-    // between them. Built with Remotion from real production files — the
-    // KDP cover PDF (front and back panels) and two full-bleed feature
-    // photos pulled straight from the finished interior PDF (pages 22 and
-    // 70) — not stock or AI-illustrated filler. Source project + render
-    // script: ask before rebuilding, since the source images were cropped
-    // by hand for this specific cut.
-    video: '/family-table-favorites/promo-video.mp4',
-    videoPoster: '/family-table-favorites/video-poster.jpg',
-    inside: [
-      '72 heirloom recipes in 15 sections, from breakfast to sweets',
-      '22 full-page color images, and every recipe illustrated, so you know what you’re aiming for',
-      'Clear measurements, servings, cook times and numbered steps written for home cooks',
-      'Cook’s notes and tips throughout: what to watch for, what to swap, and how each dish should look and taste',
-      'A glossary of ingredients and a measurements guide',
-      'Keepsake pages to record your own family’s recipes and notes, ready to hand down',
-      'A large 8.5 × 11 in format with easy-to-read type',
-    ],
-    // No free digital companion yet — the owner is building the lead-magnet
-    // funnel next (the Etsy PDF's bundled 8-page keepsake bonus is part of
-    // that paid purchase, not a standalone free giveaway like the other
-    // three titles' QR pages). Leave `companion` unset until one exists;
-    // the product page and the printed-URL page both fall back gracefully.
-    // "Buy on Amazon" defaults to the paperback — the same channel every
-    // other title's Amazon button goes to — with the other two print
-    // formats listed separately below.
-    amazonFormatLabel: 'Paperback',
-    // Every real, live purchase link, exactly as confirmed 2026-09-29 (KDP
-    // "published" e-mails for print/Kindle; the Etsy listing itself for
-    // the PDF — see FTF_Vol1_Etsy_Listing.md). Prices drift; re-check the
-    // live listing before trusting an old figure here.
-    editions: [
-      {
-        label: 'Kindle eBook',
-        format: 'Reflowable ebook · 158 pp',
-        price: 'US$9.99',
-        href: 'https://www.amazon.com/dp/B0HL75YFLS',
-      },
-      {
-        label: 'Paperback',
-        format: '8.5 × 11 in · standard colour · 158 pp',
-        price: 'US$14.99',
-        href: 'https://www.amazon.com/dp/B0HL5WYX45',
-      },
-      {
-        label: 'Hardcover',
-        format: '8.25 × 11 in · premium colour · 158 pp',
-        price: 'US$39.99',
-        href: 'https://www.amazon.com/dp/B0HL74CFY8',
-      },
-      {
-        label: 'Digital PDF',
-        format: 'Instant download · 158 pp + an 8-page keepsake bonus',
-        price: 'CA$9.99',
-        href: 'https://www.etsy.com/ca/listing/4584613661/kerala-cookbook-pdf-dig',
-      },
-    ],
-    story: {
-      quote: 'The dishes that taste like home, finally written down.',
-      body:
-        '@Antz grew up between fast-paced North American life and the spice-filled kitchens of Kerala, cooking beside the aunties who knew every recipe by heart. For years these recipes lived in memory, measured in pinches and handfuls — now every one has been cooked, checked and clarified for your kitchen.',
     },
   },
 ];

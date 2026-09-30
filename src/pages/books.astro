@@ -17,14 +17,21 @@ import { isForSale } from '../data/site';
 // coloring book, two log books and a cookbook read as scattered rather
 // than "a publisher who makes several kinds of practical books, on
 // purpose" — see the About page's own framing, which this now carries
-// through). CATEGORY_ORDER is the site's fixed shelf order (same as the
-// homepage's "Four Kinds of Books" section); a category with no title on
-// the live SHELF yet is simply skipped, so this never shows an empty
-// section.
+// through). Order within CATEGORY_ORDER is deliberate (owner, same day):
+// coloring and cookbooks lead, log books sit third — log books are
+// comparatively low-content, so they shouldn't be the first thing a new
+// visitor sees this publisher as. Keep this order in sync with
+// CATEGORIES in src/pages/index.astro, the other fixed-order category
+// list on the site. A category with no title on the live SHELF yet is
+// simply skipped, so this never shows an empty section.
 const CATEGORY_ORDER = [
   {
     name: 'Coloring & Activity Book',
     blurb: 'For kids — mazes, word searches and coloring pages built to actually get finished, not just started.',
+  },
+  {
+    name: 'Cookbook',
+    blurb: 'Recipes organized around how you actually cook, not how a magazine lays out a page.',
   },
   {
     name: 'Log Book',
@@ -33,10 +40,6 @@ const CATEGORY_ORDER = [
   {
     name: 'Journal',
     blurb: 'Simple, guided pages that get used past the first week.',
-  },
-  {
-    name: 'Cookbook',
-    blurb: 'Recipes organized around how you actually cook, not how a magazine lays out a page.',
   },
 ] as const;
 

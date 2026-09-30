@@ -6,10 +6,20 @@ import { SITE } from '../data/site';
 import { SHELF } from '../data/books';
 import PromoVideo from '../components/PromoVideo.astro';
 
+// Order is deliberate, not alphabetical or by launch date (owner,
+// 2026-09-30): coloring and cookbooks lead, log books sit third — log
+// books are comparatively low-content, so they shouldn't be the first
+// thing a new visitor sees this publisher as. Keep this order in sync
+// with CATEGORY_ORDER in src/pages/books.astro, the other fixed-order
+// category list on the site.
 const CATEGORIES = [
   {
     name: 'Coloring & Activity Books',
     description: 'Mazes, word searches, and coloring pages kids actually finish — not just start.',
+  },
+  {
+    name: 'Cookbooks',
+    description: 'Recipes organized around how you actually cook, not how a magazine lays out a page.',
   },
   {
     name: 'Log Books & Record Books',
@@ -18,10 +28,6 @@ const CATEGORIES = [
   {
     name: 'Journals',
     description: 'Simple, guided pages that get used past the first week.',
-  },
-  {
-    name: 'Cookbooks',
-    description: 'Recipes organized around how you actually cook, not how a magazine lays out a page.',
   },
 ];
 
