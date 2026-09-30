@@ -91,18 +91,15 @@ export const BOOK_LINKS: Record<
     amazon: { com: '', ca: '' },
   },
   familyTableFavorites: {
-    // Paperback live 27 Sep 2026 (confirmed via KDP's own "published"
-    // email; ASIN B0HL5WYX45, checked live on both amazon.com and
-    // amazon.ca same day). Hardcover and Kindle were published from the
-    // same KDP draft via "+ Create hardcover" / "+ Create eBook"
-    // (FTF_Vol1_KDP_Publishing_Kit.md §H/§K), which links all three
-    // formats to this ONE product page with a format switcher — Amazon's
-    // own confirmation email says linking can take up to 5 days, so the
-    // switcher may not show all three formats immediately. One link
-    // covers all three; see amazonFormatLabel in books.ts.
-    // Etsy: not yet published — owner is building the digital/lead-magnet
-    // edition next.
-    etsy: '',
+    // Paperback, hardcover and Kindle all confirmed live 27 Sep 2026 via
+    // KDP's own "published" e-mails, each its own ASIN — Amazon links them
+    // together as format tabs on one another's pages, but the canonical
+    // URL for each format differs (see the full set in `editions` on the
+    // book record in books.ts; this Amazon slot is the paperback, the
+    // same channel every other title's "Buy on Amazon" button goes to).
+    // Etsy digital PDF live 30 Sep 2026 (CA$9.99, 158pp + an 8-page
+    // keepsake bonus) — see FTF_Vol1_Etsy_Listing.md.
+    etsy: 'https://www.etsy.com/ca/listing/4584613661/kerala-cookbook-pdf-dig',
     amazon: {
       com: 'https://www.amazon.com/dp/B0HL5WYX45',
       ca: 'https://www.amazon.ca/dp/B0HL5WYX45',

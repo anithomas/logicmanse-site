@@ -27,6 +27,7 @@
 import QrLogo from '../components/QrLogo.astro';
 import '../styles/qr-brand.css';
 import { BOOK_LINKS } from '../data/site';
+import { bookBySlug } from '../data/books';
 
 const PAGE_TITLE = 'Family Table Favorites | LogicManse Publications';
 const PAGE_DESCRIPTION =
@@ -35,6 +36,10 @@ const CANONICAL_URL = 'https://www.logicmanse.ca/familytablefavorites-vol1/';
 
 const { amazon } = BOOK_LINKS.familyTableFavorites;
 const amazonHref = amazon.com || amazon.ca;
+// Same source list the product page's "Choose Your Edition" section reads
+// from — one place for every real price and link, so the two pages can't
+// drift apart.
+const editions = bookBySlug('family-table-favorites-vol1').editions ?? [];
 ---
 
 <!doctype html>
@@ -73,11 +78,18 @@ const amazonHref = amazon.com || amazon.ca;
         <li>Keepsake pages to record your own family's recipes</li>
       </ul>
 
-      {amazonHref && (
-        <>
-          <a class="cta" href={amazonHref} rel="noopener">See Paperback, Hardcover &amp; Kindle &rarr;</a>
-          <p class="fineprint">All three formats are on the same Amazon page.</p>
-        </>
+      {editions.length > 0 && (
+        <div class="editions">
+          {editions.map((edition) => (
+            <a href={edition.href} rel="noopener" class="edition-row">
+              <span>
+                <span class="edition-label">{edition.label}</span>
+                <span class="edition-format">{edition.format}</span>
+              </span>
+              <span class="edition-price">{edition.price}<br /><small>Buy &rarr;</small></span>
+            </a>
+          ))}
+        </div>
       )}
     </div>
 
@@ -89,12 +101,9 @@ const amazonHref = amazon.com || amazon.ca;
 
     <div class="card">
       <h2>What's next:</h2>
-      <p style="margin:0 0 10px; line-height:1.55;">
+      <p style="margin:0; line-height:1.55;">
         Volume One is 72 recipes across 15 sections. Volumes Two and Three continue the
         collection with new recipes in every section — check back here for the news.
-      </p>
-      <p style="margin:0; line-height:1.55;">
-        A print-at-home digital edition is coming soon on Etsy.
       </p>
     </div>
 
@@ -107,5 +116,59 @@ const amazonHref = amazon.com || amazon.ca;
       <a href="/">logicmanse.ca</a>
     </footer>
   </div>
+
+  <style>
+    /* Page-specific only — the brand look is in src/styles/qr-brand.css.
+       A plain list of every real edition, same data as the product
+       page's "Choose Your Edition" cards, just laid out for this page's
+       own (non-Tailwind) markup. */
+    .editions {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    .edition-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 10px;
+      text-decoration: none;
+      transition: border-color 0.15s ease, box-shadow 0.15s ease;
+    }
+    .edition-row:hover {
+      border-color: var(--forest);
+      box-shadow: 0 4px 14px rgba(11, 31, 58, 0.08);
+    }
+    .edition-label {
+      display: block;
+      font-family: Merriweather, Georgia, serif;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    .edition-format {
+      display: block;
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 2px;
+    }
+    .edition-price {
+      shrink: 0;
+      text-align: right;
+      font-weight: 700;
+      color: var(--forest);
+      white-space: nowrap;
+    }
+    .edition-price small {
+      display: block;
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 0.72rem;
+      margin-top: 2px;
+    }
+  </style>
 </body>
 </html>

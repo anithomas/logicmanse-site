@@ -75,6 +75,13 @@ export interface Book {
       links paperback/hardcover/Kindle to the same product page once all
       three are published). */
   amazonFormatLabel?: string;
+  /** For a title sold in more than two formats, each with its own real
+      link (this catalog's other titles only ever have an Etsy PDF and one
+      Amazon paperback, which BuyButtons already covers) — a plain list of
+      every edition, shown on the product page and the printed-URL page.
+      price is a display string (e.g. "US$9.99"); prices drift, so check
+      the live listing before trusting an old one. */
+  editions?: { label: string; format: string; price: string; href: string }[];
   /** The "Claim your free companion" section on the product page, at
       #companion. It is one button with a short write-up around it. For the
       three titles whose QR code goes to a separate page, the button is the
@@ -321,9 +328,9 @@ export const BOOKS: Book[] = [
     },
   },
   {
-    // Published 2026-09-27 (paperback; the same Amazon listing carries
-    // hardcover and Kindle once KDP finishes linking them — see
-    // amazonFormatLabel below and the note in site.ts). Volume One of a
+    // Published 2026-09-27 (paperback, hardcover and Kindle all confirmed
+    // live via KDP's own e-mails that day, each its own ASIN/page — see
+    // `editions` below) and 2026-09-30 (Etsy digital PDF). Volume One of a
     // three-volume series; copy is taken from the KDP listing itself
     // (FTF_Vol1_KDP_Publishing_Kit.md) so the site and the listing can't
     // drift apart, same rule as every other title here.
@@ -367,9 +374,44 @@ export const BOOKS: Book[] = [
       'A large 8.5 × 11 in format with easy-to-read type',
     ],
     // No free digital companion yet — the owner is building the lead-magnet
-    // funnel next. Leave `companion` unset until one exists; the product
-    // page and the printed-URL page both fall back gracefully.
-    amazonFormatLabel: 'Paperback, hardcover & Kindle',
+    // funnel next (the Etsy PDF's bundled 8-page keepsake bonus is part of
+    // that paid purchase, not a standalone free giveaway like the other
+    // three titles' QR pages). Leave `companion` unset until one exists;
+    // the product page and the printed-URL page both fall back gracefully.
+    // "Buy on Amazon" defaults to the paperback — the same channel every
+    // other title's Amazon button goes to — with the other two print
+    // formats listed separately below.
+    amazonFormatLabel: 'Paperback',
+    // Every real, live purchase link, exactly as confirmed 2026-09-29 (KDP
+    // "published" e-mails for print/Kindle; the Etsy listing itself for
+    // the PDF — see FTF_Vol1_Etsy_Listing.md). Prices drift; re-check the
+    // live listing before trusting an old figure here.
+    editions: [
+      {
+        label: 'Kindle eBook',
+        format: 'Reflowable ebook · 158 pp',
+        price: 'US$9.99',
+        href: 'https://www.amazon.com/dp/B0HL75YFLS',
+      },
+      {
+        label: 'Paperback',
+        format: '8.5 × 11 in · standard colour · 158 pp',
+        price: 'US$14.99',
+        href: 'https://www.amazon.com/dp/B0HL5WYX45',
+      },
+      {
+        label: 'Hardcover',
+        format: '8.25 × 11 in · premium colour · 158 pp',
+        price: 'US$39.99',
+        href: 'https://www.amazon.com/dp/B0HL74CFY8',
+      },
+      {
+        label: 'Digital PDF',
+        format: 'Instant download · 158 pp + an 8-page keepsake bonus',
+        price: 'CA$9.99',
+        href: 'https://www.etsy.com/ca/listing/4584613661/kerala-cookbook-pdf-dig',
+      },
+    ],
     story: {
       quote: 'The dishes that taste like home, finally written down.',
       body:

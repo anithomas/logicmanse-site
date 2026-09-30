@@ -136,6 +136,37 @@ const reviewLinks = (
     </div>
   </section>
 
+  <!-- ============ EDITIONS: for a title sold in more than the usual
+       Etsy-PDF-plus-one-Amazon-paperback pair — every real format with
+       its own price and link, side by side. See `editions` in books.ts. -->
+  {book.editions && (
+    <section class="bg-slate-50 border-t border-slate-200">
+      <div class="max-w-3xl mx-auto px-6 py-16 md:py-20">
+        <h2 class="fade-in-up text-2xl md:text-3xl font-serif font-bold text-navy text-center mb-10">
+          Choose Your Edition
+        </h2>
+        <div class="grid sm:grid-cols-2 gap-4">
+          {book.editions.map((edition) => (
+            <a
+              href={edition.href}
+              rel="noopener"
+              class="fade-in-up flex items-center justify-between gap-4 bg-white border border-slate-200 rounded-xl px-5 py-4 hover:border-forest/40 hover:shadow-md transition-all duration-200"
+            >
+              <span>
+                <span class="block font-serif font-bold text-navy">{edition.label}</span>
+                <span class="block text-xs text-slate-500 mt-0.5">{edition.format}</span>
+              </span>
+              <span class="shrink-0 text-right">
+                <span class="block font-bold text-forest">{edition.price}</span>
+                <span class="block text-xs text-slate-400">Buy &rarr;</span>
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
   <!-- ============ FREE COMPANION: one button (a sign-up form or a
        direct download) with a short write-up around it. See companionOffer
        in books.ts. ============ -->
