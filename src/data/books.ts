@@ -238,6 +238,21 @@ export const BOOKS: Book[] = [
         href: 'https://www.etsy.com/ca/listing/4584613661/kerala-cookbook-pdf-dig',
       },
     ],
+    companion: {
+      name: 'free Family Table Favorites PDF',
+      blurb: 'A free Family Table Favorites PDF, sent straight to your inbox. Just add your email.',
+    },
+    companionOffer: {
+      cta: { href: REACH_FORMS.familyTableFavorites, label: 'Send me the free PDF →', note: SIGNUP_NOTE },
+      contents: [
+        'A free Family Table Favorites cookbook PDF, to keep and print',
+        'News on Volumes Two and Three, and more recipes from our kitchen',
+      ],
+      steps: [
+        'Tap the button and add your email — it takes about 10 seconds.',
+        'We email you the download link right away.',
+      ],
+    },
     story: {
       quote: 'The dishes that taste like home, finally written down.',
       body:
