@@ -137,8 +137,10 @@ const reviewLinks = (
   </section>
 
   <!-- ============ EDITIONS: for a title sold in more than the usual
-       Etsy-PDF-plus-one-Amazon-paperback pair — every real format with
-       its own price and link, side by side. See `editions` in books.ts. -->
+       Etsy-PDF-plus-one-Amazon-paperback pair — every real format, side
+       by side. No price shown on purpose — see `editions` in books.ts,
+       where `price` stays on each entry even though this layout doesn't
+       render it, in case a future page wants it. -->
   {book.editions && (
     <section class="bg-slate-50 border-t border-slate-200">
       <div class="max-w-3xl mx-auto px-6 py-16 md:py-20">
@@ -157,8 +159,7 @@ const reviewLinks = (
                 <span class="block text-xs text-slate-500 mt-0.5">{edition.format}</span>
               </span>
               <span class="shrink-0 text-right">
-                <span class="block font-bold text-forest">{edition.price}</span>
-                <span class="block text-xs text-slate-400">Buy &rarr;</span>
+                <span class="block font-bold text-forest">Buy &rarr;</span>
               </span>
             </a>
           ))}
