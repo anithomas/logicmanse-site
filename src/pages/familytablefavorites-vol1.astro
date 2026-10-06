@@ -98,7 +98,7 @@ const editions = bookBySlug('family-table-favorites-vol1').editions ?? [];
                 <span class="edition-label">{edition.label}</span>
                 <span class="edition-format">{edition.format}</span>
               </span>
-              <span class="edition-price">{edition.price}<br /><small>Buy &rarr;</small></span>
+              <span class="edition-price">Buy &rarr;</span>
             </a>
           ))}
         </div>
@@ -134,7 +134,9 @@ const editions = bookBySlug('family-table-favorites-vol1').editions ?? [];
     /* Page-specific only — the brand look is in src/styles/qr-brand.css.
        A plain list of every real edition, same data as the product
        page's "Choose Your Edition" cards, just laid out for this page's
-       own (non-Tailwind) markup. */
+       own (non-Tailwind) markup. No price shown, same reasoning as the
+       product page: prices drift at the selling sites and aren't worth
+       keeping in sync here. */
     .editions {
       display: flex;
       flex-direction: column;
@@ -174,13 +176,6 @@ const editions = bookBySlug('family-table-favorites-vol1').editions ?? [];
       font-weight: 700;
       color: var(--forest);
       white-space: nowrap;
-    }
-    .edition-price small {
-      display: block;
-      font-weight: 600;
-      color: var(--muted);
-      font-size: 0.72rem;
-      margin-top: 2px;
     }
   </style>
   <script src="https://cdn-reach.hostinger.com/js/embed.js" is:inline></script>
