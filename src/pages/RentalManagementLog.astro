@@ -1,6 +1,7 @@
 ---
 import { REACH_FORMS } from '../data/site';
 import QrLogo from '../components/QrLogo.astro';
+import SocialIcons from '../components/SocialIcons.astro';
 import '../styles/qr-brand.css';
 // Dedicated landing page for the "Rental Property Record Book" (LogicManse
 // Publications) — a lead-magnet giveaway page for the free companion
@@ -107,6 +108,7 @@ const REACH_FORM_URL = REACH_FORMS.rentalLog;
     </p>
 
     <footer>
+      <div style="display:flex;justify-content:center;margin-bottom:14px;color:var(--navy);"><SocialIcons /></div>
       Written by @Antz · A LogicManse Publication<br>
       <a href="/">logicmanse.ca</a>
     </footer>

@@ -25,6 +25,7 @@
 // public/familytablefavorites-vol1.html is a static redirect stub so the
 // exact printed URL (no trailing slash) resolves here too.
 import QrLogo from '../components/QrLogo.astro';
+import SocialIcons from '../components/SocialIcons.astro';
 import '../styles/qr-brand.css';
 import { BOOK_LINKS } from '../data/site';
 import { bookBySlug } from '../data/books';
@@ -123,6 +124,7 @@ const editions = bookBySlug('family-table-favorites-vol1').editions ?? [];
     </p>
 
     <footer>
+      <div style="display:flex;justify-content:center;margin-bottom:14px;color:var(--navy);"><SocialIcons /></div>
       Written by @Antz · A LogicManse Publication<br />
       <a href="/">logicmanse.ca</a>
     </footer>
