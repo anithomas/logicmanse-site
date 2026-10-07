@@ -2,7 +2,7 @@
 
 The single reference for how the **logicmanse.ca** website is built, what lives where, and the rules every new page or book must follow. Keep this file current: when you add a page, a book, a store link or a rule, update the matching section in the same commit.
 
-*Last updated: 2026-10-06.* Sibling documents: `README.md` (local setup), `DEPLOYMENT.md` (hosting and DNS history), and the company-level `Logicmanse_Solutions_Master_Blueprint.docx` (publishing business, outside this repo).
+*Last updated: 2026-10-06. Section 13 is the disaster-recovery guide.* Sibling documents: `README.md` (local setup), `DEPLOYMENT.md` (hosting and DNS history), and the company-level `Logicmanse_Solutions_Master_Blueprint.docx` (publishing business, outside this repo).
 
 ---
 
@@ -24,7 +24,7 @@ The site no longer sells software. Old software-business URLs (`/services/`, `/p
 | Styling | Tailwind CSS 3 + `src/styles/global.css` + `src/styles/qr-brand.css` |
 | Fonts | Merriweather (headings), Inter (body) |
 | Hosting | GitHub Pages, deployed by `.github/workflows/deploy.yml` on every push to `main` (served through Cloudflare) |
-| Domain | `www.logicmanse.ca` (`public/CNAME`); registrar GoDaddy |
+| Domain / DNS | `www.logicmanse.ca` (`public/CNAME`); registrar GoDaddy, **DNS and email routing on Cloudflare** (see section 13) |
 | Repo | `github.com/anithomas/logicmanse-site` |
 | Forms and email | Hostinger Reach (embed script `https://cdn-reach.hostinger.com/js/embed.js`) |
 | Sitemap / robots | Hand-written `public/sitemap.xml` and `public/robots.txt` |
@@ -162,3 +162,60 @@ Exact prices and links live in `site.ts` and `books.ts` (re-check live listings 
 - `README.md` still mentions `services.ts` and Formspree from the old software-site era; this blueprint supersedes those lines.
 - The sitemap is hand-maintained: update it on every page change.
 - Keep the Leia, Rental and Heart Health QR pages consistent with section 7 whenever one is edited.
+
+---
+
+## 13. Rebuild from scratch (disaster recovery)
+
+Everything below was checked against the live setup on 2026-10-06. **No passwords, tokens or API keys belong in this file.** Keep them in your password manager.
+
+### 13.1 What you need
+
+| Need | Where it lives |
+|---|---|
+| Site source, copy, covers, videos, images, full history | GitHub: `https://github.com/anithomas/logicmanse-site` (branch `main`). **This is the real backup.** The OneDrive working copy has been rolled back before; trust GitHub first. |
+| Original brand and book files (cover PDFs, logo and banner masters, promo-video sources) | OneDrive `claude` folder. Banner, logo and shop video: `claude/logicmanse-platform/Etsy Shop/Shop Home/`. Book files: `claude/` (the `H:\` drive copy is stale). |
+| Node.js | v18 or newer (built with v24) |
+| Accounts | GitHub, Cloudflare, GoDaddy (registrar), Hostinger Reach, Amazon KDP, Etsy |
+
+### 13.2 Rebuild the site locally
+
+```bash
+git clone https://github.com/anithomas/logicmanse-site.git
+cd logicmanse-site
+npm install
+npm run build      # output in dist/ ; 19 pages
+npm run dev        # optional: preview at http://localhost:4321
+```
+
+### 13.3 Hosting (GitHub Pages)
+
+1. In the repo: **Settings → Pages → Source: GitHub Actions**. The workflow `.github/workflows/deploy.yml` builds and deploys on every push to `main`.
+2. **Custom domain:** `www.logicmanse.ca` (the file `public/CNAME` also carries it). Tick **Enforce HTTPS** once available.
+
+### 13.4 DNS and email (as currently configured)
+
+- **Nameservers:** Cloudflare (`alan.ns.cloudflare.com`, `ximena.ns.cloudflare.com`). The domain is registered at GoDaddy, and its nameservers point to Cloudflare. DNS records are edited in **Cloudflare**, not GoDaddy.
+- **Web:** `www.logicmanse.ca` is proxied by Cloudflare and serves the GitHub Pages site. If it ever has to be recreated, follow the GitHub Pages custom-domain records in `DEPLOYMENT.md` (four `A` records and a `www` `CNAME`), entered in Cloudflare.
+- **Inbound mail:** MX records point to Cloudflare Email Routing (`route1/2/3.mx.cloudflare.net`), which forwards `info@logicmanse.ca`. Recreate by enabling Email Routing in Cloudflare.
+- **TXT records:** SPF `v=spf1 include:_spf.reach.hostinger.com ~all` authorizes Hostinger Reach to send mail as the domain; one further TXT verification record is present at the apex. Keep both when moving DNS.
+
+### 13.5 Forms and email list (Hostinger Reach)
+
+- Forms are built and owned in the **Hostinger Reach dashboard**; the site only embeds them. Each form's ID is in `src/data/site.ts` (`REACH_FORMS`) and on `/contact/`.
+- Embed pattern: `<div data-reach-form="FORM-ID"></div>` plus `<script src="https://cdn-reach.hostinger.com/js/embed.js"></script>`.
+- The form definitions, subscriber list and the automatic "send the download link" emails live only in Reach. **Export the subscriber list periodically** and keep a copy of each form's settings.
+
+### 13.6 Rebuild checklist
+
+1. Clone the repo and run `npm install && npm run build`. It must finish with 19 pages.
+2. Enable GitHub Pages (Source: GitHub Actions) and set the custom domain.
+3. Confirm Cloudflare DNS: web records, Email Routing MX, SPF and verification TXT (section 13.4).
+4. Push to `main` and confirm the Actions run goes green.
+5. Open and check: `/`, `/books/`, one product page, all four QR pages (`/LeiaColoringBook/`, `/RentalManagementLog/`, `/HeartHealthLog/`, `/familytablefavorites-vol1/`), `/contact/` (form renders and submits), footer social icons.
+6. Confirm the store links in `site.ts` still point to live Amazon and Etsy listings.
+7. Send a test through `info@logicmanse.ca` and through a Reach form.
+
+### 13.7 If the repo itself is lost
+
+Restore from any clone or from the OneDrive working copy (`git fetch` first, since conflict copies named `*-AnisLaptop.*` mean OneDrive has rolled files back). Without any copy, the pages can be recreated from this blueprint plus the original files in OneDrive, but the page copy would need rewriting. Keeping GitHub current is the protection against that.

@@ -1,3 +1,5 @@
+> **Note (2026-10-06):** This guide records the original setup. The domain's DNS now runs on Cloudflare and the contact form is a Hostinger Reach embed (not Formspree). The current setup is documented in `docs/SITE_MASTER_BLUEPRINT.md` section 13.
+
 # Deployment Guide — logicmanse.ca (GitHub Pages)
 
 Everything runs on GitHub — no Netlify, no Vercel, no separate hosting
