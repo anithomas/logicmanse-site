@@ -5,6 +5,8 @@ Source code for [www.logicmanse.ca](https://www.logicmanse.ca). Built with
 JavaScript framework, no client-side build step at runtime — the site
 compiles down to plain, fast-loading HTML/CSS.
 
+> **Full site documentation:** see [`docs/SITE_MASTER_BLUEPRINT.md`](docs/SITE_MASTER_BLUEPRINT.md) for structure, page inventory, brand rules and how-tos. Some details below date from the earlier software-site era; the blueprint is current.
+
 ## Before you edit anything
 
 You don't need to know how to code to make most changes:
