@@ -164,3 +164,12 @@ export const REACH_FORMS = {
   heartHealth: 'https://reach-forms.hostingerusercontent.com/form/5feeedfb-224c-44b0-a557-dc712f200b84',
   familyTableFavorites: 'https://reach-forms.hostingerusercontent.com/form/ea7c6b0f-2a4f-45d5-9987-e93d45a12e83',
 } as const;
+
+// Official social profiles, shown in the footer.
+export const SOCIAL_LINKS = [
+  { label: 'Instagram', href: 'https://www.instagram.com/logicmanse/' },
+  { label: 'Facebook', href: 'https://www.facebook.com/profile.php?id=61594783539838' },
+  { label: 'YouTube', href: 'https://www.youtube.com/@logicmanse' },
+  { label: 'TikTok', href: 'https://www.tiktok.com/@logicmanse?lang=en' },
+  { label: 'Pinterest', href: 'https://ca.pinterest.com/logicmanse/' },
+] as const;
