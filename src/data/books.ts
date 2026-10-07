@@ -226,8 +226,8 @@ export const BOOKS: Book[] = [
         href: 'https://www.amazon.com/dp/B0HL5WYX45',
       },
       {
-        label: 'Hardcover',
-        format: '8.25 × 11 in · premium colour · 158 pp',
+        label: 'Premium Gift Edition',
+        format: 'Hardcover · 8.25 × 11 in · premium colour · 158 pp',
         price: 'US$39.99',
         href: 'https://www.amazon.com/dp/B0HL74CFY8',
       },

@@ -135,7 +135,7 @@ Instagram, Facebook, YouTube, TikTok and Pinterest, defined once in `SOCIAL_LINK
 | Super Leia to the Rescue! | Coloring & Activity | Live (Amazon, Etsy); QR `/LeiaColoringBook/` |
 | Rental Property Record Book | Log Book | Live (Amazon, Etsy); QR `/RentalManagementLog/` |
 | Heart Health Log Book | Log Book | Live (Amazon, Etsy); QR `/HeartHealthLog/` |
-| Family Table Favorites, Vol. 1 | Cookbook | Live 27–30 Sep 2026: Kindle, paperback, hardcover (Amazon), digital PDF (Etsy); QR `/familytablefavorites-vol1/` |
+| Family Table Favorites, Vol. 1 | Cookbook | Live 27–30 Sep 2026: Kindle, paperback, hardcover shown on the site as the "Premium Gift Edition" (Amazon), digital PDF (Etsy); QR `/familytablefavorites-vol1/` |
 | Renovation & Repair Record Book | Log Book | Unreleased; see launch steps in section 11 |
 
 Exact prices and links live in `site.ts` and `books.ts` (re-check live listings before trusting an old figure).
