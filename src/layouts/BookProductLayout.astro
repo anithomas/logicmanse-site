@@ -43,8 +43,8 @@ const reviewLinks = (
 ---
 
 <BaseLayout
-  title={book.title}
-  description={book.tagline}
+  title={book.metaTitle ?? book.title}
+  description={book.metaDescription ?? book.tagline}
   image={book.cover || undefined}
   noindex={book.unreleased}
   theme={book.theme}
@@ -59,10 +59,31 @@ const reviewLinks = (
           {book.category}
         </span>
         <h1 class="font-serif font-bold text-3xl md:text-4xl leading-tight mb-4 text-white">{book.title}</h1>
-        <p class="text-lg text-white/80 leading-relaxed mb-4">{book.tagline}</p>
+        <p class="text-lg text-white/80 leading-relaxed mb-3">{book.tagline}</p>
+        <p class="text-white/70 leading-relaxed mb-4">{book.description}</p>
+
+        {book.stats && (
+          <div class="fade-in-up flex flex-wrap gap-x-6 gap-y-2 mb-5">
+            {book.stats.map((stat) => (
+              <div>
+                <span class="block font-serif font-bold text-xl md:text-2xl text-white">{stat.value}</span>
+                <span class="block text-[0.7rem] uppercase tracking-wide text-white/50">{stat.label}</span>
+              </div>
+            ))}
+          </div>
+        )}
+
         <p class="text-xs uppercase tracking-widest text-white/50 mb-8">{book.specs}</p>
 
         <BuyButtons bookKey={book.key} amazonLabel={book.amazonFormatLabel} />
+
+        {book.editions && book.editions.length > 2 && (
+          <p class="text-sm text-white/60 mt-3">
+            <a href="#editions" class="underline hover:text-white">
+              See all {book.editions.length} formats &amp; prices &darr;
+            </a>
+          </p>
+        )}
 
         {book.companion && (
           <p class="text-sm text-white/60 mt-5 leading-relaxed">
@@ -136,34 +157,96 @@ const reviewLinks = (
     </div>
   </section>
 
-  <!-- ============ EDITIONS: for a title sold in more than the usual
-       Etsy-PDF-plus-one-Amazon-paperback pair — every real format, side
-       by side. No price shown on purpose — see `editions` in books.ts,
-       where `price` stays on each entry even though this layout doesn't
-       render it, in case a future page wants it. -->
-  {book.editions && (
-    <section class="bg-slate-50 border-t border-slate-200">
+  <!-- ============ VALUE PROPOSITION: why the whole collection, not just
+       the individual recipes/items in it. Optional — see valueProps in
+       books.ts. ============ -->
+  {book.valueProps && (
+    <section class="bg-white border-t border-slate-200">
       <div class="max-w-3xl mx-auto px-6 py-16 md:py-20">
-        <h2 class="fade-in-up text-2xl md:text-3xl font-serif font-bold text-navy text-center mb-10">
+        <h2 class="fade-in-up text-2xl md:text-3xl font-serif font-bold text-navy text-center mb-4">
+          {book.valueProps.heading}
+        </h2>
+        <p class="fade-in-up text-slate-600 leading-relaxed text-center max-w-xl mx-auto mb-10">
+          {book.valueProps.intro}
+        </p>
+        <ul class="fade-in-up grid sm:grid-cols-2 gap-4" data-stagger>
+          {book.valueProps.items.map((item) => (
+            <li class="fade-in-up flex gap-3 text-slate-600 leading-relaxed bg-slate-50 rounded-lg px-4 py-3">
+              <span class="mt-2 shrink-0 w-1.5 h-1.5 rounded-full bg-forest"></span>
+              <span>{item}</span>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </section>
+  )}
+
+  <!-- ============ EDITIONS: for a title sold in more than the usual
+       Etsy-PDF-plus-one-Amazon-paperback pair — every real format AND its
+       price, side by side. kind groups the grid into Digital / Print
+       subsections when any entry sets it (see `editions` in books.ts). -->
+  {book.editions && (
+    <section id="editions" class="bg-slate-50 border-t border-slate-200 scroll-mt-20">
+      <div class="max-w-3xl mx-auto px-6 py-16 md:py-20">
+        <h2 class="fade-in-up text-2xl md:text-3xl font-serif font-bold text-navy text-center mb-3">
           Choose Your Edition
         </h2>
-        <div class="grid sm:grid-cols-2 gap-4">
-          {book.editions.map((edition) => (
-            <a
-              href={edition.href}
-              rel="noopener"
-              class="fade-in-up flex items-center justify-between gap-4 bg-white border border-slate-200 rounded-xl px-5 py-4 hover:border-forest/40 hover:shadow-md transition-all duration-200"
-            >
-              <span>
-                <span class="block font-serif font-bold text-navy">{edition.label}</span>
-                <span class="block text-xs text-slate-500 mt-0.5">{edition.format}</span>
-              </span>
-              <span class="shrink-0 text-right">
-                <span class="block font-bold text-forest">Buy &rarr;</span>
-              </span>
-            </a>
-          ))}
-        </div>
+        <p class="fade-in-up text-slate-500 text-center text-sm mb-10">
+          Prices shown are each store's current listing — tap through to confirm before buying.
+        </p>
+
+        {(() => {
+          const editions = book.editions!;
+          const groups: { label: string; items: typeof editions }[] = editions.some((e) => e.kind)
+            ? [
+                { label: 'Digital Edition', items: editions.filter((e) => e.kind === 'digital') },
+                { label: 'Print Editions', items: editions.filter((e) => e.kind === 'print') },
+                { label: '', items: editions.filter((e) => !e.kind) },
+              ].filter((g) => g.items.length > 0)
+            : [{ label: '', items: editions }];
+
+          return groups.map((group) => (
+            <div class="mb-8 last:mb-0">
+              {group.label && (
+                <p class="fade-in-up text-xs font-bold uppercase tracking-widest text-slate-400 mb-3">
+                  {group.label}
+                </p>
+              )}
+              <div class="grid sm:grid-cols-2 gap-4">
+                {group.items.map((edition) => (
+                  <a
+                    href={edition.href}
+                    rel="noopener"
+                    class="fade-in-up flex items-center justify-between gap-4 bg-white border border-slate-200 rounded-xl px-5 py-4 hover:border-forest/40 hover:shadow-md transition-all duration-200"
+                  >
+                    <span>
+                      <span class="block font-serif font-bold text-navy">{edition.label}</span>
+                      <span class="block text-xs text-slate-500 mt-0.5">{edition.format}</span>
+                    </span>
+                    <span class="shrink-0 text-right">
+                      <span class="block font-bold text-forest">{edition.price}</span>
+                      <span class="block text-xs text-slate-400">Buy &rarr;</span>
+                    </span>
+                  </a>
+                ))}
+              </div>
+            </div>
+          ));
+        })()}
+      </div>
+    </section>
+  )}
+
+  <!-- ============ YOUTUBE: a modest nod to the companion channel, never
+       styled to compete with the Buy buttons above. Optional. ============ -->
+  {book.youtube && (
+    <section class="bg-white border-t border-slate-200">
+      <div class="max-w-2xl mx-auto px-6 py-10 md:py-12 text-center">
+        <h2 class="fade-in-up text-lg font-serif font-bold text-navy mb-2">{book.youtube.heading}</h2>
+        <p class="fade-in-up text-slate-600 text-sm leading-relaxed mb-4">{book.youtube.blurb}</p>
+        <a href={book.youtube.href} rel="noopener" target="_blank" class="fade-in-up text-forest font-semibold text-sm hover:underline">
+          {book.youtube.label}
+        </a>
       </div>
     </section>
   )}
@@ -175,13 +258,13 @@ const reviewLinks = (
     <section id="companion" class="bg-slate-50 border-t border-slate-200 scroll-mt-20">
       <div class="max-w-3xl mx-auto px-6 py-16 md:py-20">
         <p class="fade-in-up text-xs font-bold uppercase tracking-widest companion-eyebrow text-center mb-3">
-          Already own the book?
+          {offer.eyebrow ?? 'Already own the book?'}
         </p>
         <h2 class="fade-in-up text-2xl md:text-3xl font-serif font-bold text-navy text-center mb-4">
-          Claim your free companion
+          {offer.heading ?? 'Claim your free companion'}
         </h2>
         <p class="fade-in-up text-slate-600 leading-relaxed text-center mb-8">
-          {book.companion.blurb}
+          {offer.blurb ?? book.companion?.blurb}
         </p>
 
         <ul class="fade-in-up space-y-3 mb-8">

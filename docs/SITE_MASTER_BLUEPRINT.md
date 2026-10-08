@@ -122,7 +122,9 @@ The URL printed on a book's back cover opens a standalone, no-navigation page fo
 
 ## 8. Free-companion funnel
 
-Reader scans the QR code, lands on the QR page, adds an email in the Reach form, and gets the download link by email. The same form is linked from the product page's companion section, so both entry points use the same `REACH_FORMS` value. Forms: Leia colour pack, Rental tracker, Heart Health, Family Table Favorites free PDF. The Renovation book's companion is a direct file download (`public/renovation-repair-log/Renovation_Repair_Digital_Companion.xlsx`).
+Reader scans the QR code, lands on the QR page, adds an email in the Reach form, and gets the download link by email. The same form is linked from the product page's companion section, so both entry points use the same `REACH_FORMS` value. Forms: Leia colour pack, Rental tracker, Heart Health, Family Table Favorites 5-recipe sample. The Renovation book's companion is a direct file download (`public/renovation-repair-log/Renovation_Repair_Digital_Companion.xlsx`).
+
+Family Table Favorites is the one exception to "every copy includes this, free": its free offer is a **pre-purchase lead magnet** (5 sample recipes, not the complete 72-recipe book), aimed at a visitor who hasn't bought yet — so `companion` is left unset on its book record (which also keeps the hero's "every copy includes X free" line and the closing section's "claim your free X" link from firing, since neither is true for a pre-purchase sample) and `companionOffer.eyebrow/heading/blurb` override the section's default "Already own the book? / Claim your free companion" wording with "Try it before you buy / Get 5 Family Favourite Recipes — Free". Its printed-QR page (where an actual owner lands) asks for an email as a plain newsletter signup instead ("Stay in the loop"), not a recipe pitch. **If you change the Reach automation behind that form, make sure it actually sends 5 recipes, not the full PDF — the website copy promises a sample, and the two need to match.**
 
 ## 9. Social profiles
 
@@ -157,7 +159,7 @@ Exact prices and links live in `site.ts` and `books.ts` (re-check live listings 
 
 ## 12. Known gaps / backlog
 
-- Free companion for Family Table Favorites: its bullets are generic until the PDF's contents are confirmed.
+- The Family Table Favorites 5-recipe sample PDF itself (which 5 recipes, the actual file) still needs to be produced and attached to its Reach automation — the website promises it, but the file/automation is a Hostinger Reach dashboard task, outside this codebase.
 - Renovation book QR page and launch steps (above).
 - `README.md` still mentions `services.ts` and Formspree from the old software-site era; this blueprint supersedes those lines.
 - The sitemap is hand-maintained: update it on every page change.

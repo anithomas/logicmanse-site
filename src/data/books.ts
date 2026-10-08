@@ -20,7 +20,9 @@
 // than written fresh, so the site and the books can't drift apart.
 // ----------------------------------------------------------------
 
-import { REACH_FORMS } from './site';
+import { REACH_FORMS, SOCIAL_LINKS } from './site';
+
+const YOUTUBE_URL = SOCIAL_LINKS.find((l) => l.label === 'YouTube')!.href;
 
 /** One per title: pink (Leia), forest (rental log), clay (heart health log),
     earth (renovation book), spice (Family Table Favorites — its own accent
@@ -50,9 +52,26 @@ export interface Book {
   title: string;
   /** One line, for cards and the product hero. */
   tagline: string;
-  /** Longer, for the /books/ listing. */
+  /** Longer, for the /books/ listing and (under the tagline) the product
+      page's own hero — most titles' description is short enough to carry
+      both jobs; override with metaDescription below if a title needs
+      different wording for search results specifically. */
   description: string;
+  /** Overrides the product page's <title> / og:title (default: book.title).
+      Use for a title whose plain name carries no search-relevant context
+      on its own (e.g. a cookbook whose title doesn't say "cookbook"). */
+  metaTitle?: string;
+  /** Overrides the product page's meta/og description (default:
+      book.tagline). The tagline is written for emotional resonance, not
+      search intent, so a title that wants real search terms in its
+      description — recipe count, cuisine, format — sets this instead of
+      changing the tagline itself. */
+  metaDescription?: string;
   specs: string;
+  /** A handful of headline numbers for the hero (e.g. recipe count, page
+      count) — for a title whose specs line alone doesn't make its scale
+      obvious at a glance. Optional; most titles don't need it. */
+  stats?: { value: string; label: string }[];
   cover: string;
   coverAlt: string;
   interior?: string;
@@ -65,10 +84,19 @@ export interface Book {
   videoPoster?: string;
   /** What is actually in the printed book. */
   inside: string[];
+  /** A short, persuasive case for the collection as a whole — not another
+      feature list (that's `inside`), but why 72 (or however many) items
+      in one place beats having them loose. Optional; shown as its own
+      section on the product page, right after "What's inside". */
+  valueProps?: { heading: string; intro: string; items: string[] };
   /** The free bonus every copy comes with, delivered via qrHref. Omit for a
       title with no bonus yet — its product page then skips the "claim your
       free companion" copy and its qrHref becomes a plain "more from us"
-      link instead (see BookProductLayout.astro). */
+      link instead (see BookProductLayout.astro). Also omit for a title
+      whose free offer ISN'T something every copy includes — e.g. a
+      pre-purchase lead-magnet sample aimed at people who haven't bought
+      yet (see companionOffer.audience below): claiming "every copy
+      includes this, free" would misdescribe that kind of offer. */
   companion?: { name: string; blurb: string };
   /** Overrides the Amazon button's default "Paperback · delivered" caption
       — for a title whose one Amazon link covers more than one format (KDP
@@ -80,14 +108,28 @@ export interface Book {
       Amazon paperback, which BuyButtons already covers) — a plain list of
       every edition, shown on the product page and the printed-URL page.
       price is a display string (e.g. "US$9.99"); prices drift, so check
-      the live listing before trusting an old one. */
-  editions?: { label: string; format: string; price: string; href: string }[];
+      the live listing before trusting an old one. kind groups the list
+      into "Digital Edition" / "Print Editions" subsections when any entry
+      sets it; omit kind on every entry to keep the old flat grid. */
+  editions?: { label: string; format: string; price: string; href: string; kind?: 'digital' | 'print' }[];
   /** The "Claim your free companion" section on the product page, at
       #companion. It is one button with a short write-up around it. For the
       three titles whose QR code goes to a separate page, the button is the
       same Hostinger Reach sign-up form that page uses; for the Renovation
       book, whose QR lands on this page, it is a direct file download. */
   companionOffer?: {
+    /** Overrides the section's default eyebrow ("Already own the book?")
+        and heading ("Claim your free companion") — for an offer open to
+        ANY visitor rather than only people who already bought, e.g. a
+        free recipe sample meant to be a reason to buy, not a thing you
+        get after buying. Pair with `companion` left unset on the book
+        record (see its doc comment) so the hero and closing section don't
+        also claim it's an included bonus. */
+    eyebrow?: string;
+    heading?: string;
+    /** Overrides book.companion.blurb as this section's intro line —
+        needed whenever `companion` itself is left unset. */
+    blurb?: string;
     /** What the free companion contains, one line each. */
     contents: string[];
     /** How to start, in order. */
@@ -97,6 +139,10 @@ export interface Book {
         section's button, for a form that doesn't exist yet. */
     cta: { href: string; label: string; note: string; download?: string };
   };
+  /** "Cook along with us" — a modest nod to a companion YouTube channel,
+      shown as its own small section. Never styled to compete with the Buy
+      buttons; it's a side door, not the destination. Optional. */
+  youtube?: { heading: string; blurb: string; href: string; label: string };
   /** Optional pull-quote for the product page. */
   story?: { quote: string; body: string };
 }
@@ -175,7 +221,16 @@ export const BOOKS: Book[] = [
     tagline: 'Handed down, cooked often, written down at last.',
     description:
       'Kerala classics and East-West family favorites, cooked in North American kitchens and passed down at the family table — 72 heirloom recipes in 15 sections, from Sunday chicken stew and layered biriyani to baked pasta, banana bread and a caramel pudding that never lasts the night.',
+    metaTitle: 'Family Table Favorites — A Kerala Family Cookbook, Vol. 1',
+    metaDescription:
+      'A Kerala and Malayali family cookbook: 72 heirloom recipes in 15 sections of South Indian and East-West home cooking, handed down and written down at last. 158 pages, 22 color photos — digital PDF or print.',
     specs: '8.5" × 11" · 158 pages · Volume One of Three',
+    stats: [
+      { value: '72', label: 'Recipes' },
+      { value: '15', label: 'Sections' },
+      { value: '158', label: 'Pages' },
+      { value: '22', label: 'Color Photos' },
+    ],
     cover: '/family-table-favorites/cover-front.jpg',
     coverAlt: 'Family Table Favorites, Volume One, book cover',
     interior: '/family-table-favorites/interior-page.jpg',
@@ -199,13 +254,28 @@ export const BOOKS: Book[] = [
       'Keepsake pages to record your own family’s recipes and notes, ready to hand down',
       'A large 8.5 × 11 in format with easy-to-read type',
     ],
-    // No free digital companion yet — the owner is building the lead-magnet
-    // funnel next (the Etsy PDF's bundled 8-page keepsake bonus is part of
-    // that paid purchase, not a standalone free giveaway like the other
-    // three titles' QR pages). Leave `companion` unset until one exists;
-    // the product page and the printed-URL page both fall back gracefully.
-    // "Buy on Amazon" defaults to the paperback — the same channel every
-    // other title's Amazon button goes to — with the other two print
+    valueProps: {
+      heading: 'Why this cookbook',
+      intro:
+        'You’re not just paying for access to individual recipes — you’re getting the whole collection, cooked, tested and written down once, so it’s ready whenever you need it.',
+      items: [
+        'All 72 recipes in one place, not scattered across handwritten cards and screenshots',
+        'Consistent measurements, servings and cook times — no guessing at “a handful” or “cook until done”',
+        'Cook’s notes and tips: what to watch for, what to swap, and how each dish should look and taste',
+        'The family and food background behind each recipe, not just the method',
+        'A glossary of ingredients, so an unfamiliar name never stops you mid-recipe',
+        'Full-page recipe presentation with color food photography throughout',
+        'A keepsake collection built to stay on the counter and get used for years, not a printout',
+      ],
+    },
+    // Every copy does NOT include a free companion (unlike this book's
+    // sibling titles) — see `companion`'s doc comment in the Book
+    // interface above. What this title has instead is a pre-purchase
+    // lead-magnet sample (companionOffer below, framed for any visitor,
+    // not "already own it"), plus the Etsy PDF's bundled 8-page keepsake
+    // bonus, which is part of that paid purchase rather than a standalone
+    // free giveaway. "Buy on Amazon" defaults to the paperback — the same
+    // channel every other title's Amazon button goes to — with the other
     // formats listed separately below.
     amazonFormatLabel: 'Paperback',
     // Every real, live purchase link, exactly as confirmed 2026-09-29 (KDP
@@ -218,39 +288,54 @@ export const BOOKS: Book[] = [
         format: 'Reflowable ebook · 158 pp',
         price: 'US$9.99',
         href: 'https://www.amazon.com/dp/B0HL75YFLS',
-      },
-      {
-        label: 'Paperback',
-        format: '8.5 × 11 in · standard colour · 158 pp',
-        price: 'US$14.99',
-        href: 'https://www.amazon.com/dp/B0HL5WYX45',
-      },
-      {
-        label: 'Premium Gift Edition',
-        format: 'Hardcover · 8.25 × 11 in · premium colour · 158 pp',
-        price: 'US$39.99',
-        href: 'https://www.amazon.com/dp/B0HL74CFY8',
+        kind: 'digital',
       },
       {
         label: 'Digital PDF',
         format: 'Instant download · 158 pp + an 8-page keepsake bonus',
         price: 'CA$9.99',
         href: 'https://www.etsy.com/ca/listing/4584613661/kerala-cookbook-pdf-dig',
+        kind: 'digital',
+      },
+      {
+        label: 'Paperback',
+        format: '8.5 × 11 in · standard colour · 158 pp',
+        price: 'US$14.99',
+        href: 'https://www.amazon.com/dp/B0HL5WYX45',
+        kind: 'print',
+      },
+      {
+        label: 'Premium Gift Edition',
+        format: 'Hardcover · 8.25 × 11 in · premium colour · 158 pp',
+        price: 'US$39.99',
+        href: 'https://www.amazon.com/dp/B0HL74CFY8',
+        kind: 'print',
       },
     ],
-    companion: {
-      name: 'free Family Table Favorites PDF',
-      blurb: 'A free Family Table Favorites PDF, sent straight to your inbox. Just add your email.',
+    youtube: {
+      heading: 'Cook along with us',
+      blurb:
+        'We’re building a hands-only cooking channel, cooking these family recipes step by step straight from the book. Come watch them in action.',
+      href: YOUTUBE_URL,
+      label: 'Watch on YouTube →',
     },
     companionOffer: {
-      cta: { href: REACH_FORMS.familyTableFavorites, label: 'Send me the free PDF →', note: SIGNUP_NOTE },
+      // Open to ANY visitor, not just owners — see the doc comment on
+      // `companion` above for why that field stays unset for this title.
+      eyebrow: 'Try it before you buy',
+      heading: 'Get 5 Family Favourite Recipes — Free',
+      blurb:
+        'Want to try a few recipes before getting the complete collection? Download five hand-picked recipes from Family Table Favorites, Volume One — absolutely free.',
+      cta: { href: REACH_FORMS.familyTableFavorites, label: 'Get the 5 Free Recipes →', note: SIGNUP_NOTE },
       contents: [
-        'A free Family Table Favorites cookbook PDF, to keep and print',
+        'Five hand-picked recipes from Family Table Favorites, Volume One',
+        'The same presentation as the printed book: full recipe, measurements, servings and cook’s notes',
         'News on Volumes Two and Three, and more recipes from our kitchen',
       ],
       steps: [
         'Tap the button and add your email — it takes about 10 seconds.',
-        'We email you the download link right away.',
+        'We email you the 5 recipes right away.',
+        'Like what you taste? The complete 72-recipe collection is above, in digital or print.',
       ],
     },
     story: {

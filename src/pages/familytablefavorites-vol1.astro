@@ -12,6 +12,13 @@
 // digital companion exists for this title, add a #companion section here
 // the same way the other three do — see companionOffer in books.ts.
 //
+// The Reach sign-up card below is a plain newsletter ask ("Stay in the
+// loop"), not a free-recipe pitch — someone reading this already owns all
+// 72 recipes, so offering a 5-recipe sample here would be backwards. The
+// product page's own companion section (companionOffer in books.ts) is
+// where that pre-purchase sample lives, aimed at people who haven't
+// bought yet.
+//
 // WHY THIS URL EXACTLY: it's printed on the back cover next to a QR code
 // and must never change. The filename is lowercase on purpose (site rule:
 // new logicmanse.ca URLs are always lowercase).
@@ -27,7 +34,7 @@
 import QrLogo from '../components/QrLogo.astro';
 import SocialIcons from '../components/SocialIcons.astro';
 import '../styles/qr-brand.css';
-import { BOOK_LINKS } from '../data/site';
+import { BOOK_LINKS, SOCIAL_LINKS } from '../data/site';
 import { bookBySlug } from '../data/books';
 
 const PAGE_TITLE = 'Family Table Favorites | LogicManse Publications';
@@ -37,10 +44,19 @@ const CANONICAL_URL = 'https://www.logicmanse.ca/familytablefavorites-vol1/';
 
 const { amazon } = BOOK_LINKS.familyTableFavorites;
 const amazonHref = amazon.com || amazon.ca;
+const youtubeHref = SOCIAL_LINKS.find((l) => l.label === 'YouTube')!.href;
 // Same source list the product page's "Choose Your Edition" section reads
 // from — one place for every real price and link, so the two pages can't
-// drift apart.
+// drift apart. Grouped the same way too: Digital / Print subsections when
+// any entry sets `kind`, one flat group otherwise.
 const editions = bookBySlug('family-table-favorites-vol1').editions ?? [];
+const editionGroups = editions.some((e) => e.kind)
+  ? [
+      { label: 'Digital Edition', items: editions.filter((e) => e.kind === 'digital') },
+      { label: 'Print Editions', items: editions.filter((e) => e.kind === 'print') },
+      { label: '', items: editions.filter((e) => !e.kind) },
+    ].filter((g) => g.items.length > 0)
+  : [{ label: '', items: editions }];
 ---
 
 <!doctype html>
@@ -73,9 +89,10 @@ const editions = bookBySlug('family-table-favorites-vol1').editions ?? [];
     </p>
 
     <div class="card">
-      <h2>Your free Family Table Favorites PDF:</h2>
+      <h2>Stay in the loop:</h2>
       <p style="margin:0 0 14px; line-height:1.55;">
-        Add your email and we’ll send it right over, plus news on Volumes Two and Three.
+        Add your email for news on Volumes Two and Three, and more recipes from our kitchen —
+        no spam, just the good stuff.
       </p>
       <!-- Hostinger Reach sign-up form. Filled in by the embed script at the end of <body>. -->
       <div data-reach-form="ea7c6b0f-2a4f-45d5-9987-e93d45a12e83"></div>
@@ -90,19 +107,20 @@ const editions = bookBySlug('family-table-favorites-vol1').editions ?? [];
         <li>Keepsake pages to record your own family's recipes</li>
       </ul>
 
-      {editions.length > 0 && (
+      {editionGroups.map((group) => (
         <div class="editions">
-          {editions.map((edition) => (
+          {group.label && <p class="editions-label">{group.label}</p>}
+          {group.items.map((edition) => (
             <a href={edition.href} rel="noopener" class="edition-row">
               <span>
                 <span class="edition-label">{edition.label}</span>
                 <span class="edition-format">{edition.format}</span>
               </span>
-              <span class="edition-price">Buy &rarr;</span>
+              <span class="edition-price">{edition.price}<br /><small>Buy &rarr;</small></span>
             </a>
           ))}
         </div>
-      )}
+      ))}
     </div>
 
     <p class="hint">
@@ -113,9 +131,13 @@ const editions = bookBySlug('family-table-favorites-vol1').editions ?? [];
 
     <div class="card">
       <h2>What's next:</h2>
-      <p style="margin:0; line-height:1.55;">
+      <p style="margin:0 0 10px; line-height:1.55;">
         Volume One is 72 recipes across 15 sections. Volumes Two and Three continue the
         collection with new recipes in every section — check back here for the news.
+      </p>
+      <p style="margin:0; line-height:1.55;">
+        We're also building a hands-only cooking channel, cooking these family recipes step by
+        step from the book — <a href={youtubeHref} rel="noopener">watch on YouTube &rarr;</a>
       </p>
     </div>
 
@@ -132,16 +154,23 @@ const editions = bookBySlug('family-table-favorites-vol1').editions ?? [];
 
   <style>
     /* Page-specific only — the brand look is in src/styles/qr-brand.css.
-       A plain list of every real edition, same data as the product
-       page's "Choose Your Edition" cards, just laid out for this page's
-       own (non-Tailwind) markup. No price shown, same reasoning as the
-       product page: prices drift at the selling sites and aren't worth
-       keeping in sync here. */
+       A plain list of every real edition, same data (and the same
+       Digital/Print grouping) as the product page's "Choose Your
+       Edition" cards, just laid out for this page's own (non-Tailwind)
+       markup. */
     .editions {
       display: flex;
       flex-direction: column;
       gap: 10px;
       margin-top: 20px;
+    }
+    .editions-label {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin: 0;
     }
     .edition-row {
       display: flex;
@@ -176,6 +205,13 @@ const editions = bookBySlug('family-table-favorites-vol1').editions ?? [];
       font-weight: 700;
       color: var(--forest);
       white-space: nowrap;
+    }
+    .edition-price small {
+      display: block;
+      font-weight: 600;
+      color: var(--muted);
+      font-size: 0.72rem;
+      margin-top: 2px;
     }
   </style>
   <script src="https://cdn-reach.hostinger.com/js/embed.js" is:inline></script>
