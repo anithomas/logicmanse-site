@@ -494,17 +494,7 @@ export const BOOKS: Book[] = [
         'An 18-tab spreadsheet that mirrors the tables in the book, with a live dashboard and the budget sums done for you.',
     },
     companionOffer: {
-      // Greyed out until the Reach sign-up form is ready (same email
-      // sign-up as the other books). When it is: set href to the form URL
-      // (REACH_FORMS), label 'Send me the tracker →', note SIGNUP_NOTE, and
-      // delete `pending`. The workbook itself now lives outside public/ so
-      // it can't be downloaded around the form — host it in R2 like the others.
-      pending: true,
-      cta: {
-        href: '#',
-        label: 'Free workbook coming soon',
-        note: 'The free workbook will be sent by email. The sign-up opens shortly — check back soon.',
-      },
+      cta: { href: REACH_FORMS.renovationLog, label: 'Send me the tracker →', note: SIGNUP_NOTE },
       contents: [
         'A portfolio summary and at-a-glance dashboard, with live totals',
         'A project tracker that links every log sheet to a property and project',
@@ -514,7 +504,8 @@ export const BOOKS: Book[] = [
         'A capital improvements log and a repair-vs-capital reference page to fill in with your own accountant',
       ],
       steps: [
-        'Download the workbook and open it in Excel, Google Sheets or Numbers.',
+        'Tap the button and add your email — it takes about 10 seconds.',
+        'We email you the download link right away. Open the workbook in Excel, Google Sheets or Numbers.',
         'Start on the Portfolio Summary tab and add your properties, then log each job on the Project Tracker tab.',
         'Every other tab picks up your property and project names from a dropdown — fill in the rest as you go, on paper or on screen.',
       ],
