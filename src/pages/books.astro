@@ -51,7 +51,7 @@ const GROUPS = CATEGORY_ORDER.map((c) => ({
 
 <BaseLayout
   title="Books"
-  description="Coloring books, log books, journals, and cookbooks from LogicManse Publications."
+  description="Practical books from LogicManse Publications: a kids' coloring book, a Kerala family cookbook, and log books for rentals, renovations and heart health."
 >
   <section class="bg-navy text-white">
     <div class="max-w-4xl mx-auto px-6 py-20 text-center">
@@ -83,6 +83,8 @@ const GROUPS = CATEGORY_ORDER.map((c) => ({
               <img
                 src={book.cover}
                 alt={book.coverAlt}
+                loading="lazy"
+                decoding="async"
                 class="rounded shadow-md w-28 h-auto justify-self-center sm:justify-self-start"
               />
               <div>

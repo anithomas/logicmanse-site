@@ -6,7 +6,7 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import ConstructionBanner from '../components/ConstructionBanner.astro';
 import WatermarkOverlay from '../components/WatermarkOverlay.astro';
-import { SITE, SITE_UNDER_CONSTRUCTION } from '../data/site';
+import { SITE, SITE_UNDER_CONSTRUCTION, SOCIAL_LINKS } from '../data/site';
 import type { BookTheme } from '../data/books';
 import '../styles/global.css';
 
@@ -18,15 +18,30 @@ interface Props {
   image?: string;
   /** Keep the page out of search results (a title not yet on sale). */
   noindex?: boolean;
+  /** Extra structured data (schema.org) for this page, e.g. a Book. */
+  jsonLd?: Record<string, unknown>;
   /** A book's accent tint (see BookTheme). Brand chrome is never changed. */
   theme?: BookTheme;
 }
-const { title, description, image = '/about/brand-hero.jpg', noindex = false, theme } = Astro.props;
+const { title, description, image = '/about/brand-hero.jpg', noindex = false, theme, jsonLd } = Astro.props;
 
 // og:image must be absolute — Pinterest, Facebook and iMessage all reject
 // a relative path and fall back to no preview at all, which is what this
 // site was doing until now.
 const imageUrl = new URL(image, Astro.site);
+
+// Structured data: tells Google who publishes this site and (on a book's
+// page) what the book is. Invisible to visitors. Every page gets the
+// publisher; a book page adds its own entry through the jsonLd prop.
+const publisher = {
+  '@type': 'Organization',
+  name: SITE.imprintName,
+  url: new URL('/', Astro.site).href,
+  logo: new URL('/logo-mark-192.png', Astro.site).href,
+  email: SITE.contactEmail,
+  sameAs: SOCIAL_LINKS.map((l) => l.href),
+};
+const structuredData = { '@context': 'https://schema.org', '@graph': [publisher, ...(jsonLd ? [jsonLd] : [])] };
 ---
 
 <!doctype html>
@@ -59,6 +74,8 @@ const imageUrl = new URL(image, Astro.site);
     <meta property="og:image:alt" content={title} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:image" content={imageUrl} />
+
+    <script type="application/ld+json" set:html={JSON.stringify(structuredData)} />
 
     <!-- Fonts: Merriweather (serif headers) + Inter (sans body) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
