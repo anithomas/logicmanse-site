@@ -138,6 +138,9 @@ export interface Book {
         without it the href is a sign-up form. An empty href hides the
         section's button, for a form that doesn't exist yet. */
     cta: { href: string; label: string; note: string; download?: string };
+    /** Shows the button greyed out and unclickable, with `note` as the
+        explanation — for a companion whose sign-up form isn't ready yet. */
+    pending?: boolean;
   };
   /** "Cook along with us" — a modest nod to a companion YouTube channel,
       shown as its own small section. Never styled to compete with the Buy
@@ -491,11 +494,16 @@ export const BOOKS: Book[] = [
         'An 18-tab spreadsheet that mirrors the tables in the book, with a live dashboard and the budget sums done for you.',
     },
     companionOffer: {
+      // Greyed out until the Reach sign-up form is ready (same email
+      // sign-up as the other books). When it is: set href to the form URL
+      // (REACH_FORMS), label 'Send me the tracker →', note SIGNUP_NOTE, and
+      // delete `pending`. The workbook itself now lives outside public/ so
+      // it can't be downloaded around the form — host it in R2 like the others.
+      pending: true,
       cta: {
-        href: '/renovation-repair-log/Renovation_Repair_Digital_Companion.xlsx',
-        label: 'Download the workbook (.xlsx) ↓',
-        note: 'Renovation_Repair_Digital_Companion.xlsx',
-        download: 'Renovation_Repair_Digital_Companion.xlsx',
+        href: '#',
+        label: 'Free workbook coming soon',
+        note: 'The free workbook will be sent by email. The sign-up opens shortly — check back soon.',
       },
       contents: [
         'A portfolio summary and at-a-glance dashboard, with live totals',

@@ -278,6 +278,14 @@ const reviewLinks = (
 
         {offer.cta.href && (
           <div class="fade-in-up companion-box border border-slate-200 rounded-xl p-6 text-center mb-10">
+            {offer.pending ? (
+              <span
+                aria-disabled="true"
+                class="inline-block rounded-lg px-6 py-3.5 bg-slate-200 text-slate-500 font-bold cursor-not-allowed select-none"
+              >
+                {offer.cta.label}
+              </span>
+            ) : (
             <a
               href={offer.cta.href}
               download={offer.cta.download}
@@ -286,6 +294,7 @@ const reviewLinks = (
             >
               {offer.cta.label}
             </a>
+            )}
             <p class="text-xs text-slate-400 mt-3 break-all">{offer.cta.note}</p>
           </div>
         )}
