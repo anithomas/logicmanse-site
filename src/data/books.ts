@@ -456,13 +456,12 @@ export const BOOKS: Book[] = [
   },
   {
     // Built (interior, cover, companion workbook — see
-    // Renovation_Repair_Log_Blueprint.md) but not yet on sale, hence
-    // `unreleased`. UNLIKE the other three, this title's printed QR code
+    // Renovation_Repair_Log_Blueprint.md) and on sale on Amazon since
+    // Oct 2026. UNLIKE the other three, this title's printed QR code
     // points at its own product page (blueprint §06, changed 2026-09-26),
     // so qrHref is this page's #companion section rather than a separate
     // reader-only page. That URL is printed on the cover: never change it.
     key: 'renovationLog',
-    unreleased: true,
     theme: 'earth',
     slug: 'renovation-repair-record-book',
     productHref: '/books/renovation-repair-record-book/',

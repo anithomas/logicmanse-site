@@ -86,9 +86,13 @@ export const BOOK_LINKS: Record<
   StoreLinks
 > = {
   renovationLog: {
-    // Not on sale yet — blueprint stage. Fill these in the day it lists.
+    // Amazon paperback live (ASIN B0HN2HGKQH, published via KDP Oct 2026).
+    // Etsy digital edition still pending — add its URL when it lists.
     etsy: '',
-    amazon: { com: '', ca: '' },
+    amazon: {
+      com: 'https://www.amazon.com/dp/B0HN2HGKQH',
+      ca: 'https://www.amazon.ca/dp/B0HN2HGKQH',
+    },
   },
   familyTableFavorites: {
     // Paperback, hardcover and Kindle all confirmed live 27 Sep 2026 via
