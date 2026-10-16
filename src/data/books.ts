@@ -520,6 +520,13 @@ export const BOOKS: Book[] = [
 
 /** The titles shown on the homepage and /books/ — everything but the
     ones still being written. */
+/** Small (640px) copy of a book's cover for shelves and cards, so a
+    208px-wide card doesn't download the full 1082px print file. Made by
+    hand next to each cover as cover-thumb.jpg — add one when you add a
+    book, or this returns the full cover. */
+export const coverThumb = (book: Book): string =>
+  book.cover.endsWith('cover-front.jpg') ? book.cover.replace('cover-front.jpg', 'cover-thumb.jpg') : book.cover;
+
 export const SHELF = BOOKS.filter((b) => !b.unreleased);
 
 export const bookBySlug = (slug: string) => BOOKS.find((b) => b.slug === slug)!;

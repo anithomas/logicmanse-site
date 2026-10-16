@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import CTAButton from '../components/CTAButton.astro';
 import { SITE } from '../data/site';
-import { SHELF } from '../data/books';
+import { SHELF, coverThumb } from '../data/books';
 import PromoVideo from '../components/PromoVideo.astro';
 
 // Order is deliberate, not alphabetical or by launch date (owner,
@@ -80,7 +80,7 @@ const CATEGORIES = [
       <div class="hero-shelf" style={`--n:${SHELF.length}`}>
         {SHELF.map((book, i) => (
           <a href={book.productHref} class="hero-shelf-cover" style={`--i:${i}`}>
-            <img src={book.cover} alt={book.coverAlt} loading={i === 0 ? 'eager' : 'lazy'} />
+            <img src={coverThumb(book)} alt={book.coverAlt} loading={i === 0 ? 'eager' : 'lazy'} />
           </a>
         ))}
       </div>
@@ -207,7 +207,7 @@ const CATEGORIES = [
                 tabindex={i === 0 ? 0 : -1}
                 aria-label={book.title}
               >
-                <img src={book.cover} alt={book.coverAlt} />
+                <img src={coverThumb(book)} alt={book.coverAlt} />
               </a>
             ))}
           </div>
