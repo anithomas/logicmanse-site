@@ -51,13 +51,11 @@ h1, h2, h3, h4 {
    motion. The hero itself (.hero-plain / .hero-shelf) is a plain
    banner regardless — only its small entrance fade is gated (by the
    prefers-reduced-motion query near the bottom of this file), not by
-   "motion". Without "motion" the featured-books showcase further down
-   the page falls back to the ordinary card grid, so the page is
-   complete with JS off or motion reduced.
+   "motion" (scroll progress bar and parallax). The page is complete with
+   JS off or motion reduced.
 ------------------------------------------------------------------ */
 :root {
   --header-h: 68px;
-  --stick-h: max(calc(100svh - var(--header-h)), 560px);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -153,85 +151,67 @@ h1, h2, h3, h4 {
   to { opacity: 1; transform: none; }
 }
 
-/* ---- Pinned featured-books showcase ------------------------------ */
-.showcase-only {
-  display: none;
+/* ---- Featured titles: a fanned hand of cards -------------------------
+   Same geometry idea as .hero-shelf, but interactive: exactly one card is
+   [data-state=active] — straightened, lifted and on top — and the text
+   panel with the same index is shown beside it. Sized from --n (set on
+   the section) so adding or removing a title needs no CSS change. */
+.fan {
+  position: relative;
+  height: 22rem;
+}
+.fan-card {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 7.5rem;
+  aspect-ratio: 1082 / 1400;
+  border-radius: 8px;
+  overflow: hidden;
+  z-index: calc(var(--i) + 1);
+  --offset: calc(var(--i) - (var(--n) - 1) / 2);
+  --spread: 38%;
+  box-shadow: 0 14px 28px -12px rgba(11, 31, 58, 0.55);
+  transform: translate(-50%, -50%) translateX(calc(var(--offset) * var(--spread))) rotate(calc(var(--offset) * 6deg));
+  transition: transform 0.45s var(--ease-out), box-shadow 0.45s var(--ease-out);
+}
+.fan-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+.fan-card[data-state='active'] {
+  z-index: 20;
+  box-shadow: 0 30px 50px -18px rgba(11, 31, 58, 0.65);
+  transform: translate(-50%, -50%) translateX(calc(var(--offset) * var(--spread))) translateY(-1rem) rotate(0deg) scale(1.1);
+}
+.fan-card:focus-visible {
+  outline: 3px solid #1f6f4a;
+  outline-offset: 3px;
 }
 @media (min-width: 768px) {
-  .motion .showcase-only { display: block; }
-  .motion .cards-fallback { display: none; }
+  .fan { height: 28rem; }
+  .fan-card {
+    width: min(12.5rem, 20vw);
+    --spread: 52%;
+  }
 }
-.showcase-track {
-  position: relative;
-  height: calc(var(--stick-h) + (var(--n) - 1) * 75svh);
-}
-.showcase-stick {
-  position: sticky;
-  top: var(--header-h);
-  height: var(--stick-h);
-  display: flex;
-  align-items: center;
-}
-.showcase-covers {
-  position: relative;
-  height: min(64svh, 560px);
-}
-.showcase-cover {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  opacity: 0;
-  transform: translateY(70px) scale(0.92) rotate(4deg);
-  transition: opacity 0.6s ease, transform 0.9s var(--ease-out);
-  pointer-events: none;
-}
-.showcase-cover img {
-  height: 100%;
-  width: auto;
-  max-width: 100%;
-  object-fit: contain;
-  border-radius: 10px;
-  box-shadow: 0 32px 60px -22px rgba(11, 31, 58, 0.5);
-}
-.showcase-cover[data-state='active'] {
-  opacity: 1;
-  transform: rotate(-2deg);
-  pointer-events: auto;
-}
-.showcase-cover[data-state='past'] {
-  transform: translateY(-70px) scale(0.92) rotate(-6deg);
-}
-.showcase-texts {
+.fan-texts {
   display: grid;
 }
-.showcase-text {
+.fan-text {
   grid-area: 1 / 1;
   align-self: start;
   opacity: 0;
   visibility: hidden;
-  transform: translateY(26px);
-  transition: opacity 0.5s ease, transform 0.7s var(--ease-out), visibility 0.5s;
+  transform: translateY(14px);
+  transition: opacity 0.35s ease, transform 0.5s var(--ease-out), visibility 0.35s;
 }
-.showcase-text[data-state='active'] {
+.fan-text[data-state='active'] {
   opacity: 1;
   visibility: visible;
   transform: none;
-}
-.showcase-text[data-state='past'] {
-  transform: translateY(-26px);
-}
-.showcase-dot {
-  width: 10px;
-  height: 10px;
-  border-radius: 9999px;
-  background: #cbd5e1;
-  transition: background-color 0.3s, transform 0.3s;
-}
-.showcase-dot[aria-current='true'] {
-  background: #1f6f4a;
-  transform: scale(1.35);
 }
 
 /* Respect users who've asked their OS to reduce motion. */
@@ -250,5 +230,9 @@ h1, h2, h3, h4 {
   .hero-shelf {
     opacity: 1;
     animation: none;
+  }
+  .fan-card,
+  .fan-text {
+    transition: none;
   }
 }

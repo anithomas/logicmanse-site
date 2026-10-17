@@ -157,91 +157,51 @@ const CATEGORIES = [
     </div>
   </section>
 
-  <!-- ============ FEATURED TITLES — card grid ============ -->
-  <!-- The default view, and the only one on phones, with reduced motion,
-       or with JS off. On desktop with motion allowed it is swapped for
-       the pinned showcase below (see .cards-fallback / .showcase-only). -->
-  <section class="bg-slate-50 cards-fallback">
-    <div class="max-w-6xl mx-auto px-6 py-20">
-      <SectionHeading
-        eyebrow="Featured Titles"
-        title="Real Books, Not Mockups"
-        subtitle="Every title is written, laid out and proofed here — most come with their own free companion download."
-      />
-
-      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-10" data-stagger>
-        {SHELF.map((book) => (
+  <!-- ============ FEATURED TITLES — fanned hand ============ -->
+  <!-- Replaced the pinned scroll-jacked showcase (2026-10-17): it showed one
+       cover at a time and held the page for several screens. Now the whole
+       shelf is fanned like a hand of cards; hover / tap / arrow keys lift one
+       to the front and its details show beside it. Cards are real links, so
+       with JS off the first title's details show and every cover still goes
+       to its product page. -->
+  <section class="bg-slate-50" data-fan style={`--n:${SHELF.length}`}>
+    <div class="max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-10 md:gap-14 items-center">
+      <div class="fan" role="group" aria-label="Our books — choose a title">
+        {SHELF.map((book, i) => (
           <a
             href={book.productHref}
-            class="fade-in-up block bg-white border border-slate-200 rounded-xl p-8 hover:border-forest/40 hover:shadow-lg transition-all duration-200"
+            class="fan-card"
+            style={`--i:${i}`}
+            data-i={i}
+            data-state={i === 0 ? 'active' : 'idle'}
+            aria-label={book.title}
           >
-            <span class="inline-block bg-forest/10 text-forest-dark text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-4">
-              {book.category}
-            </span>
-            <h3 class="text-xl font-serif font-bold text-navy mb-2">{book.title}</h3>
-            <p class="text-slate-600 text-sm leading-relaxed mb-4">{book.tagline}</p>
-            <span class="inline-block text-sm font-semibold text-forest">Learn more &rarr;</span>
+            <img src={book.cover} alt={book.coverAlt} loading="lazy" />
           </a>
         ))}
       </div>
 
-      <div class="fade-in-up text-center">
-        <CTAButton href="/books/">See All Books</CTAButton>
-      </div>
-    </div>
-  </section>
+      <div>
+        <p class="uppercase tracking-widest text-sm font-semibold text-forest mb-3">Featured Titles</p>
+        <h2 class="text-3xl md:text-4xl font-bold text-navy mb-8">Real Books, Not Mockups</h2>
 
-  <!-- ============ FEATURED TITLES — pinned showcase ============ -->
-  <!-- Desktop + motion only. The section stays pinned while the covers
-       swap as the visitor scrolls; the dots jump straight to a title. -->
-  <section class="bg-slate-50 showcase-only" data-showcase style={`--n:${SHELF.length}`}>
-    <div class="showcase-track">
-      <div class="showcase-stick">
-        <div class="max-w-6xl mx-auto px-6 w-full grid grid-cols-2 gap-14 items-center">
-          <div class="showcase-covers">
-            {SHELF.map((book, i) => (
-              <a
-                href={book.productHref}
-                class="showcase-cover"
-                data-i={i}
-                tabindex={i === 0 ? 0 : -1}
-                aria-label={book.title}
-              >
-                <img src={book.cover} alt={book.coverAlt} />
+        <div class="fan-texts mb-8" aria-live="polite">
+          {SHELF.map((book, i) => (
+            <div class="fan-text" data-i={i} data-state={i === 0 ? 'active' : 'idle'}>
+              <span class="inline-block bg-forest/10 text-forest-dark text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-4">
+                {book.category}
+              </span>
+              <h3 class="text-2xl md:text-3xl font-serif font-bold text-navy mb-3">{book.title}</h3>
+              <p class="text-slate-600 leading-relaxed mb-3">{book.tagline}</p>
+              <p class="text-sm text-slate-500 mb-5">{book.specs}</p>
+              <a href={book.productHref} class="inline-block text-sm font-semibold text-forest hover:text-forest-dark">
+                Learn more &rarr;
               </a>
-            ))}
-          </div>
-
-          <div>
-            <p class="uppercase tracking-widest text-sm font-semibold text-forest mb-3">Featured Titles</p>
-            <h2 class="text-3xl md:text-4xl font-bold text-navy mb-8">Real Books, Not Mockups</h2>
-
-            <div class="showcase-texts mb-8">
-              {SHELF.map((book, i) => (
-                <div class="showcase-text" data-i={i}>
-                  <span class="inline-block bg-forest/10 text-forest-dark text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-4">
-                    {book.category}
-                  </span>
-                  <h3 class="text-2xl md:text-3xl font-serif font-bold text-navy mb-3">{book.title}</h3>
-                  <p class="text-slate-600 leading-relaxed mb-3">{book.tagline}</p>
-                  <p class="text-sm text-slate-500 mb-5">{book.specs}</p>
-                  <a href={book.productHref} class="inline-block text-sm font-semibold text-forest hover:text-forest-dark">
-                    Learn more &rarr;
-                  </a>
-                </div>
-              ))}
             </div>
-
-            <div class="flex items-center gap-6">
-              <CTAButton href="/books/">See All Books</CTAButton>
-              <div class="flex items-center gap-3" role="group" aria-label="Choose a title">
-                {SHELF.map((book, i) => (
-                  <button type="button" class="showcase-dot" data-dot={i} aria-label={`Show ${book.title}`}></button>
-                ))}
-              </div>
-            </div>
-          </div>
+          ))}
         </div>
+
+        <CTAButton href="/books/">See All Books</CTAButton>
       </div>
     </div>
   </section>
@@ -264,77 +224,44 @@ const CATEGORIES = [
 </BaseLayout>
 
 <script>
-  // Drives the pinned featured-books showcase further down the page: plain
-  // scroll maths — read where the section sits, write a data attribute,
-  // and let the stylesheet do the animating. Skipped entirely unless
-  // BaseLayout added the "motion" class (the visitor hasn't asked for
-  // reduced motion). The hero itself is no longer pinned/scroll-scrubbed
-  // (see the note on hero-plain above) — this script only reads/writes
-  // --header-h and drives the showcase now.
-  const root = document.documentElement;
+  // Hand-of-cards selector for the featured titles. Hover (mouse), focus,
+  // arrow keys and the first tap on a card bring it to the front; a tap on
+  // the already-front card follows its link. Without JS the first title
+  // stays selected and every card is still an ordinary link.
+  const fan = document.querySelector<HTMLElement>('[data-fan]');
+  if (fan) {
+    const cards = Array.from(fan.querySelectorAll<HTMLAnchorElement>('.fan-card'));
+    const texts = Array.from(fan.querySelectorAll<HTMLElement>('.fan-text'));
+    let active = 0;
+    let hoverTimer: number | undefined;
 
-  if (root.classList.contains('motion')) {
-    const header = document.querySelector('header');
-    const showcase = document.querySelector<HTMLElement>('[data-showcase]');
-    const clamp = (n: number) => Math.min(1, Math.max(0, n));
-
-    const covers = showcase?.querySelectorAll<HTMLElement>('.showcase-cover') ?? [];
-    const texts = showcase?.querySelectorAll<HTMLElement>('.showcase-text') ?? [];
-    const dots = showcase?.querySelectorAll<HTMLButtonElement>('.showcase-dot') ?? [];
-    let active = -1;
-
-    const setActive = (idx: number) => {
+    const select = (idx: number) => {
       if (idx === active) return;
       active = idx;
-      const mark = (el: HTMLElement, i: number) => {
-        el.dataset.state = i === idx ? 'active' : i < idx ? 'past' : 'next';
-      };
-      covers.forEach((el, i) => {
-        mark(el, i);
-        el.tabIndex = i === idx ? 0 : -1;
+      cards.forEach((el, i) => (el.dataset.state = i === idx ? 'active' : 'idle'));
+      texts.forEach((el, i) => (el.dataset.state = i === idx ? 'active' : 'idle'));
+    };
+
+    cards.forEach((card, i) => {
+      card.addEventListener('pointerenter', (e) => {
+        if (e.pointerType !== 'mouse') return;
+        // Short delay so sweeping across the fan doesn't flicker through titles.
+        hoverTimer = window.setTimeout(() => select(i), 60);
       });
-      texts.forEach(mark);
-      dots.forEach((d, i) => d.setAttribute('aria-current', String(i === idx)));
-    };
-
-    const showcaseGeometry = () => {
-      const track = showcase!.querySelector<HTMLElement>('.showcase-track')!;
-      const stick = showcase!.querySelector<HTMLElement>('.showcase-stick')!;
-      return { track, travel: track.offsetHeight - stick.offsetHeight };
-    };
-
-    const update = () => {
-      const headerH = header?.offsetHeight ?? 68;
-      root.style.setProperty('--header-h', `${headerH}px`);
-
-      // offsetParent is null while the showcase is display:none (phones).
-      if (showcase && showcase.offsetParent !== null) {
-        const { track, travel } = showcaseGeometry();
-        const p = travel > 0 ? clamp((headerH - track.getBoundingClientRect().top) / travel) : 0;
-        setActive(Math.min(covers.length - 1, Math.floor(p * covers.length)));
-      }
-    };
-
-    let queued = false;
-    const queue = () => {
-      if (queued) return;
-      queued = true;
-      requestAnimationFrame(() => {
-        queued = false;
-        update();
+      card.addEventListener('pointerleave', () => window.clearTimeout(hoverTimer));
+      card.addEventListener('focus', () => select(i));
+      card.addEventListener('click', (e) => {
+        if (i !== active) {
+          e.preventDefault();
+          select(i);
+        }
       });
-    };
-
-    dots.forEach((dot, i) => {
-      dot.addEventListener('click', () => {
-        const { track, travel } = showcaseGeometry();
-        const top = track.getBoundingClientRect().top + window.scrollY - (header?.offsetHeight ?? 68);
-        window.scrollTo({ top: top + ((i + 0.5) / covers.length) * travel, behavior: 'smooth' });
+      card.addEventListener('keydown', (e) => {
+        const step = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+        if (!step) return;
+        e.preventDefault();
+        cards[(i + step + cards.length) % cards.length].focus();
       });
     });
-
-    window.addEventListener('scroll', queue, { passive: true });
-    window.addEventListener('resize', queue);
-    update();
   }
 </script>
