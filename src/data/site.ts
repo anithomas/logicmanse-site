@@ -86,9 +86,13 @@ export const BOOK_LINKS: Record<
   StoreLinks
 > = {
   renovationLog: {
-    // Not on sale yet — blueprint stage. Fill these in the day it lists.
+    // Amazon paperback live (ASIN B0HN2HGKQH, published via KDP Oct 2026).
+    // Etsy digital edition still pending — add its URL when it lists.
     etsy: '',
-    amazon: { com: '', ca: '' },
+    amazon: {
+      com: 'https://www.amazon.com/dp/B0HN2HGKQH',
+      ca: 'https://www.amazon.ca/dp/B0HN2HGKQH',
+    },
   },
   familyTableFavorites: {
     // Paperback, hardcover and Kindle all confirmed live 27 Sep 2026 via
@@ -162,6 +166,7 @@ export const REACH_FORMS = {
   leia: 'https://reach-forms.hostingerusercontent.com/form/c3c3a22b-2257-457a-9635-5f2a3a6ab75c',
   rentalLog: 'https://reach-forms.hostingerusercontent.com/form/507b9eac-cab0-41c3-ae6c-41e8ff00d445',
   heartHealth: 'https://reach-forms.hostingerusercontent.com/form/5feeedfb-224c-44b0-a557-dc712f200b84',
+  renovationLog: 'https://reach-forms.hostingerusercontent.com/form/e600ef31-07c7-4fc0-994e-dbac41933c17',
   familyTableFavorites: 'https://reach-forms.hostingerusercontent.com/form/ea7c6b0f-2a4f-45d5-9987-e93d45a12e83',
 } as const;
 

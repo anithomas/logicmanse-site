@@ -138,6 +138,9 @@ export interface Book {
         without it the href is a sign-up form. An empty href hides the
         section's button, for a form that doesn't exist yet. */
     cta: { href: string; label: string; note: string; download?: string };
+    /** Shows the button greyed out and unclickable, with `note` as the
+        explanation — for a companion whose sign-up form isn't ready yet. */
+    pending?: boolean;
   };
   /** "Cook along with us" — a modest nod to a companion YouTube channel,
       shown as its own small section. Never styled to compete with the Buy
@@ -456,13 +459,12 @@ export const BOOKS: Book[] = [
   },
   {
     // Built (interior, cover, companion workbook — see
-    // Renovation_Repair_Log_Blueprint.md) but not yet on sale, hence
-    // `unreleased`. UNLIKE the other three, this title's printed QR code
+    // Renovation_Repair_Log_Blueprint.md) and on sale on Amazon since
+    // Oct 2026. UNLIKE the other three, this title's printed QR code
     // points at its own product page (blueprint §06, changed 2026-09-26),
     // so qrHref is this page's #companion section rather than a separate
     // reader-only page. That URL is printed on the cover: never change it.
     key: 'renovationLog',
-    unreleased: true,
     theme: 'earth',
     slug: 'renovation-repair-record-book',
     productHref: '/books/renovation-repair-record-book/',
@@ -492,12 +494,7 @@ export const BOOKS: Book[] = [
         'An 18-tab spreadsheet that mirrors the tables in the book, with a live dashboard and the budget sums done for you.',
     },
     companionOffer: {
-      cta: {
-        href: '/renovation-repair-log/Renovation_Repair_Digital_Companion.xlsx',
-        label: 'Download the workbook (.xlsx) ↓',
-        note: 'Renovation_Repair_Digital_Companion.xlsx',
-        download: 'Renovation_Repair_Digital_Companion.xlsx',
-      },
+      cta: { href: REACH_FORMS.renovationLog, label: 'Send me the tracker →', note: SIGNUP_NOTE },
       contents: [
         'A portfolio summary and at-a-glance dashboard, with live totals',
         'A project tracker that links every log sheet to a property and project',
@@ -507,7 +504,8 @@ export const BOOKS: Book[] = [
         'A capital improvements log and a repair-vs-capital reference page to fill in with your own accountant',
       ],
       steps: [
-        'Download the workbook and open it in Excel, Google Sheets or Numbers.',
+        'Tap the button and add your email — it takes about 10 seconds.',
+        'We email you the download link right away. Open the workbook in Excel, Google Sheets or Numbers.',
         'Start on the Portfolio Summary tab and add your properties, then log each job on the Project Tracker tab.',
         'Every other tab picks up your property and project names from a dropdown — fill in the rest as you go, on paper or on screen.',
       ],
@@ -522,6 +520,13 @@ export const BOOKS: Book[] = [
 
 /** The titles shown on the homepage and /books/ — everything but the
     ones still being written. */
+/** Small (640px) copy of a book's cover for shelves and cards, so a
+    208px-wide card doesn't download the full 1082px print file. Made by
+    hand next to each cover as cover-thumb.jpg — add one when you add a
+    book, or this returns the full cover. */
+export const coverThumb = (book: Book): string =>
+  book.cover.endsWith('cover-front.jpg') ? book.cover.replace('cover-front.jpg', 'cover-thumb.jpg') : book.cover;
+
 export const SHELF = BOOKS.filter((b) => !b.unreleased);
 
 export const bookBySlug = (slug: string) => BOOKS.find((b) => b.slug === slug)!;

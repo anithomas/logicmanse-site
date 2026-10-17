@@ -40,9 +40,28 @@ const reviewLinks = (
     etsy && { label: 'Etsy (via your Purchases page)', href: ETSY_SHOP_URL },
   ] as const
 ).filter((l): l is { label: string; href: string } => Boolean(l));
+
+// Structured data for search engines: what this book is and where it can
+// be bought. No price is stated — prices drift and a wrong one is worse
+// than none.
+const siteOrigin = new URL('/', Astro.site).href;
+const bookJsonLd = {
+  '@type': 'Book',
+  name: book.title,
+  description: book.description,
+  url: new URL(book.productHref, Astro.site).href,
+  ...(book.cover && { image: new URL(book.cover, Astro.site).href }),
+  author: { '@type': 'Person', name: '@Antz' },
+  publisher: { '@type': 'Organization', name: 'LogicManse Publications', url: siteOrigin },
+  inLanguage: 'en',
+  ...(amazon.com || etsy
+    ? { sameAs: [amazon.com, amazon.ca, etsy].filter(Boolean) }
+    : {}),
+};
 ---
 
 <BaseLayout
+  jsonLd={bookJsonLd}
   title={book.metaTitle ?? book.title}
   description={book.metaDescription ?? book.tagline}
   image={book.cover || undefined}
@@ -143,6 +162,8 @@ const reviewLinks = (
             <img
               src={book.interior}
               alt={book.interiorAlt}
+              loading="lazy"
+              decoding="async"
               class="rounded-lg shadow-lg w-full h-auto"
             />
           )
@@ -278,6 +299,14 @@ const reviewLinks = (
 
         {offer.cta.href && (
           <div class="fade-in-up companion-box border border-slate-200 rounded-xl p-6 text-center mb-10">
+            {offer.pending ? (
+              <span
+                aria-disabled="true"
+                class="inline-block rounded-lg px-6 py-3.5 bg-slate-200 text-slate-500 font-bold cursor-not-allowed select-none"
+              >
+                {offer.cta.label}
+              </span>
+            ) : (
             <a
               href={offer.cta.href}
               download={offer.cta.download}
@@ -286,6 +315,7 @@ const reviewLinks = (
             >
               {offer.cta.label}
             </a>
+            )}
             <p class="text-xs text-slate-400 mt-3 break-all">{offer.cta.note}</p>
           </div>
         )}
