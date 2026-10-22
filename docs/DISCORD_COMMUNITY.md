@@ -37,8 +37,7 @@ A permanent invite (never expires) is created and linked from the site footer an
 
 ## Still to do
 
-- **Make `#welcome-and-rules` public.** It is currently private (only the owner sees it), so invited members can't read the rules. Onboarding's Default Channels step has an "Unlock" button for it.
-- Finish and check the `#welcome-and-rules` text (it is partly filled in).
+- Review the `#welcome-and-rules` text. The channel was made public and read-only on 2026-10-22 (it had been private, which hid the rules from invited members); the text there now is the five short rules plus the site link.
 - Turn on AutoMod and review the Safety Setup screen.
 - Set up the `#social-feed` webhook (via MonitoRSS, Zapier or IFTTT). The webhook URL stays outside the repo.
 - Optional: custom role colours in the brand navy/forest, a server banner, and the Server Guide.
