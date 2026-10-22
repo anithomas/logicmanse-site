@@ -31,9 +31,13 @@ Moderator (green); Kids Books, Renovation Book, Cookbook (gold); Parent, Home Co
   3. **Want updates?** Launch Alerts, Giveaway Alerts
 - The optional Server Guide was skipped.
 
+## Invite link
+
+A permanent invite (never expires) is created and linked from the site footer and every QR page through `SOCIAL_LINKS` in `site.ts`. Invites land in `#welcome-and-rules`. To replace it: Invite to Server, tick "Set this link to never expire", then update the one `href` in `site.ts`.
+
 ## Still to do
 
-- Create a permanent invite link (never expires, no use limit) and add it to the site (`SOCIAL_LINKS` in `site.ts`, footer and QR pages).
+- **Make `#welcome-and-rules` public.** It is currently private (only the owner sees it), so invited members can't read the rules. Onboarding's Default Channels step has an "Unlock" button for it.
 - Finish and check the `#welcome-and-rules` text (it is partly filled in).
 - Turn on AutoMod and review the Safety Setup screen.
 - Set up the `#social-feed` webhook (via MonitoRSS, Zapier or IFTTT). The webhook URL stays outside the repo.

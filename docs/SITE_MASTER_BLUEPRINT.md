@@ -130,7 +130,7 @@ Family Table Favorites is the one exception to "every copy includes this, free":
 
 Instagram, Facebook, YouTube, TikTok and Pinterest, defined once in `SOCIAL_LINKS`. `SocialIcons.astro` renders them as icons (Simple Icons glyphs, `currentColor`). Shown in the site footer (every normal page) and on every QR landing page.
 
-**Discord community (set up 2026-10-21/22).** A "Logicmanse Publications" Discord server is the readers' community hub. It is **not yet linked from the site** and is not in `SOCIAL_LINKS`: add it there (plus a "Join our Discord" link on the site and QR pages) once a permanent invite link exists. Structure, roles and settings are recorded in `DISCORD_COMMUNITY.md`. Never put the invite webhook URL or any bot token in this repo.
+**Discord community (set up 2026-10-21/22).** A "Logicmanse Publications" Discord server is the readers' community hub. It is the sixth entry in `SOCIAL_LINKS` (label `Discord`, permanent never-expiring invite), so its icon shows in the footer and on every QR page automatically; its glyph lives in `social-icons.ts`. It is deliberately **excluded from the structured-data `sameAs` list** in `BaseLayout.astro` (an invite is not an official profile). If the invite is ever revoked, create a new never-expiring one and update the single `href` in `site.ts`. Structure, roles and settings are recorded in `DISCORD_COMMUNITY.md`. Never put a webhook URL or bot token in this repo.
 
 ## 10. Titles at a glance
 
@@ -163,7 +163,7 @@ Exact prices and links live in `site.ts` and `books.ts` (re-check live listings 
 
 - The Family Table Favorites 5-recipe sample PDF itself (which 5 recipes, the actual file) still needs to be produced and attached to its Reach automation — the website promises it, but the file/automation is a Hostinger Reach dashboard task, outside this codebase.
 - Renovation book QR page and launch steps (above).
-- Discord: create a permanent invite link (never expires, no use limit), add it to `SOCIAL_LINKS` and the site/QR footers, finish the `#welcome-and-rules` text, set up the `#social-feed` webhook, and turn on AutoMod. Full list in `DISCORD_COMMUNITY.md`.
+- Discord: `#welcome-and-rules` is currently a private channel (new members can't see the rules), so make it public and finish its text; also set up the `#social-feed` webhook and turn on AutoMod. Full list in `DISCORD_COMMUNITY.md`.
 - `README.md` still mentions `services.ts` and Formspree from the old software-site era; this blueprint supersedes those lines.
 - The sitemap is hand-maintained: update it on every page change.
 - Keep the Leia, Rental and Heart Health QR pages consistent with section 7 whenever one is edited.

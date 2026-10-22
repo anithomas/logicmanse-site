@@ -39,7 +39,7 @@ const publisher = {
   url: new URL('/', Astro.site).href,
   logo: new URL('/logo-mark-192.png', Astro.site).href,
   email: SITE.contactEmail,
-  sameAs: SOCIAL_LINKS.map((l) => l.href),
+  sameAs: SOCIAL_LINKS.filter((l) => l.label !== 'Discord').map((l) => l.href),
 };
 const structuredData = { '@context': 'https://schema.org', '@graph': [publisher, ...(jsonLd ? [jsonLd] : [])] };
 ---

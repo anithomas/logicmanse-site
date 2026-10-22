@@ -177,4 +177,7 @@ export const SOCIAL_LINKS = [
   { label: 'YouTube', href: 'https://www.youtube.com/@logicmanse' },
   { label: 'TikTok', href: 'https://www.tiktok.com/@logicmanse?lang=en' },
   { label: 'Pinterest', href: 'https://ca.pinterest.com/logicmanse/' },
+  // Community server invite (never expires). Not an official profile, so it is
+  // left out of the structured-data sameAs list in BaseLayout.astro.
+  { label: 'Discord', href: 'https://discord.gg/Ka8rRmChv' },
 ] as const;
