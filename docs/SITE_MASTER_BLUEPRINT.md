@@ -2,7 +2,7 @@
 
 The single reference for how the **logicmanse.ca** website is built, what lives where, and the rules every new page or book must follow. Keep this file current: when you add a page, a book, a store link or a rule, update the matching section in the same commit.
 
-*Last updated: 2026-10-06. Section 13 is the disaster-recovery guide.* Sibling documents: `README.md` (local setup), `DEPLOYMENT.md` (hosting and DNS history), and the company-level `Logicmanse_Solutions_Master_Blueprint.docx` (publishing business, outside this repo).
+*Last updated: 2026-10-22. Section 13 is the disaster-recovery guide.* Sibling documents: `README.md` (local setup), `DEPLOYMENT.md` (hosting and DNS history), `DISCORD_COMMUNITY.md` (the Discord server's structure and settings), and the company-level `Logicmanse_Solutions_Master_Blueprint.docx` (publishing business, outside this repo).
 
 ---
 
@@ -130,6 +130,8 @@ Family Table Favorites is the one exception to "every copy includes this, free":
 
 Instagram, Facebook, YouTube, TikTok and Pinterest, defined once in `SOCIAL_LINKS`. `SocialIcons.astro` renders them as icons (Simple Icons glyphs, `currentColor`). Shown in the site footer (every normal page) and on every QR landing page.
 
+**Discord community (set up 2026-10-21/22).** A "Logicmanse Publications" Discord server is the readers' community hub. It is **not yet linked from the site** and is not in `SOCIAL_LINKS`: add it there (plus a "Join our Discord" link on the site and QR pages) once a permanent invite link exists. Structure, roles and settings are recorded in `DISCORD_COMMUNITY.md`. Never put the invite webhook URL or any bot token in this repo.
+
 ## 10. Titles at a glance
 
 | Book | Category | Status |
@@ -161,6 +163,7 @@ Exact prices and links live in `site.ts` and `books.ts` (re-check live listings 
 
 - The Family Table Favorites 5-recipe sample PDF itself (which 5 recipes, the actual file) still needs to be produced and attached to its Reach automation — the website promises it, but the file/automation is a Hostinger Reach dashboard task, outside this codebase.
 - Renovation book QR page and launch steps (above).
+- Discord: create a permanent invite link (never expires, no use limit), add it to `SOCIAL_LINKS` and the site/QR footers, finish the `#welcome-and-rules` text, set up the `#social-feed` webhook, and turn on AutoMod. Full list in `DISCORD_COMMUNITY.md`.
 - `README.md` still mentions `services.ts` and Formspree from the old software-site era; this blueprint supersedes those lines.
 - The sitemap is hand-maintained: update it on every page change.
 - Keep the Leia, Rental and Heart Health QR pages consistent with section 7 whenever one is edited.
