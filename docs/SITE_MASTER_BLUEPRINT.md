@@ -163,7 +163,7 @@ Exact prices and links live in `site.ts` and `books.ts` (re-check live listings 
 
 - The Family Table Favorites 5-recipe sample PDF itself (which 5 recipes, the actual file) still needs to be produced and attached to its Reach automation — the website promises it, but the file/automation is a Hostinger Reach dashboard task, outside this codebase.
 - Renovation book QR page and launch steps (above).
-- Discord: set up the `#social-feed` webhook and turn on AutoMod. Full list in `DISCORD_COMMUNITY.md`.
+- Discord: set up the `#social-feed` webhook. Full list in `DISCORD_COMMUNITY.md`.
 - `README.md` still mentions `services.ts` and Formspree from the old software-site era; this blueprint supersedes those lines.
 - The sitemap is hand-maintained: update it on every page change.
 - Keep the Leia, Rental and Heart Health QR pages consistent with section 7 whenever one is edited.

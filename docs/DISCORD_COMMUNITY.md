@@ -31,6 +31,10 @@ Moderator (green); Kids Books, Renovation Book, Cookbook (gold); Parent, Home Co
   3. **Want updates?** Launch Alerts, Giveaway Alerts
 - The optional Server Guide was skipped.
 
+## AutoMod (Server Settings > Safety Setup > AutoMod)
+
+On since 2026-10-22, all with "Block message" and no alert channel: Block Mention Spam, Block Suspected Spam Content, and Block Commonly Flagged Words (Severe Profanity, Insults & Slurs and Sexual Content all ticked). The sensitive-media filter scans all members. Raid protection/CAPTCHA and DM and spam protection are fully enabled.
+
 ## Invite link
 
 A permanent invite (never expires) is created and linked from the site footer and every QR page through `SOCIAL_LINKS` in `site.ts`. Invites land in `#welcome-and-rules`. To replace it: Invite to Server, tick "Set this link to never expire", then update the one `href` in `site.ts`.
@@ -38,6 +42,6 @@ A permanent invite (never expires) is created and linked from the site footer an
 ## Still to do
 
 - Review the `#welcome-and-rules` text. The channel was made public and read-only on 2026-10-22 (it had been private, which hid the rules from invited members); the text there now is the five short rules plus the site link.
-- Turn on AutoMod and review the Safety Setup screen.
+- Optional AutoMod extras: a custom blocked-word list, profile-name filtering, and an alert channel (rules currently only block the message).
 - Set up the `#social-feed` webhook (via MonitoRSS, Zapier or IFTTT). The webhook URL stays outside the repo.
 - Optional: custom role colours in the brand navy/forest, a server banner, and the Server Guide.
