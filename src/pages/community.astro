@@ -1,0 +1,85 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SectionHeading from '../components/SectionHeading.astro';
+import CTAButton from '../components/CTAButton.astro';
+import { SOCIAL_LINKS } from '../data/site';
+import { SOCIAL_ICON_PATHS } from '../data/social-icons';
+
+const discord = SOCIAL_LINKS.find((l) => l.label === 'Discord')!;
+const channels = SOCIAL_LINKS.filter((l) => l.label !== 'Discord');
+
+const blurbs: Record<string, string> = {
+  Instagram: 'Book covers, page peeks and behind-the-scenes.',
+  Facebook: 'Announcements, giveaways and community posts.',
+  YouTube: 'Promo videos, flip-throughs and how-tos.',
+  TikTok: 'Quick looks at new books and ideas.',
+  Pinterest: 'Coloring pages, recipes and renovation inspiration.',
+};
+---
+
+<BaseLayout
+  title="Community"
+  description="Join the LogicManse Publications community: our Discord server and every place we post, in one spot."
+>
+  <section class="bg-navy text-white">
+    <div class="max-w-4xl mx-auto px-6 py-20 text-center">
+      <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl mb-4 text-white">Join the Community</h1>
+      <p class="fade-in-up text-lg text-slate-200 max-w-2xl mx-auto">
+        Chat with other readers, share your photos, and be first to hear about new books.
+      </p>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="max-w-3xl mx-auto px-6 py-20 text-center">
+      <SectionHeading
+        title="Our Discord Server"
+        subtitle="Free to join. Pick your interests when you arrive and you'll see the channels that matter to you."
+      />
+      <ul class="fade-in-up text-left text-slate-600 leading-relaxed max-w-xl mx-auto mb-10 space-y-2 list-disc pl-6">
+        <li>Channels for our kids' books, cookbook and renovation record book</li>
+        <li>Share your photos and finished pages</li>
+        <li>Giveaways and new-release alerts (opt in to the ones you want)</li>
+        <li>Help with your order, plus ideas and suggestions for future books</li>
+      </ul>
+      <div class="fade-in-up">
+        <CTAButton href={discord.href}>Join our Discord</CTAButton>
+      </div>
+    </div>
+  </section>
+
+  <section class="bg-slate-50">
+    <div class="max-w-5xl mx-auto px-6 py-20">
+      <SectionHeading title="Follow Us Everywhere" subtitle="New posts go out across all of these." />
+      <ul class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+        {channels.map((link) => (
+          <li class="fade-in-up">
+            <a
+              href={link.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="flex items-start gap-4 h-full bg-white rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow"
+            >
+              <svg viewBox="0 0 24 24" width="32" height="32" fill="currentColor" aria-hidden="true" class="text-navy shrink-0">
+                <path d={SOCIAL_ICON_PATHS[link.label]} />
+              </svg>
+              <span>
+                <span class="block font-serif font-bold text-navy text-lg">{link.label}</span>
+                <span class="block text-slate-600 text-sm">{blurbs[link.label]}</span>
+              </span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <section class="bg-white">
+    <div class="max-w-3xl mx-auto px-6 py-20 text-center">
+      <SectionHeading title="Questions About a Book?" subtitle="Reach out. We usually reply within a business day." />
+      <div class="fade-in-up">
+        <CTAButton href="/contact/">Get in Touch</CTAButton>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
