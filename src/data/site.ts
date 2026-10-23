@@ -41,6 +41,7 @@ export const NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Books', href: '/books/' },
   { label: 'About', href: '/about/' },
+  { label: 'Community', href: '/community/' },
   { label: 'Contact', href: '/contact/' },
   { label: 'Privacy Policy', href: '/privacy-policy/' },
 ];
@@ -49,6 +50,7 @@ export const HEADER_NAV_LINKS = [
   { label: 'Home', href: '/' },
   { label: 'Books', href: '/books/' },
   { label: 'About', href: '/about/' },
+  { label: 'Community', href: '/community/' },
   { label: 'Contact', href: '/contact/' },
 ];
 
