@@ -206,6 +206,31 @@ const CATEGORIES = [
     </div>
   </section>
 
+  <!-- ============ BRAND PROMO VIDEO ============ -->
+  <!-- Added 2026-10-26: the 44s 16:9 brand promo (HyperFrames render).
+       Separate from the square shop loop above on purpose: this one is
+       widescreen and longer, so it gets real controls and no autoplay
+       or loop. It is silent (no audio track), preload is metadata only
+       so visitors who never press play pay for the poster, not the file. -->
+  <section class="bg-navy text-white">
+    <div class="max-w-5xl mx-auto px-6 py-16 md:py-20 text-center">
+      <p class="text-xs font-bold uppercase tracking-widest mb-3" style="color:#8fd1ae">Watch</p>
+      <h2 class="text-3xl md:text-4xl font-serif font-bold text-white mb-8">
+        Books Made to Be Used, Not Just Read
+      </h2>
+      <video
+        class="w-full aspect-video rounded-xl shadow-xl bg-navy-dark"
+        src="/home/logicmanse-promo.mp4"
+        poster="/home/logicmanse-promo-poster.jpg"
+        aria-label="A 44-second look at LogicManse Publications: coloring books, cookbooks, log books and journals"
+        controls
+        playsinline
+        preload="metadata"
+        width="1280"
+        height="720"></video>
+    </div>
+  </section>
+
   <!-- ============ FINAL CTA ============ -->
   <section class="bg-white">
     <div class="max-w-3xl mx-auto px-6 py-20 text-center">
