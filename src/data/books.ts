@@ -107,11 +107,11 @@ export interface Book {
       link (this catalog's other titles only ever have an Etsy PDF and one
       Amazon paperback, which BuyButtons already covers) — a plain list of
       every edition, shown on the product page and the printed-URL page.
-      price is a display string (e.g. "US$9.99"); prices drift, so check
-      the live listing before trusting an old one. kind groups the list
+      No prices are shown on the site — they drift, and a stale one is
+      worse than none; the store page has the real figure. kind groups the list
       into "Digital Edition" / "Print Editions" subsections when any entry
       sets it; omit kind on every entry to keep the old flat grid. */
-  editions?: { label: string; format: string; price: string; href: string; kind?: 'digital' | 'print' }[];
+  editions?: { label: string; format: string; href: string; kind?: 'digital' | 'print' }[];
   /** The "Claim your free companion" section on the product page, at
       #companion. It is one button with a short write-up around it. For the
       three titles whose QR code goes to a separate page, the button is the
@@ -283,34 +283,29 @@ export const BOOKS: Book[] = [
     amazonFormatLabel: 'Paperback',
     // Every real, live purchase link, exactly as confirmed 2026-09-29 (KDP
     // "published" e-mails for print/Kindle; the Etsy listing itself for
-    // the PDF — see FTF_Vol1_Etsy_Listing.md). Prices drift; re-check the
-    // live listing before trusting an old figure here.
+    // the PDF — see FTF_Vol1_Etsy_Listing.md).
     editions: [
       {
         label: 'Kindle eBook',
         format: 'Reflowable ebook · 158 pp',
-        price: 'US$9.99',
         href: 'https://www.amazon.com/dp/B0HL75YFLS',
         kind: 'digital',
       },
       {
         label: 'Digital PDF',
         format: 'Instant download · 158 pp + an 8-page keepsake bonus',
-        price: 'CA$9.99',
         href: 'https://www.etsy.com/ca/listing/4584613661/kerala-cookbook-pdf-dig',
         kind: 'digital',
       },
       {
         label: 'Paperback',
         format: '8.5 × 11 in · standard colour · 158 pp',
-        price: 'US$14.99',
         href: 'https://www.amazon.com/dp/B0HL5WYX45',
         kind: 'print',
       },
       {
         label: 'Premium Gift Edition',
         format: 'Hardcover · 8.25 × 11 in · premium colour · 158 pp',
-        price: 'US$39.99',
         href: 'https://www.amazon.com/dp/B0HL74CFY8',
         kind: 'print',
       },
@@ -478,6 +473,10 @@ export const BOOKS: Book[] = [
     specs: '8.5" × 11" · 108 pages · undated · up to 4 properties',
     cover: '/renovation-repair-log/cover-front.jpg',
     coverAlt: 'The Renovation & Repair Record Book cover',
+    interior: '/renovation-repair-log/interior-page.jpg',
+    interiorAlt: 'A sample interior page: the contractor and quote comparison table',
+    video: '/renovation-repair-log/promo-video.mp4',
+    videoPoster: '/renovation-repair-log/video-poster.jpg',
     inside: [
       'A portfolio summary for every property — year built, roof, heating, panel and water-heater age — repeated for four years, so you can see at a glance what needs attention',
       'A 15-page block for each of up to 4 properties: five projects each, with scope, dates and status',

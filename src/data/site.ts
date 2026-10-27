@@ -87,8 +87,8 @@ export const BOOK_LINKS: Record<
 > = {
   renovationLog: {
     // Amazon paperback live (ASIN B0HN2HGKQH, published via KDP Oct 2026).
-    // Etsy digital edition still pending — add its URL when it lists.
-    etsy: '',
+    // Etsy digital edition live Oct 2026.
+    etsy: 'https://www.etsy.com/ca/listing/4600067374/renovation-and-repair-log-books',
     amazon: {
       com: 'https://www.amazon.com/dp/B0HN2HGKQH',
       ca: 'https://www.amazon.ca/dp/B0HN2HGKQH',
@@ -177,4 +177,7 @@ export const SOCIAL_LINKS = [
   { label: 'YouTube', href: 'https://www.youtube.com/@logicmanse' },
   { label: 'TikTok', href: 'https://www.tiktok.com/@logicmanse?lang=en' },
   { label: 'Pinterest', href: 'https://ca.pinterest.com/logicmanse/' },
+  // Community server invite (never expires). Not an official profile, so it is
+  // left out of the structured-data sameAs list in BaseLayout.astro.
+  { label: 'Discord', href: 'https://discord.gg/Ka8rRmChv' },
 ] as const;
