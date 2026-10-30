@@ -2,7 +2,7 @@
 
 The single reference for how the **logicmanse.ca** website is built, what lives where, and the rules every new page or book must follow. Keep this file current: when you add a page, a book, a store link or a rule, update the matching section in the same commit.
 
-*Last updated: 2026-10-22. Section 13 is the disaster-recovery guide.* Sibling documents: `README.md` (local setup), `DEPLOYMENT.md` (hosting and DNS history), `DISCORD_COMMUNITY.md` (the Discord server's structure and settings), and the company-level `Logicmanse_Solutions_Master_Blueprint.docx` (publishing business, outside this repo).
+*Last updated: 2026-10-30. Section 13 is the disaster-recovery guide.* Sibling documents: `README.md` (local setup), `DEPLOYMENT.md` (hosting and DNS history), `DESIGN_SYSTEM.md` (exact colour, type, spacing and component rules), `DISCORD_COMMUNITY.md` (the Discord server's structure and settings), and the company-level `Logicmanse_Solutions_Master_Blueprint.docx` (publishing business, outside this repo).
 
 ---
 
@@ -33,6 +33,8 @@ The site no longer sells software. Old software-business URLs (`/services/`, `/p
 
 ## 3. Brand rules (non-negotiable)
 
+**Design system:** the full token list (colours, type, spacing, radius) and component rules (Button, SiteHeader, Hero, BookCard) are in `docs/DESIGN_SYSTEM.md`, mirrored from the live artifact https://claude.ai/artifact/NHiVhnCXdd1CaBcRfEQYXX. Read it before building any new page, component or graphic, and use its token names rather than new hex values.
+
 - **Palette:** navy `#0B1F3A` (headers, hero, footer), forest green `#1F6F4A` (buttons and accents), slate for body text, white or light-slate sections. Parchment and brass are print-only.
 - **Every page keeps the site brand.** A book's own colours may appear only as a small accent (eyebrow line, step numbers, pull-quote bar, faint section tint), set through the `theme` field. Never on buttons, header, hero or footer.
 - **Direction:** light, parent-friendly, institutional and trustworthy, with scroll-reveal motion (`fade-in-up`, `data-parallax`) and a plain navy hero over a fan of every real cover.
@@ -57,7 +59,7 @@ src/
   pages/               one file per URL (see section 5)
   styles/              global.css, qr-brand.css
 public/                static files copied as-is (covers, videos, redirects, sitemap)
-docs/                  this blueprint
+docs/                  this blueprint, DESIGN_SYSTEM.md, DISCORD_COMMUNITY.md
 platform-docs/         unrelated bookkeeping-platform notes (not part of the site)
 ```
 
@@ -166,6 +168,7 @@ Exact prices and links live in `site.ts` and `books.ts` (re-check live listings 
 - Discord: set up the `#social-feed` webhook. Full list in `DISCORD_COMMUNITY.md`.
 - `README.md` still mentions `services.ts` and Formspree from the old software-site era; this blueprint supersedes those lines.
 - The sitemap is hand-maintained: update it on every page change.
+- Design system: the open-book logo glyph is not yet in the artifact (add it under `assets/Logos/`), and `green-bright` on navy is only about 3.8:1 (kept as a source value; nav link and wordmark only).
 - Keep the Leia, Rental and Heart Health QR pages consistent with section 7 whenever one is edited.
 
 ---
