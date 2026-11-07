@@ -17,6 +17,7 @@ import BuyButtons from '../components/BuyButtons.astro';
 import CTAButton from '../components/CTAButton.astro';
 import PromoVideo from '../components/PromoVideo.astro';
 import { BOOK_LINKS, ETSY_SHOP_URL } from '../data/site';
+import { bookBySlug, coverThumb } from '../data/books';
 import type { Book } from '../data/books';
 
 interface Props {
@@ -33,6 +34,7 @@ const { book } = Astro.props;
 // instruction the email gives, and it is one click either way.
 const { etsy, amazon } = BOOK_LINKS[book.key];
 const offer = book.companionOffer;
+const relatedBook = book.related ? bookBySlug(book.related.slug) : undefined;
 const reviewLinks = (
   [
     amazon.com && { label: 'Amazon', href: amazon.com },
@@ -177,6 +179,33 @@ const bookJsonLd = {
       </div>
     </div>
   </section>
+
+  <!-- ============ SERIES: a sibling title, linked both ways. Optional,
+       see `related` in books.ts. ============ -->
+  {book.related && relatedBook && (
+    <section class="bg-slate-50 border-t border-slate-200">
+      <div class="max-w-3xl mx-auto px-6 py-12 md:py-14">
+        <p class="fade-in-up text-xs font-bold uppercase tracking-widest text-slate-500 mb-4">Also in this series</p>
+        <a
+          href={relatedBook.productHref}
+          class="fade-in-up flex gap-5 items-center rounded-xl border border-slate-200 bg-white p-4 hover:border-forest transition-colors duration-150"
+        >
+          <img
+            src={coverThumb(relatedBook)}
+            alt={relatedBook.coverAlt}
+            width="96"
+            loading="lazy"
+            class="shrink-0 w-20 sm:w-24 h-auto rounded shadow"
+          />
+          <span class="block">
+            <span class="block font-serif font-bold text-navy text-lg mb-1">{book.related.heading}</span>
+            <span class="block text-slate-600 text-sm leading-relaxed mb-2">{book.related.blurb}</span>
+            <span class="text-forest font-semibold text-sm">See the book &rarr;</span>
+          </span>
+        </a>
+      </div>
+    </section>
+  )}
 
   <!-- ============ VALUE PROPOSITION: why the whole collection, not just
        the individual recipes/items in it. Optional — see valueProps in

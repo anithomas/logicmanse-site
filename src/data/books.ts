@@ -146,6 +146,10 @@ export interface Book {
       shown as its own small section. Never styled to compete with the Buy
       buttons; it's a side door, not the destination. Optional. */
   youtube?: { heading: string; blurb: string; href: string; label: string };
+  /** Another title in the same series, shown as an "Also in this series"
+      card that links to that title's product page. Both titles list each
+      other. `slug` is the other book's slug in this file. */
+  related?: { slug: string; heading: string; blurb: string };
   /** Optional pull-quote for the product page. */
   story?: { quote: string; body: string };
 }
@@ -431,6 +435,12 @@ export const BOOKS: Book[] = [
       blurb: 'The same logs as the printed book, for the weeks you would rather type than write.',
     },
     theme: 'clay',
+    related: {
+      slug: 'heart-health-pocket-companion',
+      heading: 'The Heart Health Pocket Companion',
+      blurb:
+        'Taking the log book to the appointment? Its slim 5.5" \u00d7 8.5" companion goes in a handbag: four cut-out medical ID and emergency cards, a master medication list, a visit log and 77 questions for the doctor. Coming soon.',
+    },
     companionOffer: {
       cta: { href: REACH_FORMS.heartHealth, label: 'Send me the spreadsheet →', note: SIGNUP_NOTE },
       contents: [
@@ -464,6 +474,12 @@ export const BOOKS: Book[] = [
     key: 'heartHealthPocket',
     unreleased: true,
     theme: 'clay',
+    related: {
+      slug: 'heart-health-log-book',
+      heading: 'The Complete Heart Health Log Book',
+      blurb:
+        'The full 118-page record for home: weekly blood pressure, weight and medicine logs, a blood thinner schedule, test results and surgical history. This pocket book is its slim companion.',
+    },
     slug: 'heart-health-pocket-companion',
     productHref: '/books/heart-health-pocket-companion/',
     qrHref: '/books/heart-health-pocket-companion/#companion',

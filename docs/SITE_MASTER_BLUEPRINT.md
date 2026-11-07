@@ -158,6 +158,8 @@ Exact prices and links live in `site.ts` and `books.ts` (re-check live listings 
 4. Add store links in `BOOK_LINKS` once live; drop `unreleased`; add both URLs to `public/sitemap.xml`.
 5. Add `<SocialIcons />` to the QR page footer.
 
+**Link two titles as a series:** give each book record a `related: { slug, heading, blurb }` in `books.ts`; the product page then shows an "Also in this series" card linking to the other title (the Heart Health Log Book and Pocket Companion link to each other).
+
 **Launch the Renovation book:** add the real Amazon/Etsy links to `BOOK_LINKS`, remove `unreleased` and add the cover in `books.ts`, build its QR page, add sitemap entries, rebuild.
 
 **Change a social link, store link, nav item or contact detail:** edit the one file in section 4, build, push.
