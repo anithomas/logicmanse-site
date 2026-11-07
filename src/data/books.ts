@@ -463,10 +463,9 @@ export const BOOKS: Book[] = [
     },
   },
   {
-    // Public since 6 Nov 2026: the Etsy digital edition is live. The
-    // paperback was submitted to KDP (Amazon only to start) and is still
-    // pending: add its ASIN to BOOK_LINKS when it goes live. Like the Renovation book, the printed QR code (cover and
-    // interior p48) lands on this page's #companion section, via the
+    // Public since 6 Nov 2026 (Etsy digital edition); the Amazon paperback
+    // (ASIN B0HQR2KD77) is linked from BOOK_LINKS since 7 Nov 2026. Like
+    // the Renovation book, the printed QR code (cover and interior p48) lands on this page's #companion section, via the
     // short printed address www.logicmanse.ca/heart-pocket (a redirect in
     // public/heart-pocket/). That printed URL is fixed: never change it.
     key: 'heartHealthPocket',

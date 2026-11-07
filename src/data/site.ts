@@ -88,12 +88,16 @@ export const BOOK_LINKS: Record<
   StoreLinks
 > = {
   heartHealthPocket: {
-    // Paperback submitted to KDP (Amazon only to start, no Expanded
-    // Distribution). Not on sale yet: fill in the ASIN here when it is live.
+    // Amazon paperback live (ASIN B0HQR2KD77, KDP, Amazon only, no Expanded
+    // Distribution), US$7.99. Same .com/.ca pair as every other title: the
+    // page ships the .com link and BuyButtons swaps to .ca for Canadians.
     // Etsy digital edition (Letter + A4 booklet, tablet PDF, reprint sheets)
     // listed 6 Nov 2026 at 4.99.
     etsy: 'https://www.etsy.com/ca/listing/4611684526/medical-id-card-printable-medication',
-    amazon: { com: '', ca: '' },
+    amazon: {
+      com: 'https://www.amazon.com/dp/B0HQR2KD77',
+      ca: 'https://www.amazon.ca/dp/B0HQR2KD77',
+    },
   },
   renovationLog: {
     // Amazon paperback live (ASIN B0HN2HGKQH, published via KDP Oct 2026).
