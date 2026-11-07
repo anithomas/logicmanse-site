@@ -439,7 +439,7 @@ export const BOOKS: Book[] = [
       slug: 'heart-health-pocket-companion',
       heading: 'The Heart Health Pocket Companion',
       blurb:
-        'Taking the log book to the appointment? Its slim 5.5" \u00d7 8.5" companion goes in a handbag: four cut-out medical ID and emergency cards, a master medication list, a visit log and 77 questions for the doctor. Coming soon.',
+        'Taking the log book to the appointment? Its slim 5.5" \u00d7 8.5" companion goes in a handbag: four cut-out medical ID and emergency cards, a master medication list, a visit log and 77 questions for the doctor. Available now as a print-at-home download.',
     },
     companionOffer: {
       cta: { href: REACH_FORMS.heartHealth, label: 'Send me the spreadsheet →', note: SIGNUP_NOTE },
@@ -463,16 +463,13 @@ export const BOOKS: Book[] = [
     },
   },
   {
-    // Submitted to KDP (Amazon only to start); not on sale yet, so it is
-    // `unreleased`: the product page exists, noindex, off the homepage and
-    // /books/. Like the Renovation book, the printed QR code (cover and
+    // Public since 6 Nov 2026: the Etsy digital edition is live. The
+    // paperback was submitted to KDP (Amazon only to start) and is still
+    // pending: add its ASIN to BOOK_LINKS when it goes live. Like the Renovation book, the printed QR code (cover and
     // interior p48) lands on this page's #companion section, via the
     // short printed address www.logicmanse.ca/heart-pocket (a redirect in
     // public/heart-pocket/). That printed URL is fixed: never change it.
-    // To launch: add the ASIN to BOOK_LINKS, delete `unreleased`, add both
-    // URLs to public/sitemap.xml.
     key: 'heartHealthPocket',
-    unreleased: true,
     theme: 'clay',
     related: {
       slug: 'heart-health-log-book',

@@ -368,9 +368,11 @@ const bookJsonLd = {
       <p class="fade-in-up text-slate-600 mb-8">
         {book.unreleased
           ? 'This book is still being finished. Both stores will be linked here the day it goes on sale.'
-          : etsy
+          : etsy && (amazon.com || amazon.ca)
             ? 'Print it at home today, or have the paperback delivered. Same book either way.'
-            : 'Have it delivered today. A print-at-home digital edition is on the way.'}
+            : etsy
+              ? 'Download it today and print it at home. The paperback is on the way.'
+              : 'Have it delivered today. A print-at-home digital edition is on the way.'}
       </p>
       <div class="fade-in-up max-w-xl mx-auto text-left">
         <BuyButtons bookKey={book.key} amazonLabel={book.amazonFormatLabel} />
