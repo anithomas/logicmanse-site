@@ -86,6 +86,8 @@ platform-docs/         unrelated bookkeeping-platform notes (not part of the sit
 | `/books/heart-health-log-book/` | `books/heart-health-log-book.astro` | Product page |
 | `/books/family-table-favorites-vol1/` | `books/family-table-favorites-vol1.astro` | Product page |
 | `/books/renovation-repair-record-book/` | `books/renovation-repair-record-book.astro` | Product page; **unreleased** (noindex, no cover) |
+| `/books/heart-health-pocket-companion/` | `books/heart-health-pocket-companion.astro` | Product page; **unreleased** (noindex, off the shelf); its `#companion` section is the free download the printed QR lands on |
+| `/heart-pocket/` | `public/heart-pocket/index.html` | Printed short address on the pocket book's cover and p48; redirects to the product page `#companion` (frozen URL) |
 | `/LeiaColoringBook/` | `LeiaColoringBook.astro` | Printed-QR landing page (frozen URL) |
 | `/RentalManagementLog/` | `RentalManagementLog.astro` | Printed-QR landing page (frozen URL) |
 | `/HeartHealthLog/` | `HeartHealthLog.astro` | Printed-QR landing page (frozen URL) |
@@ -143,6 +145,7 @@ Instagram, Facebook, YouTube, TikTok and Pinterest, defined once in `SOCIAL_LINK
 | Heart Health Log Book | Log Book | Live (Amazon, Etsy); QR `/HeartHealthLog/` |
 | Family Table Favorites, Vol. 1 | Cookbook | Live 27–30 Sep 2026: Kindle, paperback, hardcover shown on the site as the "Premium Gift Edition" (Amazon), digital PDF (Etsy); QR `/familytablefavorites-vol1/` |
 | Renovation & Repair Record Book | Log Book | Unreleased; see launch steps in section 11 |
+| Heart Health Pocket Companion (5.5 x 8.5) | Log Book | Submitted to KDP, not on sale: `unreleased`. QR `www.logicmanse.ca/heart-pocket` → product page `#companion` (direct PDF download, no sign-up). Launch: add the ASIN to `BOOK_LINKS.heartHealthPocket`, delete `unreleased`, add the product URL to `public/sitemap.xml` |
 
 Exact prices and links live in `site.ts` and `books.ts` (re-check live listings before trusting an old figure).
 

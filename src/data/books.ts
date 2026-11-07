@@ -33,7 +33,7 @@ export type BookTheme = 'pink' | 'forest' | 'clay' | 'earth' | 'spice';
 const SIGNUP_NOTE = 'Takes 10 seconds. We’ll email you the link right away.';
 
 export interface Book {
-  key: 'leia' | 'rentalLog' | 'heartHealth' | 'renovationLog' | 'familyTableFavorites';
+  key: 'leia' | 'rentalLog' | 'heartHealth' | 'heartHealthPocket' | 'renovationLog' | 'familyTableFavorites';
   /** True until the book is on sale and has a real cover. An unreleased
       title has a product page (so its printed URL and the site are ready)
       but stays off the homepage and the /books/ listing, and is noindex.
@@ -450,6 +450,72 @@ export const BOOKS: Book[] = [
       quote: 'Not one number in here is ours.',
       body:
         'There is no target range, no dosage and no warning sign printed anywhere in this book. Every one of them is a blank line — because they are set for you personally, by the people looking after you. This is simply where yours go.',
+    },
+  },
+  {
+    // Submitted to KDP (Amazon only to start); not on sale yet, so it is
+    // `unreleased`: the product page exists, noindex, off the homepage and
+    // /books/. Like the Renovation book, the printed QR code (cover and
+    // interior p48) lands on this page's #companion section, via the
+    // short printed address www.logicmanse.ca/heart-pocket (a redirect in
+    // public/heart-pocket/). That printed URL is fixed: never change it.
+    // To launch: add the ASIN to BOOK_LINKS, delete `unreleased`, add both
+    // URLs to public/sitemap.xml.
+    key: 'heartHealthPocket',
+    unreleased: true,
+    theme: 'clay',
+    slug: 'heart-health-pocket-companion',
+    productHref: '/books/heart-health-pocket-companion/',
+    qrHref: '/books/heart-health-pocket-companion/#companion',
+    category: 'Log Book',
+    title: 'The Heart Health Pocket Companion',
+    tagline:
+      'Medical ID cards, a medication list and doctor visit notes to carry with you \u2014 the slim companion to The Complete Heart Health Log Book.',
+    description:
+      'A slim 5.5" \u00d7 8.5" pocket record for the doctor\u2019s office, the pharmacy counter and everywhere in between \u2014 four keep-with-you medical ID and emergency cards, a master medication list, a visit log, 77 numbered questions for the doctor and pages for pharmacy visits and refills.',
+    specs: '5.5" \u00d7 8.5" \u00b7 48 pages \u00b7 undated \u00b7 large print',
+    cover: '/heart-health-pocket/cover-front.jpg',
+    coverAlt: 'The Heart Health Pocket Companion front cover',
+    interior: '/heart-health-pocket/interior-page.jpg',
+    interiorAlt: 'A sample interior page: the visit log',
+    inside: [
+      '4 Keep-With-You Medical ID & Emergency Cards',
+      'Master medication list, allergies and care team',
+      'Visit log for 20 appointments',
+      '77 numbered questions for the doctor',
+      '8 pharmacy visit records and refill reminders',
+      'Recent vitals snapshot: your last 10 readings',
+      'Glossary, unit conversions and lined notes pages',
+      'A gift page for To, From and a personal message',
+    ],
+    companion: {
+      name: 'spare cards and refill-reminder sheet',
+      blurb:
+        'Spare copies of the four cards to print as often as you need, plus a reprintable refill-reminder sheet.',
+    },
+    companionOffer: {
+      cta: {
+        href: '/heart-health-pocket/SpareCardsAndRefillSheet_LogBook.pdf',
+        label: 'Download the free PDF \u2192',
+        note: 'US Letter, 5 pages. Print at Actual Size (100%), not Fit to Page.',
+        download: 'SpareCardsAndRefillSheet_LogBook.pdf',
+      },
+      contents: [
+        'Four spare Keep-With-You cards, two to a page and ready to cut out: Medical ID & Emergency Contact, Medications at a Glance, Medical Alert, and In Case of Emergency',
+        'A Refill Reminder Sheet with room for 15 medicines, Asked and Collected tick boxes, and a box for anything missed, late or changed (two copies, reprint as often as you like)',
+        'A page of printing and use tips',
+      ],
+      steps: [
+        'Tap the button to download the PDF. No sign-up needed.',
+        'Print it on US Letter paper at Actual Size (100%).',
+        'Cut out the cards along the dashed lines and keep them in your wallet or bag.',
+        'Copy refill dates from the pharmacy label onto the Refill Reminder Sheet. It does not calculate anything for you.',
+      ],
+    },
+    story: {
+      quote: 'Small enough to carry. Complete enough to matter.',
+      body:
+        'The Complete Heart Health Log Book is the record you keep at home. This one goes with you \u2014 to the appointment, the pharmacy counter, the emergency room \u2014 holding only what a stranger would need to know in a hurry. Every number, dose and range is a blank line for you to fill in; nothing is printed that your own care team has not told you.',
     },
   },
   {

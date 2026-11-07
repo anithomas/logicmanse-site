@@ -84,9 +84,15 @@ export interface StoreLinks {
 }
 
 export const BOOK_LINKS: Record<
-  'leia' | 'rentalLog' | 'heartHealth' | 'renovationLog' | 'familyTableFavorites',
+  'leia' | 'rentalLog' | 'heartHealth' | 'heartHealthPocket' | 'renovationLog' | 'familyTableFavorites',
   StoreLinks
 > = {
+  heartHealthPocket: {
+    // Paperback submitted to KDP (Amazon only to start, no Expanded
+    // Distribution). Not on sale yet: fill in the ASIN here when it is live.
+    etsy: '',
+    amazon: { com: '', ca: '' },
+  },
   renovationLog: {
     // Amazon paperback live (ASIN B0HN2HGKQH, published via KDP Oct 2026).
     // Etsy digital edition live Oct 2026.
