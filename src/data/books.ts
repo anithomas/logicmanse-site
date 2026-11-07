@@ -494,6 +494,8 @@ export const BOOKS: Book[] = [
     coverAlt: 'The Heart Health Pocket Companion front cover',
     interior: '/heart-health-pocket/interior-page.jpg',
     interiorAlt: 'A sample interior page: the visit log',
+    video: '/heart-health-pocket/promo-video.mp4',
+    videoPoster: '/heart-health-pocket/video-poster.jpg',
     inside: [
       '4 Keep-With-You Medical ID & Emergency Cards',
       'Master medication list, allergies and care team',
