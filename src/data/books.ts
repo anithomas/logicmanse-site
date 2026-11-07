@@ -439,7 +439,7 @@ export const BOOKS: Book[] = [
       slug: 'heart-health-pocket-companion',
       heading: 'The Heart Health Pocket Companion',
       blurb:
-        'Taking the log book to the appointment? Its slim 5.5" \u00d7 8.5" companion goes in a handbag: four cut-out medical ID and emergency cards, a master medication list, a visit log and 77 questions for the doctor. Available now as a print-at-home download.',
+        'Taking the log book to the appointment? Its slim 5.5" \u00d7 8.5" companion goes in a handbag: four cut-out medical ID and emergency cards, a master medication list, a visit log and 77 questions for the doctor. Available now as a paperback or a print-at-home download.',
     },
     companionOffer: {
       cta: { href: REACH_FORMS.heartHealth, label: 'Send me the spreadsheet →', note: SIGNUP_NOTE },
