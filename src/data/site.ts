@@ -90,7 +90,9 @@ export const BOOK_LINKS: Record<
   heartHealthPocket: {
     // Paperback submitted to KDP (Amazon only to start, no Expanded
     // Distribution). Not on sale yet: fill in the ASIN here when it is live.
-    etsy: '',
+    // Etsy digital edition (Letter + A4 booklet, tablet PDF, reprint sheets)
+    // listed 6 Nov 2026 at 4.99.
+    etsy: 'https://www.etsy.com/ca/listing/4611684526/medical-id-card-printable-medication',
     amazon: { com: '', ca: '' },
   },
   renovationLog: {
