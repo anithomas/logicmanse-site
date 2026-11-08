@@ -84,6 +84,7 @@ const CATEGORIES = [
           </a>
         ) : (
           <a href={item.series.productHref} class="hero-shelf-cover" style={`--i:${i}`}>
+            <span class="cover-series-badge">{item.series.books.length} Books</span>
             <img src={coverThumb(bookByKey(item.series.books[0]))} alt={item.series.title} loading="lazy" />
           </a>
         ))}
@@ -191,6 +192,7 @@ const CATEGORIES = [
             data-state={i === 0 ? 'active' : 'idle'}
             aria-label={item.series.title}
           >
+            <span class="cover-series-badge">{item.series.books.length} Books</span>
             <img src={coverThumb(bookByKey(item.series.books[0]))} alt={item.series.title} loading="lazy" />
           </a>
         ))}

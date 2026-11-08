@@ -89,6 +89,9 @@ h1, h2, h3, h4 {
   animation: shelf-in 0.8s var(--ease-out) 550ms forwards;
 }
 .hero-shelf-cover {
+  position: relative; /* containing block for .cover-series-badge at every
+    viewport width, including below the 768px breakpoint where the rule
+    below switches this to position:absolute for the fan layout itself */
   flex: 0 0 auto;
   width: 84px;
   aspect-ratio: 1082 / 1400;
@@ -96,6 +99,27 @@ h1, h2, h3, h4 {
   overflow: hidden;
   box-shadow: 0 10px 22px -8px rgba(0, 0, 0, 0.5);
   transition: transform 0.25s var(--ease-out);
+}
+/* A small corner badge on a SHELF cover that represents a whole series
+   (see DISPLAY_SHELF in src/data/books.ts) rather than one book — without
+   it, a series' representative cover looks like an ordinary single title
+   until a visitor hovers or taps to read its caption. */
+.cover-series-badge {
+  position: absolute;
+  top: 0.35rem;
+  right: 0.35rem;
+  z-index: 5;
+  background: #1f6f4a;
+  color: #fff;
+  font-size: 0.55rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+  padding: 0.2rem 0.4rem;
+  border-radius: 999px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+  pointer-events: none;
 }
 .hero-shelf-cover img {
   width: 100%;
