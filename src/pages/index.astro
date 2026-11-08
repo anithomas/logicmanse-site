@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import CTAButton from '../components/CTAButton.astro';
 import { SITE } from '../data/site';
-import { SHELF, coverThumb } from '../data/books';
+import { DISPLAY_SHELF, coverThumb, bookByKey } from '../data/books';
 import PromoVideo from '../components/PromoVideo.astro';
 
 // Order is deliberate, not alphabetical or by launch date (owner,
@@ -77,10 +77,14 @@ const CATEGORIES = [
         </div>
       </div>
 
-      <div class="hero-shelf" style={`--n:${SHELF.length}`}>
-        {SHELF.map((book, i) => (
-          <a href={book.productHref} class="hero-shelf-cover" style={`--i:${i}`}>
-            <img src={coverThumb(book)} alt={book.coverAlt} loading={i === 0 ? 'eager' : 'lazy'} />
+      <div class="hero-shelf" style={`--n:${DISPLAY_SHELF.length}`}>
+        {DISPLAY_SHELF.map((item, i) => item.kind === 'book' ? (
+          <a href={item.book.productHref} class="hero-shelf-cover" style={`--i:${i}`}>
+            <img src={coverThumb(item.book)} alt={item.book.coverAlt} loading={i === 0 ? 'eager' : 'lazy'} />
+          </a>
+        ) : (
+          <a href={item.series.productHref} class="hero-shelf-cover" style={`--i:${i}`}>
+            <img src={coverThumb(bookByKey(item.series.books[0]))} alt={item.series.title} loading="lazy" />
           </a>
         ))}
       </div>
@@ -164,19 +168,30 @@ const CATEGORIES = [
        to the front and its details show beside it. Cards are real links, so
        with JS off the first title's details show and every cover still goes
        to its product page. -->
-  <section class="bg-slate-50" data-fan style={`--n:${SHELF.length}`}>
+  <section class="bg-slate-50" data-fan style={`--n:${DISPLAY_SHELF.length}`}>
     <div class="max-w-6xl mx-auto px-6 py-20 grid md:grid-cols-2 gap-10 md:gap-14 items-center">
       <div class="fan" role="group" aria-label="Our books — choose a title">
-        {SHELF.map((book, i) => (
+        {DISPLAY_SHELF.map((item, i) => item.kind === 'book' ? (
           <a
-            href={book.productHref}
+            href={item.book.productHref}
             class="fan-card"
             style={`--i:${i}`}
             data-i={i}
             data-state={i === 0 ? 'active' : 'idle'}
-            aria-label={book.title}
+            aria-label={item.book.title}
           >
-            <img src={coverThumb(book)} alt={book.coverAlt} loading="lazy" />
+            <img src={coverThumb(item.book)} alt={item.book.coverAlt} loading="lazy" />
+          </a>
+        ) : (
+          <a
+            href={item.series.productHref}
+            class="fan-card"
+            style={`--i:${i}`}
+            data-i={i}
+            data-state={i === 0 ? 'active' : 'idle'}
+            aria-label={item.series.title}
+          >
+            <img src={coverThumb(bookByKey(item.series.books[0]))} alt={item.series.title} loading="lazy" />
           </a>
         ))}
       </div>
@@ -186,15 +201,27 @@ const CATEGORIES = [
         <h2 class="text-3xl md:text-4xl font-bold text-navy mb-8">Real Books, Not Mockups</h2>
 
         <div class="fan-texts mb-8" aria-live="polite">
-          {SHELF.map((book, i) => (
+          {DISPLAY_SHELF.map((item, i) => item.kind === 'book' ? (
             <div class="fan-text" data-i={i} data-state={i === 0 ? 'active' : 'idle'}>
               <span class="inline-block bg-forest/10 text-forest-dark text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-4">
-                {book.category}
+                {item.book.category}
               </span>
-              <h3 class="text-2xl md:text-3xl font-serif font-bold text-navy mb-3">{book.title}</h3>
-              <p class="text-slate-600 leading-relaxed mb-3">{book.tagline}</p>
-              <p class="text-sm text-slate-500 mb-5">{book.specs}</p>
-              <a href={book.productHref} class="inline-block text-sm font-semibold text-forest hover:text-forest-dark">
+              <h3 class="text-2xl md:text-3xl font-serif font-bold text-navy mb-3">{item.book.title}</h3>
+              <p class="text-slate-600 leading-relaxed mb-3">{item.book.tagline}</p>
+              <p class="text-sm text-slate-500 mb-5">{item.book.specs}</p>
+              <a href={item.book.productHref} class="inline-block text-sm font-semibold text-forest hover:text-forest-dark">
+                Learn more &rarr;
+              </a>
+            </div>
+          ) : (
+            <div class="fan-text" data-i={i} data-state={i === 0 ? 'active' : 'idle'}>
+              <span class="inline-block bg-forest/10 text-forest-dark text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-4">
+                {item.series.books.length}-Book Series
+              </span>
+              <h3 class="text-2xl md:text-3xl font-serif font-bold text-navy mb-3">{item.series.title}</h3>
+              <p class="text-slate-600 leading-relaxed mb-3">{item.series.tagline}</p>
+              <p class="text-sm text-slate-500 mb-5">{item.series.specs}</p>
+              <a href={item.series.productHref} class="inline-block text-sm font-semibold text-forest hover:text-forest-dark">
                 Learn more &rarr;
               </a>
             </div>

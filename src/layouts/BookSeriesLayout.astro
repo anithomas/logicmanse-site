@@ -1,0 +1,133 @@
+---
+// Shared landing page for a SERIES (see BookSeries in src/data/books.ts) —
+// the page that tells the pairing's story and sends a visitor on to each
+// member title's own product page. It does not sell or replace either
+// book's page; it exists so the two can be found, and chosen between, as
+// one thing before a visitor has to pick one.
+import BaseLayout from './BaseLayout.astro';
+import CTAButton from '../components/CTAButton.astro';
+import { bookByKey, coverThumb } from '../data/books';
+import type { BookSeries } from '../data/books';
+
+interface Props {
+  series: BookSeries;
+}
+const { series } = Astro.props;
+
+const members = series.books.map((key) => bookByKey(key));
+
+// The series description stores a member book's name wrapped in
+// **double-asterisks** so it reads clearly as plain text in books.ts;
+// this page is the one place that turns that into <strong> markup. The
+// content is authored by us, not visitor input, so a plain regex swap
+// is safe here.
+const paragraphs = series.description
+  .split('\n\n')
+  .map((p) => p.trim())
+  .filter(Boolean)
+  .map((p) => p.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>'));
+---
+
+<BaseLayout title={series.title} description={series.tagline}>
+  <!-- ============ HERO ============ -->
+  <section class="bg-navy text-white overflow-hidden">
+    <div class="max-w-5xl mx-auto px-6 py-16 md:py-20 grid md:grid-cols-[1fr_auto] gap-10 md:gap-14 items-center">
+      <div>
+        <p class="fade-in-up text-sm font-semibold uppercase tracking-widest mb-4" style="color:#8fd1ae">
+          A LogicManse Series
+        </p>
+        <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl leading-tight mb-5 text-white">
+          {series.title}
+        </h1>
+        <p class="fade-in-up text-lg text-white/85 mb-8 leading-relaxed max-w-xl">{series.tagline}</p>
+        <p class="fade-in-up text-xs uppercase tracking-wide text-white/50 mb-8">{series.specs}</p>
+        <div class="fade-in-up">
+          <CTAButton href="#books" variant="outline">See Both Books</CTAButton>
+        </div>
+      </div>
+
+      <!-- Two covers, slightly fanned — the series' own "this is a pair"
+           visual, built from the member books' real covers rather than a
+           separate asset to keep in sync. -->
+      <div class="series-covers hidden sm:block" aria-hidden="true">
+        {members.map((book, i) => (
+          <img src={coverThumb(book)} alt="" style={`--i:${i}`} class="series-cover" />
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ THE PAIRING, ELABORATED ============ -->
+  <section class="bg-white border-b border-slate-100">
+    <div class="max-w-3xl mx-auto px-6 py-16 md:py-20">
+      {paragraphs.map((html) => (
+        <p class="fade-in-up text-slate-700 leading-relaxed mb-5 last:mb-0" set:html={html} />
+      ))}
+    </div>
+  </section>
+
+  <!-- ============ THE TWO BOOKS ============ -->
+  <section id="books" class="bg-slate-50">
+    <div class="max-w-4xl mx-auto px-6 py-16 md:py-20">
+      <div class="fade-in-up mb-10 text-center">
+        <span class="inline-block bg-forest/10 text-forest-dark text-xs font-bold uppercase tracking-wide px-3 py-1 rounded-full mb-3">
+          {series.category}s in this series
+        </span>
+        <h2 class="text-3xl md:text-4xl font-serif font-bold text-navy">Pick where to start</h2>
+      </div>
+
+      <div class="grid sm:grid-cols-2 gap-8">
+        {members.map((book) => (
+          <a
+            href={book.productHref}
+            class="fade-in-up flex flex-col bg-white border border-slate-200 rounded-xl p-8 hover:border-forest/40 hover:shadow-lg transition-all duration-200"
+          >
+            <img
+              src={coverThumb(book)}
+              alt={book.coverAlt}
+              loading="lazy"
+              decoding="async"
+              class="rounded shadow-md w-28 h-auto mb-5"
+            />
+            <h3 class="text-xl font-serif font-bold text-navy mb-3">{book.title}</h3>
+            <p class="text-slate-600 leading-relaxed mb-3">{book.tagline}</p>
+            <p class="text-xs uppercase tracking-wide text-slate-400 mb-4">{book.specs}</p>
+            <span class="mt-auto inline-block text-sm font-semibold text-forest">See the book &rarr;</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ CLOSING CTA ============ -->
+  <section class="bg-white">
+    <div class="max-w-3xl mx-auto px-6 py-16 text-center">
+      <p class="fade-in-up text-slate-600 mb-6">
+        Looking for something else? Every title we publish is on one page.
+      </p>
+      <CTAButton href="/books/">See All Books</CTAButton>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  /* Two covers, lightly fanned — same --i-driven offset idea as the
+     homepage's hero-shelf/fan, just a two-card version sized for the
+     series hero rather than the whole catalog. */
+  .series-covers {
+    position: relative;
+    width: 220px;
+    height: 180px;
+  }
+  .series-cover {
+    position: absolute;
+    top: 0;
+    left: calc(var(--i) * 48px);
+    width: 130px;
+    height: auto;
+    border-radius: 6px;
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.35);
+    transform: rotate(calc((var(--i) - 0.5) * 6deg));
+    z-index: calc(10 - var(--i));
+  }
+</style>

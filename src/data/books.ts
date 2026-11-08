@@ -154,6 +154,56 @@ export interface Book {
   story?: { quote: string; body: string };
 }
 
+/** A set of titles sold and marketed together, with a single landing
+    page (the "series page", at `productHref`) that tells the pairing's
+    story and links out to each member's own product page. A series
+    does NOT replace a title's own page — both still exist and both are
+    in the sitemap. What a series changes is how the shelf lists its
+    members: see DISPLAY_SHELF below, which collapses every book listed
+    in `books` into one series card wherever SHELF would otherwise show
+    them separately. Add a book to a series by adding its key to
+    `books` here — no change needed on the book's own record. */
+export interface BookSeries {
+  key: string;
+  slug: string;
+  productHref: string;
+  category: string;
+  title: string;
+  /** One line, for the series card on the homepage and /books/. */
+  tagline: string;
+  /** The elaborate, sell-the-pairing description for the series page
+      itself — paragraphs separated by a blank line. `**Title**` marks a
+      member book's name for bold rendering; the series page is
+      responsible for turning that into markup. */
+  description: string;
+  specs: string;
+  /** Member books, in display/reading order. Each key must exist in
+      BOOKS. The first member's position on SHELF is where the merged
+      series card appears in DISPLAY_SHELF. */
+  books: Book['key'][];
+}
+
+export const SERIES: BookSeries[] = [
+  {
+    key: 'heartHealthLibrary',
+    slug: 'heart-health-library',
+    productHref: '/books/heart-health-library/',
+    category: 'Log Book',
+    title: 'The Heart Health Library',
+    tagline:
+      'A comprehensive home record and the pocket companion that travels with you — two books, one system.',
+    description: `Managing a heart condition means living with two different kinds of memory problems. At home, it's keeping years of blood pressure readings, medications, symptoms and specialist visits straight — the kind of record a single notebook page can't hold. And then there's the five minutes before you're called in, or the ten minutes after you leave trying to remember what the doctor actually said, when the home record isn't there to help you.
+
+The Heart Health Library is built to solve both. **The Complete Heart Health Log Book** is the comprehensive home record: a full year of blood pressure and vitals tracking, a running medication list built for doses that change, a symptom log, a history of every appointment, and space for the questions that come up in between — everything in one place, at your kitchen table or your bedside. **The Heart Health Pocket Companion** is what leaves the house with you: a slim, handbag-sized book built around four ready-to-use cards — a medical ID and emergency contact card, a medication-at-a-glance card, a medical alert card for insulin, diabetes or device users, and an emergency-instructions card — plus its own visit log and a running list of questions for the doctor, sized to go anywhere your appointments do.
+
+Both books share the same promise: every field is something you fill in yourself, or transcribe from what a professional told you — never a number calculated for you, never advice dressed up as a chart. Large print throughout. A warm, unintimidating design that reads as a companion, not a form to endure. Written for the same reader — someone managing a heart condition, or caring for someone who is — from two different angles: the full picture at home, and the essentials that travel with you.
+
+Used together, they cover the whole territory: nothing falls through the gap between an appointment and the record that's supposed to be waiting for you when you get home.`,
+    specs: '2-book series · 118-page home record + 48-page pocket companion',
+    books: ['heartHealth', 'heartHealthPocket'],
+  },
+];
+
 export const BOOKS: Book[] = [
   {
     key: 'leia',
@@ -609,3 +659,37 @@ export const coverThumb = (book: Book): string =>
 export const SHELF = BOOKS.filter((b) => !b.unreleased);
 
 export const bookBySlug = (slug: string) => BOOKS.find((b) => b.slug === slug)!;
+
+export const bookByKey = (key: Book['key']) => BOOKS.find((b) => b.key === key)!;
+
+export const seriesBySlug = (slug: string) => SERIES.find((s) => s.slug === slug)!;
+
+export type ShelfItem = { kind: 'book'; book: Book } | { kind: 'series'; series: BookSeries };
+
+/** SHELF, but with every book listed in a SERIES collapsed into one
+    series card at the position of its first member — so the homepage
+    and /books/ show "The Heart Health Library" once instead of its two
+    member titles separately. A book that isn't in any series passes
+    through unchanged. index.astro and books.astro read this instead of
+    SHELF directly; each book's own product page is unaffected and stays
+    linked from the series page and from the "Also in this series" card
+    (see `related` above). */
+export const DISPLAY_SHELF: ShelfItem[] = (() => {
+  const seriesByBookKey = new Map<Book['key'], BookSeries>();
+  for (const series of SERIES) {
+    for (const key of series.books) seriesByBookKey.set(key, series);
+  }
+  const seenSeries = new Set<string>();
+  const items: ShelfItem[] = [];
+  for (const book of SHELF) {
+    const series = seriesByBookKey.get(book.key);
+    if (series) {
+      if (seenSeries.has(series.key)) continue;
+      seenSeries.add(series.key);
+      items.push({ kind: 'series', series });
+    } else {
+      items.push({ kind: 'book', book });
+    }
+  }
+  return items;
+})();
