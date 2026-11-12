@@ -182,9 +182,9 @@ export interface BookSeries {
       BOOKS. The first member's position on SHELF is where the merged
       series card appears in DISPLAY_SHELF. */
   books: Book['key'][];
-  /** For a series published one volume at a time: how many volumes it
-      will have in total. Changes the count badge from "2-Book Series" to
-      "Book 1 of 3". Omit for a series that is complete. */
+  /** For a series published one volume at a time: how many volumes are
+      planned so far. Adds "Book N coming" to the count badge. Omit for a
+      series that is complete. */
   plannedCount?: number;
   /** Volumes announced but not yet written or on sale — shown on the
       series page as quiet "Coming next" cards (not links). Drop an entry
@@ -192,17 +192,17 @@ export interface BookSeries {
   upcoming?: { title: string; blurb: string }[];
 }
 
-/** "2-Book Series", or "Book 1 of 3" for a series still being published. */
-export const seriesBadge = (series: BookSeries): string =>
-  series.plannedCount && series.plannedCount > series.books.length
-    ? `Book ${series.books.length} of ${series.plannedCount}`
-    : `${series.books.length}-Book Series`;
+/** "2-Book Series", or "2 Books · Book 3 Coming" for a series still growing. */
+export const seriesBadge = (series: BookSeries): string => {
+  const n = series.books.length;
+  const growing = series.plannedCount && series.plannedCount > n;
+  const base = n === 1 ? 'Book 1' : growing ? `${n} Books` : `${n}-Book Series`;
+  return growing ? `${base} · Book ${n + 1} Coming` : base;
+};
 
-/** The short form for the small corner badge on a cover: "2 Books" / "1 of 3". */
+/** The short form for the small corner badge on a cover: "2 Books". */
 export const seriesShortBadge = (series: BookSeries): string =>
-  series.plannedCount && series.plannedCount > series.books.length
-    ? `${series.books.length} of ${series.plannedCount}`
-    : `${series.books.length} Books`;
+  series.books.length === 1 ? 'Book 1' : `${series.books.length} Books`;
 
 export const SERIES: BookSeries[] = [
   {
@@ -224,34 +224,36 @@ Used together, they cover the whole territory: nothing falls through the gap bet
     books: ['heartHealth', 'heartHealthPocket'],
   },
   {
-    // Added 2026-11-11. A grade-by-grade workbook series published one
-    // volume at a time (the Kindergarten book's own title page reads "Book
-    // 1 of 3 — Kindergarten · Grade 1 · Grade 2"). Grade 1 and Grade 2 are
-    // announced in the book's last page but not yet written — see
-    // `upcoming`. Move each one into `books` when it has a real record.
-    key: 'leiasLearningAdventures',
-    slug: 'leias-learning-adventures',
-    productHref: '/books/leias-learning-adventures/',
+    // Added 2026-11-11, restructured the same evening per the owner: ONE
+    // Leia series covering both kinds of Leia book, in this order —
+    //   Book 1  Super Leia to the Rescue!  (coloring & activity, on sale)
+    //   Book 2  Leia's Learning Adventures: Kindergarten  (workbook)
+    //   Book 3  Leia's Learning Adventures: Grade 1  (announced, `upcoming`)
+    // A fourth book is only planned if sales justify it, so it is NOT
+    // announced here. The Kindergarten book's title page prints "Book 2 in
+    // the Leia's Adventures series" — keep `title` below in step with it.
+    // Move Grade 1 into `books` when it has a real record.
+    key: 'leiasAdventures',
+    slug: 'leias-adventures',
+    productHref: '/books/leias-adventures/',
     category: 'Coloring & Activity Book',
-    title: 'Leia’s Learning Adventures',
+    title: 'Leia’s Adventures',
     tagline:
-      'Grade-by-grade activity workbooks led by a real dog named Leia — Kindergarten is ready, Grades 1 and 2 are on the way.',
-    description: `Most early-learning workbooks are a stack of worksheets with a mascot on the cover. **Leia’s Learning Adventures** is built the other way round: a story first, then the skills. Leia, a fluffy white dog, sets off through a map of lands, and each land has its own friend and its own job, from tracing letters with Ollie the Owl to counting with Ruby the Rabbit and finding shapes with Bella the Butterfly.
+      'A coloring book and grade-by-grade learning workbooks, all led by a real fluffy white dog named Leia — two books out now, Grade 1 next.',
+    description: `Leia is a real dog — a fluffy white one with triangle ears and a tail that never stops — and every book in this series starts with her. Each one gives a child something different to do, but the same friend to do it with, so a child who loves one book already feels at home in the next.
 
-Every page is made to be done by a child, not watched by one. Mazes hide their path, sorting pages mix the pictures up, and every color question asks about real things, because the pages are black and white and the crayons are the child’s own. Letters are traced from the first dot in the order school will teach them. A hidden bone on every activity page and a paw to color at the bottom keep a four- or five-year-old turning to the next one.
+**Super Leia to the Rescue!** is where it starts: a coloring and activity book drawn from photographs of the real Leia, with 30 coloring pages, mazes, word searches, dot-to-dots and drawing prompts, and first steps in counting and letter tracing worked into the fun.
 
-**Leia’s Learning Adventures: Kindergarten** is the first book: 110 pages across seven lands of letters, sounds, numbers, shapes and colors, ending with a certificate to fill in and an answer key for grown-ups. Grade 1 and Grade 2 follow the same map with bigger numbers, first words to read and new challenges in every land, so a child who finishes one book already knows how the next one works.`,
-    specs: 'Kindergarten · 110 pages · ages 4–6 · Grades 1 and 2 coming',
-    books: ['leiaKindergarten'],
+**Leia’s Learning Adventures: Kindergarten** turns that into a full year of early learning. Leia and three new friends — Ollie the Owl, Ruby the Rabbit and Bella the Butterfly — lead a child through seven lands of letters, sounds, numbers, shapes and colors across 110 pages. Every maze hides its path, every sorting page mixes its pictures up, and letters are traced from the first dot in the order school will teach them, so the pages are done by the child, not watched by one.
+
+Grade 1 is next: the same map and the same friends, with bigger numbers, first words to read and new challenges in every land.`,
+    specs: 'Coloring & activity book + Kindergarten workbook · ages 4–8 · Grade 1 coming',
+    books: ['leia', 'leiaKindergarten'],
     plannedCount: 3,
     upcoming: [
       {
         title: 'Leia’s Learning Adventures: Grade 1',
-        blurb: 'Bigger numbers, first words to read, and new challenges waiting in every land.',
-      },
-      {
-        title: 'Leia’s Learning Adventures: Grade 2',
-        blurb: 'The third adventure on the same map, for confident young readers and counters.',
+        blurb: 'The same map and the same friends, with bigger numbers, first words to read and new challenges waiting in every land.',
       },
     ],
   },
@@ -289,6 +291,12 @@ export const BOOKS: Book[] = [
         'Full-colour reference images for all 30 pages, real photos of the actual dog, and every puzzle answer.',
     },
     theme: 'pink',
+    related: {
+      slug: 'leia-kindergarten-workbook',
+      heading: 'Leia’s Learning Adventures: Kindergarten',
+      blurb:
+        'Book 2 in the series: Leia and three new friends lead your child through seven lands of letters, sounds, numbers, shapes and colors — 110 pages of tracing, counting, mazes and puzzles for ages 4–6.',
+    },
     companionOffer: {
       cta: { href: REACH_FORMS.leia, label: 'Send me the color pack →', note: SIGNUP_NOTE },
       contents: [
@@ -313,13 +321,19 @@ export const BOOKS: Book[] = [
     // Added 2026-11-11, before going on sale: both store links in
     // BOOK_LINKS are still empty, so the buy and review buttons show as
     // "coming soon" until they are filled in (site.ts, no other change).
-    // Book 1 of the Leia's Learning Adventures series (SERIES above). The
+    // Book 2 of the Leia's Adventures series (SERIES above). The
     // printed QR code on the back cover encodes qrHref below — this page's
     // #companion section, which serves the free printables PDF directly
     // (no sign-up), same pattern as the Renovation book. That URL is
     // printed: never change it.
     key: 'leiaKindergarten',
     theme: 'sun',
+    related: {
+      slug: 'leia-coloring-book',
+      heading: 'Super Leia to the Rescue!',
+      blurb:
+        'Book 1 in the series: a coloring and activity book drawn from photographs of the real Leia — 30 coloring pages, mazes, word searches and drawing prompts for ages 4–8.',
+    },
     slug: 'leia-kindergarten-workbook',
     productHref: '/books/leia-kindergarten-workbook/',
     qrHref: '/books/leia-kindergarten-workbook/#companion',

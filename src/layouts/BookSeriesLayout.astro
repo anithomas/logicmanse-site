@@ -79,7 +79,7 @@ const paragraphs = series.description
       </div>
 
       <div class:list={["grid sm:grid-cols-2 gap-8", members.length + upcoming.length >= 3 && "lg:grid-cols-3"]}>
-        {members.map((book) => (
+        {members.map((book, i) => (
           <a
             href={book.productHref}
             class="fade-in-up flex flex-col bg-white border border-slate-200 rounded-xl p-8 hover:border-forest/40 hover:shadow-lg transition-all duration-200"
@@ -91,17 +91,19 @@ const paragraphs = series.description
               decoding="async"
               class="rounded shadow-md w-28 h-auto mb-5"
             />
+            <p class="text-xs font-bold uppercase tracking-widest text-forest mb-2">Book {i + 1}</p>
             <h3 class="text-xl font-serif font-bold text-navy mb-3">{book.title}</h3>
             <p class="text-slate-600 leading-relaxed mb-3">{book.tagline}</p>
             <p class="text-xs uppercase tracking-wide text-slate-400 mb-4">{book.specs}</p>
             <span class="mt-auto inline-block text-sm font-semibold text-forest">See the book &rarr;</span>
           </a>
         ))}
-        {upcoming.map((vol) => (
+        {upcoming.map((vol, j) => (
           <div class="fade-in-up flex flex-col bg-white/60 border border-dashed border-slate-300 rounded-xl p-8">
             <div class="rounded w-28 aspect-[17/22] mb-5 border border-dashed border-slate-300 bg-slate-100 flex items-center justify-center text-center p-2">
               <span class="text-[0.65rem] font-bold uppercase tracking-widest text-slate-400">Coming next</span>
             </div>
+            <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Book {members.length + j + 1}</p>
             <h3 class="text-xl font-serif font-bold text-slate-500 mb-3">{vol.title}</h3>
             <p class="text-slate-500 leading-relaxed mb-3">{vol.blurb}</p>
             <span class="mt-auto inline-block text-xs font-bold uppercase tracking-widest text-slate-400">In the works</span>
