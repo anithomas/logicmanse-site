@@ -26,14 +26,15 @@ const YOUTUBE_URL = SOCIAL_LINKS.find((l) => l.label === 'YouTube')!.href;
 
 /** One per title: pink (Leia), forest (rental log), clay (heart health log),
     earth (renovation book), spice (Family Table Favorites — its own accent
-    #8A301F, straight from that book's own design system, COWORK_HANDOFF §3). */
-export type BookTheme = 'pink' | 'forest' | 'clay' | 'earth' | 'spice';
+    #8A301F, straight from that book's own design system, COWORK_HANDOFF §3),
+    sun (Leia's Learning Adventures — the warm orange of its cover). */
+export type BookTheme = 'pink' | 'forest' | 'clay' | 'earth' | 'spice' | 'sun';
 
 // Shared by the three Reach-form companions: what the button is followed by.
 const SIGNUP_NOTE = 'Takes 10 seconds. We’ll email you the link right away.';
 
 export interface Book {
-  key: 'leia' | 'rentalLog' | 'heartHealth' | 'heartHealthPocket' | 'renovationLog' | 'familyTableFavorites';
+  key: 'leia' | 'leiaKindergarten' | 'rentalLog' | 'heartHealth' | 'heartHealthPocket' | 'renovationLog' | 'familyTableFavorites';
   /** True until the book is on sale and has a real cover. An unreleased
       title has a product page (so its printed URL and the site are ready)
       but stays off the homepage and the /books/ listing, and is noindex.
@@ -181,7 +182,27 @@ export interface BookSeries {
       BOOKS. The first member's position on SHELF is where the merged
       series card appears in DISPLAY_SHELF. */
   books: Book['key'][];
+  /** For a series published one volume at a time: how many volumes it
+      will have in total. Changes the count badge from "2-Book Series" to
+      "Book 1 of 3". Omit for a series that is complete. */
+  plannedCount?: number;
+  /** Volumes announced but not yet written or on sale — shown on the
+      series page as quiet "Coming next" cards (not links). Drop an entry
+      here and add the real book's key to `books` once it exists. */
+  upcoming?: { title: string; blurb: string }[];
 }
+
+/** "2-Book Series", or "Book 1 of 3" for a series still being published. */
+export const seriesBadge = (series: BookSeries): string =>
+  series.plannedCount && series.plannedCount > series.books.length
+    ? `Book ${series.books.length} of ${series.plannedCount}`
+    : `${series.books.length}-Book Series`;
+
+/** The short form for the small corner badge on a cover: "2 Books" / "1 of 3". */
+export const seriesShortBadge = (series: BookSeries): string =>
+  series.plannedCount && series.plannedCount > series.books.length
+    ? `${series.books.length} of ${series.plannedCount}`
+    : `${series.books.length} Books`;
 
 export const SERIES: BookSeries[] = [
   {
@@ -201,6 +222,38 @@ Both books share the same promise: every field is something you fill in yourself
 Used together, they cover the whole territory: nothing falls through the gap between an appointment and the record that's supposed to be waiting for you when you get home.`,
     specs: '2-book series · 118-page home record + 48-page pocket companion',
     books: ['heartHealth', 'heartHealthPocket'],
+  },
+  {
+    // Added 2026-11-11. A grade-by-grade workbook series published one
+    // volume at a time (the Kindergarten book's own title page reads "Book
+    // 1 of 3 — Kindergarten · Grade 1 · Grade 2"). Grade 1 and Grade 2 are
+    // announced in the book's last page but not yet written — see
+    // `upcoming`. Move each one into `books` when it has a real record.
+    key: 'leiasLearningAdventures',
+    slug: 'leias-learning-adventures',
+    productHref: '/books/leias-learning-adventures/',
+    category: 'Coloring & Activity Book',
+    title: 'Leia’s Learning Adventures',
+    tagline:
+      'Grade-by-grade activity workbooks led by a real dog named Leia — Kindergarten is ready, Grades 1 and 2 are on the way.',
+    description: `Most early-learning workbooks are a stack of worksheets with a mascot on the cover. **Leia’s Learning Adventures** is built the other way round: a story first, then the skills. Leia, a fluffy white dog, sets off through a map of lands, and each land has its own friend and its own job, from tracing letters with Ollie the Owl to counting with Ruby the Rabbit and finding shapes with Bella the Butterfly.
+
+Every page is made to be done by a child, not watched by one. Mazes hide their path, sorting pages mix the pictures up, and every color question asks about real things, because the pages are black and white and the crayons are the child’s own. Letters are traced from the first dot in the order school will teach them. A hidden bone on every activity page and a paw to color at the bottom keep a four- or five-year-old turning to the next one.
+
+**Leia’s Learning Adventures: Kindergarten** is the first book: 110 pages across seven lands of letters, sounds, numbers, shapes and colors, ending with a certificate to fill in and an answer key for grown-ups. Grade 1 and Grade 2 follow the same map with bigger numbers, first words to read and new challenges in every land, so a child who finishes one book already knows how the next one works.`,
+    specs: 'Kindergarten · 110 pages · ages 4–6 · Grades 1 and 2 coming',
+    books: ['leiaKindergarten'],
+    plannedCount: 3,
+    upcoming: [
+      {
+        title: 'Leia’s Learning Adventures: Grade 1',
+        blurb: 'Bigger numbers, first words to read, and new challenges waiting in every land.',
+      },
+      {
+        title: 'Leia’s Learning Adventures: Grade 2',
+        blurb: 'The third adventure on the same map, for confident young readers and counters.',
+      },
+    ],
   },
 ];
 
@@ -254,6 +307,81 @@ export const BOOKS: Book[] = [
       quote: 'Leia is a real dog.',
       body:
         'Every page in this book started from a photograph of her — the same fluffy tail, the same triangle ears, the same spot in the backyard. Kids who finish the book get to meet her properly in the bonus pack.',
+    },
+  },
+  {
+    // Added 2026-11-11, before going on sale: both store links in
+    // BOOK_LINKS are still empty, so the buy and review buttons show as
+    // "coming soon" until they are filled in (site.ts, no other change).
+    // Book 1 of the Leia's Learning Adventures series (SERIES above). The
+    // printed QR code on the back cover encodes qrHref below — this page's
+    // #companion section, which serves the free printables PDF directly
+    // (no sign-up), same pattern as the Renovation book. That URL is
+    // printed: never change it.
+    key: 'leiaKindergarten',
+    theme: 'sun',
+    slug: 'leia-kindergarten-workbook',
+    productHref: '/books/leia-kindergarten-workbook/',
+    qrHref: '/books/leia-kindergarten-workbook/#companion',
+    category: 'Coloring & Activity Book',
+    title: 'Leia’s Learning Adventures: Kindergarten',
+    tagline:
+      'A 110-page kindergarten workbook where Leia the dog and three friends lead your child through seven lands of letters, sounds, numbers, shapes and colors.',
+    description:
+      'Trace letters in Alphabet Forest, listen for sounds at Echo Pond, count through Number Meadow and Counting Trail, find shapes in Shape Town, mix colors in Color Garden and put it all together at Puzzle Market — with mazes, sorting games and puzzles a five-year-old can solve on their own.',
+    metaTitle: 'Leia’s Learning Adventures: Kindergarten — Activity Workbook, Ages 4–6',
+    metaDescription:
+      'A 110-page kindergarten activity workbook for ages 4–6: letter tracing with stroke order, phonics and rhymes, numbers 0–20, counting, shapes, colors, mazes and puzzles, led by Leia the dog. Black and white, made for crayons.',
+    specs: '8.5" × 11" · 110 pages · ages 4–6 · black and white',
+    stats: [
+      { value: '7', label: 'Lands' },
+      { value: '95', label: 'Activity Pages' },
+      { value: '26', label: 'Letters' },
+      { value: '0–20', label: 'Numbers' },
+    ],
+    cover: '/leia-kindergarten-workbook/cover-front.jpg',
+    coverAlt: 'Leia’s Learning Adventures: Kindergarten book cover',
+    interior: '/leia-kindergarten-workbook/interior-page.jpg',
+    interiorAlt: 'Two sample pages: letter tracing for A and B, and the Shape Town star maze',
+    inside: [
+      'All 26 letters, big and little, traced from the first dot in the order school teaches them',
+      'Beginning sounds, ending sounds and rhymes at Echo Pond',
+      'Numbers 0 to 20 to trace, count and color, with ten-frames for every number',
+      'Counting, more and fewer, putting groups in order and first adding at Counting Trail',
+      'Shapes to trace, spot around town and sort by sides in Shape Town',
+      'Color words to trace, real things to color, and a two-crayon color-mixing experiment',
+      'Mazes, sorting games, patterns and puzzles a child solves on their own',
+      'A hidden bone on every activity page, a certificate at the end, and an answer key for grown-ups',
+    ],
+    companion: {
+      name: 'Leia’s bonus printables',
+      blurb:
+        'An adventure tracker with a paw for every page, a name-writing page, a big coloring page of Leia and her friends, and a spare certificate.',
+    },
+    companionOffer: {
+      cta: {
+        href: '/leia-kindergarten-workbook/LeiaKindergartenFreePrintables_Workbook.pdf',
+        label: 'Download the free printables \u2192',
+        note: 'US Letter, 5 pages. Print at Actual Size (100%) — black and white is perfect.',
+        download: 'LeiaKindergartenFreePrintables_Workbook.pdf',
+      },
+      contents: [
+        'An Adventure Tracker: one paw for every activity page in the book, land by land, to color as each page is finished',
+        'An “I Can Write My Name” page: write the name lightly on the first line, your child traces it, then tries it alone',
+        'A big coloring page of Leia, Ollie, Ruby and Bella',
+        'A spare Certificate of Completion, for a brother or sister working through the same book',
+      ],
+      steps: [
+        'Tap the button to download the PDF. No sign-up needed.',
+        'Print it on US Letter paper at Actual Size (100%). Print the tracker and name page as often as you like.',
+        'Hang the Adventure Tracker on the fridge and color a paw after every page.',
+        'When the last paw is colored, fill in the certificate together.',
+      ],
+    },
+    story: {
+      quote: 'Puzzles a child can actually solve.',
+      body:
+        'Every maze hides its path, every sorting page mixes its pictures up, and every color question asks about real things — because the pages are black and white and the crayons are your child’s own. Nothing is pre-solved and nothing needs printed color to make sense.',
     },
   },
   {

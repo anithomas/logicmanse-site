@@ -35,13 +35,17 @@ const { book } = Astro.props;
 const { etsy, amazon } = BOOK_LINKS[book.key];
 const offer = book.companionOffer;
 const relatedBook = book.related ? bookBySlug(book.related.slug) : undefined;
-const reviewLinks = (
-  [
-    amazon.com && { label: 'Amazon', href: amazon.com },
-    amazon.ca && { label: 'Amazon.ca', href: amazon.ca },
-    etsy && { label: 'Etsy (via your Purchases page)', href: ETSY_SHOP_URL },
-  ] as const
-).filter((l): l is { label: string; href: string } => Boolean(l));
+// A store this title is not on yet shows as a quiet, non-clickable
+// "coming soon" placeholder in the same line (an empty href), so the ask
+// is in place from day one and becomes a real link once BOOK_LINKS is
+// filled in. Not shown at all for an unreleased title.
+const reviewLinks: { label: string; href: string }[] = book.unreleased
+  ? []
+  : [
+      amazon.com || !amazon.ca ? { label: 'Amazon', href: amazon.com } : null,
+      amazon.ca ? { label: 'Amazon.ca', href: amazon.ca } : null,
+      { label: etsy ? 'Etsy (via your Purchases page)' : 'Etsy', href: etsy ? ETSY_SHOP_URL : '' },
+    ].filter((l): l is { label: string; href: string } => Boolean(l));
 
 // Structured data for search engines: what this book is and where it can
 // be bought. No price is stated — prices drift and a wrong one is worse
@@ -372,7 +376,9 @@ const bookJsonLd = {
             ? 'Print it at home today, or have the paperback delivered. Same book either way.'
             : etsy
               ? 'Download it today and print it at home. The paperback is on the way.'
-              : 'Have it delivered today. A print-at-home digital edition is on the way.'}
+              : amazon.com || amazon.ca
+                ? 'Have it delivered today. A print-at-home digital edition is on the way.'
+                : 'Coming soon as a print-at-home download and a delivered paperback. The buttons go live here the day each one is on sale.'}
       </p>
       <div class="fade-in-up max-w-xl mx-auto text-left">
         <BuyButtons bookKey={book.key} amazonLabel={book.amazonFormatLabel} />
@@ -396,7 +402,11 @@ const bookJsonLd = {
           {reviewLinks.map((link, i) => (
             <>
               {i > 0 && ' · '}
-              <a href={link.href} class="text-forest font-semibold hover:underline">{link.label}</a>
+              {link.href ? (
+                <a href={link.href} class="text-forest font-semibold hover:underline">{link.label}</a>
+              ) : (
+                <span class="text-slate-400" title="Review link added the day it goes on sale">{link.label} (coming soon)</span>
+              )}
             </>
           ))}
         </p>
@@ -435,6 +445,7 @@ const bookJsonLd = {
   .theme-clay   { --t-accent: #c1624f; --t-tint: #f9f2e7; --t-line: #e6d2b5; }
   .theme-earth  { --t-accent: #c2624f; --t-tint: #f8f0e1; --t-line: #e3d2b6; }
   .theme-spice  { --t-accent: #8a301f; --t-tint: #faf3e9; --t-line: #e6d5b8; }
+  .theme-sun    { --t-accent: #c9561c; --t-tint: #fff6e3; --t-line: #f2d49c; }
 
   .themed .bg-slate-50 { background: var(--t-tint); }
   .themed .border-forest { border-color: var(--t-accent); }

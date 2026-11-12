@@ -2,7 +2,7 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import CTAButton from '../components/CTAButton.astro';
-import { DISPLAY_SHELF, coverThumb, bookByKey } from '../data/books';
+import { DISPLAY_SHELF, coverThumb, bookByKey, seriesBadge } from '../data/books';
 import { isForSale } from '../data/site';
 
 // Every card links to that title's PRODUCT page (/books/<slug>/), never
@@ -27,7 +27,7 @@ import { isForSale } from '../data/site';
 const CATEGORY_ORDER = [
   {
     name: 'Coloring & Activity Book',
-    blurb: 'For kids — mazes, word searches and coloring pages built to actually get finished, not just started.',
+    blurb: 'For kids — coloring pages, mazes and early-learning workbooks built to actually get finished, not just started.',
   },
   {
     name: 'Cookbook',
@@ -119,7 +119,7 @@ const GROUPS = CATEGORY_ORDER.map((c) => ({
               <div>
                 <div class="flex flex-wrap items-center gap-3 mb-3">
                   <span class="inline-block text-xs font-bold uppercase tracking-wide text-forest-dark bg-forest/10 px-3 py-1 rounded-full">
-                    {item.series.books.length}-Book Series
+                    {seriesBadge(item.series)}
                   </span>
                 </div>
                 <h2 class="text-2xl font-serif font-bold text-navy mb-3">{item.series.title}</h2>

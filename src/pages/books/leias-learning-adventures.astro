@@ -1,0 +1,10 @@
+---
+// Series landing page — see BookSeries in src/data/books.ts. All content
+// comes from SERIES; the layout does the rest.
+import BookSeriesLayout from '../../layouts/BookSeriesLayout.astro';
+import { seriesBySlug } from '../../data/books';
+
+const series = seriesBySlug('leias-learning-adventures');
+---
+
+<BookSeriesLayout series={series} />

@@ -84,9 +84,20 @@ export interface StoreLinks {
 }
 
 export const BOOK_LINKS: Record<
-  'leia' | 'rentalLog' | 'heartHealth' | 'heartHealthPocket' | 'renovationLog' | 'familyTableFavorites',
+  'leia' | 'leiaKindergarten' | 'rentalLog' | 'heartHealth' | 'heartHealthPocket' | 'renovationLog' | 'familyTableFavorites',
   StoreLinks
 > = {
+  leiaKindergarten: {
+    // NOT ON SALE YET (page added 2026-11-11). Paste the Etsy listing URL
+    // and the Amazon .com/.ca pair here the day each goes live: the buy
+    // buttons and the review links on the product page switch from
+    // "coming soon" to real links on the next build. Nothing else to edit.
+    etsy: '',
+    amazon: {
+      com: '',
+      ca: '',
+    },
+  },
   heartHealthPocket: {
     // Amazon paperback live (ASIN B0HQR2KD77, KDP, Amazon only, no Expanded
     // Distribution), US$7.99. Same .com/.ca pair as every other title: the

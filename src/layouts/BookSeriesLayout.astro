@@ -6,7 +6,7 @@
 // one thing before a visitor has to pick one.
 import BaseLayout from './BaseLayout.astro';
 import CTAButton from '../components/CTAButton.astro';
-import { bookByKey, coverThumb } from '../data/books';
+import { bookByKey, coverThumb, seriesBadge } from '../data/books';
 import type { BookSeries } from '../data/books';
 
 interface Props {
@@ -15,6 +15,8 @@ interface Props {
 const { series } = Astro.props;
 
 const members = series.books.map((key) => bookByKey(key));
+const upcoming = series.upcoming ?? [];
+const seeLabel = members.length === 1 ? 'See the Book' : members.length === 2 ? 'See Both Books' : `See All ${members.length} Books`;
 
 // The series description stores a member book's name wrapped in
 // **double-asterisks** so it reads clearly as plain text in books.ts;
@@ -34,7 +36,7 @@ const paragraphs = series.description
     <div class="max-w-5xl mx-auto px-6 py-16 md:py-20 grid md:grid-cols-[1fr_auto] gap-10 md:gap-14 items-center">
       <div>
         <p class="fade-in-up text-sm font-semibold uppercase tracking-widest mb-4" style="color:#8fd1ae">
-          A LogicManse Series
+          A LogicManse Series · {seriesBadge(series)}
         </p>
         <h1 class="fade-in-up font-serif font-bold text-4xl md:text-5xl leading-tight mb-5 text-white">
           {series.title}
@@ -42,7 +44,7 @@ const paragraphs = series.description
         <p class="fade-in-up text-lg text-white/85 mb-8 leading-relaxed max-w-xl">{series.tagline}</p>
         <p class="fade-in-up text-xs uppercase tracking-wide text-white/50 mb-8">{series.specs}</p>
         <div class="fade-in-up">
-          <CTAButton href="#books" variant="outline">See Both Books</CTAButton>
+          <CTAButton href="#books" variant="outline">{seeLabel}</CTAButton>
         </div>
       </div>
 
@@ -76,7 +78,7 @@ const paragraphs = series.description
         <h2 class="text-3xl md:text-4xl font-serif font-bold text-navy">Pick where to start</h2>
       </div>
 
-      <div class="grid sm:grid-cols-2 gap-8">
+      <div class:list={["grid sm:grid-cols-2 gap-8", members.length + upcoming.length >= 3 && "lg:grid-cols-3"]}>
         {members.map((book) => (
           <a
             href={book.productHref}
@@ -94,6 +96,16 @@ const paragraphs = series.description
             <p class="text-xs uppercase tracking-wide text-slate-400 mb-4">{book.specs}</p>
             <span class="mt-auto inline-block text-sm font-semibold text-forest">See the book &rarr;</span>
           </a>
+        ))}
+        {upcoming.map((vol) => (
+          <div class="fade-in-up flex flex-col bg-white/60 border border-dashed border-slate-300 rounded-xl p-8">
+            <div class="rounded w-28 aspect-[17/22] mb-5 border border-dashed border-slate-300 bg-slate-100 flex items-center justify-center text-center p-2">
+              <span class="text-[0.65rem] font-bold uppercase tracking-widest text-slate-400">Coming next</span>
+            </div>
+            <h3 class="text-xl font-serif font-bold text-slate-500 mb-3">{vol.title}</h3>
+            <p class="text-slate-500 leading-relaxed mb-3">{vol.blurb}</p>
+            <span class="mt-auto inline-block text-xs font-bold uppercase tracking-widest text-slate-400">In the works</span>
+          </div>
         ))}
       </div>
     </div>
