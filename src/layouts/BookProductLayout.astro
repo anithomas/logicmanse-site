@@ -288,6 +288,18 @@ const bookJsonLd = {
     </section>
   )}
 
+  {book.promoVideo && (
+    <section class="bg-white border-t border-slate-200">
+      <div class="max-w-3xl mx-auto px-6 py-10 md:py-14 text-center">
+        <h2 class="fade-in-up text-xl font-serif font-bold text-navy mb-2">{book.promoVideo.heading}</h2>
+        <p class="fade-in-up text-slate-600 text-sm leading-relaxed mb-5">{book.promoVideo.blurb}</p>
+        <video class="fade-in-up w-full rounded-xl shadow-lg border border-slate-200" controls preload="none" playsinline poster={book.promoVideo.poster}>
+          <source src={book.promoVideo.src} type="video/mp4" />
+        </video>
+      </div>
+    </section>
+  )}
+
   <!-- ============ YOUTUBE: a modest nod to the companion channel, never
        styled to compete with the Buy buttons above. Optional. ============ -->
   {book.youtube && (

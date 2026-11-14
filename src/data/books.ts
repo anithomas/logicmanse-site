@@ -147,6 +147,8 @@ export interface Book {
       shown as its own small section. Never styled to compete with the Buy
       buttons; it's a side door, not the destination. Optional. */
   youtube?: { heading: string; blurb: string; href: string; label: string };
+  /** Promo video shown on the product page (self-hosted MP4 in /public, with a poster image). Optional. */
+  promoVideo?: { heading: string; blurb: string; src: string; poster: string };
   /** Another title in the same series, shown as an "Also in this series"
       card that links to that title's product page. Both titles list each
       other. `slug` is the other book's slug in this file. */
@@ -371,6 +373,12 @@ export const BOOKS: Book[] = [
       name: 'Leia’s bonus printables',
       blurb:
         'An adventure tracker with a paw for every page, a name-writing page, a big coloring page of Leia and her friends, and a spare certificate.',
+    },
+    promoVideo: {
+      heading: 'Meet Leia in 35 seconds',
+      blurb: 'A quick look inside the workbook, with a few words from the narrator.',
+      src: '/leia-kindergarten-workbook/promo.mp4',
+      poster: '/leia-kindergarten-workbook/promo-poster.jpg',
     },
     companionOffer: {
       cta: {
