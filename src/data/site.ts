@@ -88,11 +88,11 @@ export const BOOK_LINKS: Record<
   StoreLinks
 > = {
   leiaKindergarten: {
-    // NOT ON SALE YET (page added 2026-11-11). Paste the Etsy listing URL
-    // and the Amazon .com/.ca pair here the day each goes live: the buy
-    // buttons and the review links on the product page switch from
-    // "coming soon" to real links on the next build. Nothing else to edit.
-    etsy: '',
+    // Etsy digital edition (Letter + A4 PDFs, 110 pages) live 15 Nov 2026,
+    // CA$6.99. Amazon paperback is NOT on sale yet: paste the .com/.ca pair
+    // below the day it goes live and its button flips from "coming soon"
+    // to a real link on the next build. Nothing else to edit.
+    etsy: 'https://www.etsy.com/ca/listing/4617818633/kindergarten-workbook-pdf-printable',
     amazon: {
       com: '',
       ca: '',
