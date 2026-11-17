@@ -375,8 +375,8 @@ export const BOOKS: Book[] = [
         'An adventure tracker with a paw for every page, a name-writing page, a big coloring page of Leia and her friends, and a spare certificate.',
     },
     promoVideo: {
-      heading: 'Meet Leia and her friends in 40 seconds',
-      blurb: 'Ollie, Ruby and Bella each show off their own lands, with a few words from the narrator.',
+      heading: 'See inside the workbook in 45 seconds',
+      blurb: 'Watch the tracing, counting and maze pages come to life, with a few words from the narrator.',
       src: '/leia-kindergarten-workbook/promo.mp4',
       poster: '/leia-kindergarten-workbook/promo-poster.jpg',
     },
