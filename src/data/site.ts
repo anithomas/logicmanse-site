@@ -89,13 +89,13 @@ export const BOOK_LINKS: Record<
 > = {
   leiaKindergarten: {
     // Etsy digital edition (Letter + A4 PDFs, 110 pages) live 15 Nov 2026,
-    // CA$6.99. Amazon paperback is NOT on sale yet: paste the .com/.ca pair
-    // below the day it goes live and its button flips from "coming soon"
-    // to a real link on the next build. Nothing else to edit.
+    // CA$6.99. Amazon paperback live (ASIN B0HRZ5SG8L). Same .com/.ca pair
+    // as every other title: the page ships .com and BuyButtons swaps to .ca
+    // for Canadians.
     etsy: 'https://www.etsy.com/ca/listing/4617818633/kindergarten-workbook-pdf-printable',
     amazon: {
-      com: '',
-      ca: '',
+      com: 'https://www.amazon.com/dp/B0HRZ5SG8L',
+      ca: 'https://www.amazon.ca/dp/B0HRZ5SG8L',
     },
   },
   heartHealthPocket: {
