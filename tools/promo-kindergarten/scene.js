@@ -227,7 +227,7 @@ builders.cover = (root) => {
     T(ul, {}); drawOn(ulp, prog(t, 4.0, 0.55));
     const ks = eOut(prog(t, 3.9, 0.5)); T(sub, { x: 0, y: (1 - ks) * 24, a: ks });
     chips.forEach((c, i) => { const kk = eBack(prog(t, 4.4 + i * 0.2, 0.45)); T(c, { x: cx[i] - 1010 + 0, y: 0, s: kk, a: kk }); c.style.left = '1010px'; c.style.transform = `translate(${cx[i] - 1010}px,0) scale(${kk})`; c.style.transformOrigin = '0% 50%'; if (kk <= 0.003) c.style.display = 'none'; });
-    updPaws(paws, t, 4.6, 980, 1860, 960, 26, 0.2, 1.7);
+    updPaws(paws, t, 4.6, 980, 1860, 930, 24, 0.2, 1.7);
   };
 };
 
@@ -407,7 +407,7 @@ builders.count = (root) => {
 
 // ======================= SOLVE IT =======================
 builders.solve = (root) => {
-  const card = mk(root, 'width:900px;height:940px', ''); card.classList.add('card');
+  const card = mk(root, 'width:900px;height:900px', ''); card.classList.add('card');
   const CW = 140, ox = 110, oy = 100;
   const shapes = ['circle', 'heart', 'tri', 'sq', 'dia', 'hex', 'star'];
   const route = [[0, 0], [0, 1], [1, 1], [1, 2], [1, 3], [2, 3], [2, 4], [3, 4], [3, 5], [4, 5]];
@@ -434,11 +434,11 @@ builders.solve = (root) => {
     const sh = onRoute.has(c + ',' + r) ? 'star' : shapes[Math.floor(hash(c * 7 + r * 13 + 2) * 6)];
     nodes += `<g id="n${c}_${r}" transform="translate(${cx},${cy})"><circle r="52" fill="#fff" stroke="${NAVY}" stroke-width="6"/><circle class="fill" r="52" fill="#2f8f4e" opacity="0"/>${shapeSVG(sh, NAVY)}</g>`;
   }
-  const svgEl = mk(card, 'left:0;top:0;width:900px;height:940px', `<svg viewBox="0 0 900 940" width="900" height="940">${grid}<path id="trail" d="${pathD}" fill="none" stroke="#3aa564" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" opacity=".92"/>${nodes}<text x="16" y="34" font-family="P" font-weight="700" font-size="22" fill="${NAVY}">START</text></svg>`);
+  const svgEl = mk(card, 'left:0;top:0;width:900px;height:900px', `<svg viewBox="0 0 900 900" width="900" height="900">${grid}<path id="trail" d="${pathD}" fill="none" stroke="#3aa564" stroke-width="22" stroke-linecap="round" stroke-linejoin="round" opacity=".92"/>${nodes}<text x="16" y="34" font-family="P" font-weight="700" font-size="22" fill="${NAVY}">START</text></svg>`);
   const trail = svgEl.querySelector('#trail');
   const nodeEls = route.map(([c, r]) => svgEl.querySelector(`#n${c}_${r}`));
   const token = mk(card, 'width:84px;height:84px;border-radius:50%;background:#fff;border:6px solid #3aa564;overflow:hidden;box-shadow:0 8px 16px rgba(0,0,0,.25)', '<img src="assets/leia-line.png" style="width:96px;margin:-2px 0 0 -8px">');
-  const fin = mk(card, 'left:620px;top:862px;padding:0 34px;height:72px;background:#b72f2c;border-radius:14px;font:700 40px/72px P;color:#fff;letter-spacing:2px;box-shadow:0 10px 20px rgba(0,0,0,.25)', 'FINISH!');
+  const fin = mk(card, 'left:722px;top:770px;padding:0 34px;height:72px;background:#b72f2c;border-radius:14px;font:700 40px/72px P;color:#fff;letter-spacing:2px;box-shadow:0 10px 20px rgba(0,0,0,.25)', 'FINISH!');
   const conf = confetti(root, 46, 77);
   const ttl = words(root, [['Solve', GREEN], ['it.', GREEN]], 'left:1100px;top:215px', 18.9, 0.16, '700 124px/132px P');
   const body = mk(root, 'left:1100px;top:395px;width:720px;font:500 36px/54px P;color:#3a3556', 'Only the right path reaches FINISH, so puzzles check themselves.');
@@ -468,7 +468,7 @@ builders.solve = (root) => {
     }
     const kf = spring(prog(t, P0 + PD + 0.1, 0.5));
     T(fin, { s: kf * (1 + (kf > 0 ? 0 : 0)), r: lerp(-14, -6, kf), a: kf > 0 ? 1 : 0 });
-    updConfetti(conf, t, P0 + PD + 0.2, 800, 940, 2.4);
+    updConfetti(conf, t, P0 + PD + 0.2, 850, 860, 2.4);
   };
 };
 
@@ -593,15 +593,15 @@ builders.end = (root) => {
     cue(36.75 + i * 0.6, 'tick');
     return g;
   });
-  const by = mk(root, 'left:860px;top:752px;font:500 28px P;color:#6f6a8a', 'A LogicManse Publications book by @Antz');
-  const cta = mk(root, 'left:860px;top:810px;height:78px;padding:0 40px;background:' + NAVY + ';border-radius:999px;font:600 32px/78px P;color:#fff;white-space:nowrap;box-shadow:0 12px 24px rgba(0,0,0,.25)', 'On Amazon &amp; Etsy  ·  logicmanse.ca');
+  const by = mk(root, 'left:860px;top:728px;font:500 28px P;color:#6f6a8a', 'A LogicManse Publications book by @Antz');
+  const cta = mk(root, 'left:860px;top:782px;height:76px;padding:0 40px;background:' + NAVY + ';border-radius:999px;font:600 32px/78px P;color:#fff;white-space:nowrap;box-shadow:0 12px 24px rgba(0,0,0,.25)', 'On Amazon &amp; Etsy  ·  logicmanse.ca');
   const conf = confetti(root, 50, 29);
   // the four friends cheer along the bottom
   const mini = ['ollie', 'ruby', 'bella'].map((n, i) => {
-    const g = mk(root, 'width:200px;height:200px', `<img src="assets/${n}-fill.png" style="position:absolute;left:0;top:0;height:150px"><img src="assets/${n}-line.png" style="position:absolute;left:0;top:0;height:150px">`);
+    const g = mk(root, 'width:200px;height:200px', `<img src="assets/${n}-fill.png" style="position:absolute;left:0;top:0;height:104px"><img src="assets/${n}-line.png" style="position:absolute;left:0;top:0;height:104px">`);
     return g;
   });
-  const leiaMini = mk(root, 'width:136px;height:136px;border-radius:50%;background:#fff8ea;border:8px solid ' + RED + ';overflow:hidden', '<img src="assets/leia-line.png" style="width:160px;margin:-3px 0 0 -12px">');
+  const leiaMini = mk(root, 'width:100px;height:100px;border-radius:50%;background:#fff8ea;border:8px solid ' + RED + ';overflow:hidden', '<img src="assets/leia-line.png" style="width:118px;margin:-2px 0 0 -9px">');
   const paws = pawTrail(root, '#c4680f', 18);
   const sp = sparkles(root, [[820, 120, 1.1, 0], [1830, 300, 1, 1.4], [150, 940, 1, 3]], GOLD);
   cue(36.1, 'whoosh'); cue(36.6, 'conf');
@@ -614,7 +614,7 @@ builders.end = (root) => {
     const kt3 = eOut(prog(t, 36.9, 0.6)); T(t3, { y: (1 - kt3) * 20, a: kt3 });
     rows.forEach((g, i) => {
       const st = 36.75 + i * 0.6 + 0.7, kk = eOut(prog(t, st, 0.5));
-      T(g, { x: 860 + (1 - kk) * 80, y: 420 + i * 86, a: kk });
+      T(g, { x: 860 + (1 - kk) * 80, y: 408 + i * 78, a: kk });
       g.querySelector('.ck') && drawOn(g.querySelector('.ck'), prog(t, st + 0.3, 0.35));
     });
     const kb = eOut(prog(t, 40.0, 0.6)); T(by, { a: kb });
@@ -624,14 +624,41 @@ builders.end = (root) => {
       const st = 40.2 + i * 0.28, kk = t - st;
       const hop = kk > 0 ? -Math.abs(Math.sin(kk * 3.2 + i)) * 30 : 0;
       const kd = eBack(clamp(kk / 0.5));
-      T(g, { x: 880 + i * 190, y: 920 + hop + (1 - kd) * 200, s: 1, a: kk > 0 ? 1 : 0 });
+      T(g, { x: 880 + i * 150, y: 868 + hop + (1 - kd) * 160, s: 1, a: kk > 0 ? 1 : 0 });
     });
     const kl = t - 40.9;
-    T(leiaMini, { x: 1450, y: 926 - Math.abs(Math.sin(Math.max(kl, 0) * 3.4)) * 26, s: kl > 0 ? eBack(kl / 0.5) : 0, a: kl > 0 ? 1 : 0 });
-    updPaws(paws, t, 38.0, 180, 800, 1030, 16, 0.18, 1.8);
+    T(leiaMini, { x: 1340, y: 872 - Math.abs(Math.sin(Math.max(kl, 0) * 3.4)) * 26, s: kl > 0 ? eBack(kl / 0.5) : 0, a: kl > 0 ? 1 : 0 });
+    updPaws(paws, t, 38.0, 180, 800, 940, 16, 0.18, 1.8);
     updConfetti(conf, t, 36.6, 960, 600, 2.4);
   };
 };
+
+
+// ---------- captions (word-highlight, burned in) ----------
+const capLayer = mk(stage, `width:${W}px;height:${H}px`, '');
+const WORDS = window.WORDS || [], PHR = window.PHRASES || [];
+const caps = PHR.map((idx, n) => {
+  const box = mk(capLayer, 'left:0;top:988px;width:1920px;text-align:center', '');
+  const pill = document.createElement('span');
+  pill.style.cssText = `display:inline-block;background:rgba(255,255,255,.96);border-radius:24px;padding:8px 24px 12px 34px;box-shadow:0 10px 26px rgba(60,40,10,.22);font:600 46px/1.3 P;color:${NAVY};white-space:nowrap`;
+  const ws = idx.map(i => { const sp = document.createElement('span'); sp.style.cssText = 'display:inline-block;margin-right:.27em'; sp.textContent = WORDS[i].w; pill.appendChild(sp); return { sp, w: WORDS[i] }; });
+  box.appendChild(pill);
+  const s = WORDS[idx[0]].s - 0.05; let e = WORDS[idx[idx.length - 1]].e + 0.25;
+  if (n < PHR.length - 1) e = Math.min(e, WORDS[PHR[n + 1][0]].s - 0.02);
+  return { box, ws, s, e };
+});
+function updCaps(t) {
+  caps.forEach(c => {
+    if (t < c.s || t > c.e + 0.12) { c.box.style.display = 'none'; return; }
+    const kin = spring(prog(t, c.s, 0.28)), kout = 1 - prog(t, c.e, 0.12);
+    T(c.box, { y: (1 - eOut(prog(t, c.s, 0.2))) * 16, s: 0.92 + 0.08 * kin, a: Math.min(1, prog(t, c.s, 0.08) * 1.5) * kout });
+    c.ws.forEach(({ sp, w }) => {
+      const on = t >= w.s - 0.02 && t < w.e + 0.04, done = t >= w.e + 0.04;
+      sp.style.color = on ? ORANGE : NAVY; sp.style.opacity = (on || done) ? 1 : 0.5;
+      sp.style.transform = on ? 'translateY(-3px)' : 'none';
+    });
+  });
+}
 
 // ---------- assemble ----------
 const upd = {};
@@ -656,7 +683,7 @@ window.renderAt = function (t) {
     if (p < 0.5) { e.style.transform = 'none'; e.style.clipPath = `circle(${(eIO(p * 2) * 2300).toFixed(0)}px at 960px 1180px)`; }
     else { e.style.clipPath = 'none'; e.style.transform = `translateY(${(-eIO((p - 0.5) * 2) * 1100).toFixed(0)}px)`; }
   });
-  // very first cover wipe handled by cross-fade; keep wipe scenes hidden before start
+  updCaps(t);
   return true;
 };
 window.TOTAL = TOTAL;
