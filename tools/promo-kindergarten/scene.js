@@ -649,8 +649,8 @@ const caps = PHR.map((idx, n) => {
 });
 function updCaps(t) {
   caps.forEach(c => {
-    if (t < c.s || t > c.e + 0.12) { c.box.style.display = 'none'; return; }
-    const kin = spring(prog(t, c.s, 0.28)), kout = 1 - prog(t, c.e, 0.12);
+    if (t < c.s || t >= c.e) { c.box.style.display = 'none'; return; }
+    const kin = spring(prog(t, c.s, 0.28)), kout = 1 - prog(t, c.e - 0.1, 0.1);
     T(c.box, { y: (1 - eOut(prog(t, c.s, 0.2))) * 16, s: 0.92 + 0.08 * kin, a: Math.min(1, prog(t, c.s, 0.08) * 1.5) * kout });
     c.ws.forEach(({ sp, w }) => {
       const on = t >= w.s - 0.02 && t < w.e + 0.04, done = t >= w.e + 0.04;

@@ -280,6 +280,12 @@ export const BOOKS: Book[] = [
     interiorAlt: "Leia's backyard, illustrated",
     video: '/leia-coloring-book/promo-video.mp4',
     videoPoster: '/leia-coloring-book/video-poster.jpg',
+    promoVideo: {
+      heading: 'See inside Super Leia in 40 seconds',
+      blurb: 'Watch the coloring pages, puzzles and drawing prompts come to life, with a few words from the narrator.',
+      src: '/leia-coloring-book/promo-v1.mp4',
+      poster: '/leia-coloring-book/promo-v1-poster.jpg',
+    },
     inside: [
       '30 coloring pages — portraits, seasons, walks, naps and holiday scenes',
       'Mazes, word searches, crosswords, dot-to-dots and word scrambles, alternated so the book never feels repetitive',
@@ -377,7 +383,7 @@ export const BOOKS: Book[] = [
     promoVideo: {
       heading: 'See inside the workbook in 45 seconds',
       blurb: 'Watch the tracing, counting and maze pages come to life, with a few words from the narrator.',
-      src: '/leia-kindergarten-workbook/promo-v3.mp4',
+      src: '/leia-kindergarten-workbook/promo-v4.mp4',
       poster: '/leia-kindergarten-workbook/promo-v3-poster.jpg',
     },
     companionOffer: {

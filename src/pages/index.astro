@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import SectionHeading from '../components/SectionHeading.astro';
 import CTAButton from '../components/CTAButton.astro';
 import { SITE } from '../data/site';
-import { DISPLAY_SHELF, SERIES, coverThumb, bookByKey, seriesBadge, seriesShortBadge } from '../data/books';
+import { BOOKS, DISPLAY_SHELF, SERIES, coverThumb, bookByKey, seriesBadge, seriesShortBadge } from '../data/books';
 import PromoVideo from '../components/PromoVideo.astro';
 
 // Order is deliberate, not alphabetical or by launch date (owner,
@@ -213,6 +213,45 @@ const CATEGORIES = [
               </a>
             );
           })}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- ============ WATCH — every book that has a narrated promo video gets a
+       card (books.ts `promoVideo`), so a new video shows up here with no
+       page change. Videos are preload="none": nothing downloads until
+       someone presses play, and the poster is a captioned frame. ============ -->
+  {BOOKS.filter((b) => b.promoVideo).length > 0 && (
+    <section id="watch" class="bg-white border-y border-slate-200">
+      <div class="max-w-6xl mx-auto px-6 py-20">
+        <SectionHeading
+          eyebrow="Watch"
+          title="See Inside Before You Buy"
+          subtitle="Short, narrated tours of the pages — tracing, counting, coloring, puzzles — so you know exactly what your child will be doing."
+        />
+        <div class="grid gap-10 md:grid-cols-2" data-stagger>
+          {BOOKS.filter((b) => b.promoVideo).map((book) => (
+            <figure class="fade-in-up">
+              <video
+                class="w-full aspect-video rounded-xl shadow-lg border border-slate-200 bg-slate-100"
+                controls
+                preload="none"
+                playsinline
+                poster={book.promoVideo!.poster}
+                aria-label={`A short narrated tour of ${book.title}`}
+              >
+                <source src={book.promoVideo!.src} type="video/mp4" />
+              </video>
+              <figcaption class="mt-4">
+                <h3 class="text-xl font-serif font-bold text-navy">{book.title}</h3>
+                <p class="text-slate-600 text-sm leading-relaxed mt-1">{book.promoVideo!.blurb}</p>
+                <a href={book.productHref} class="inline-block mt-3 text-sm font-semibold text-forest hover:text-forest-light">
+                  See the book &rarr;
+                </a>
+              </figcaption>
+            </figure>
+          ))}
         </div>
       </div>
     </section>
