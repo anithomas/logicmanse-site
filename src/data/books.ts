@@ -377,8 +377,8 @@ export const BOOKS: Book[] = [
     promoVideo: {
       heading: 'See inside the workbook in 45 seconds',
       blurb: 'Watch the tracing, counting and maze pages come to life, with a few words from the narrator.',
-      src: '/leia-kindergarten-workbook/promo.mp4',
-      poster: '/leia-kindergarten-workbook/promo-poster.jpg',
+      src: '/leia-kindergarten-workbook/promo-v3.mp4',
+      poster: '/leia-kindergarten-workbook/promo-v3-poster.jpg',
     },
     companionOffer: {
       cta: {
